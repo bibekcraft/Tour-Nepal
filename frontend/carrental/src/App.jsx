@@ -1,6 +1,6 @@
 
 import './App.css'
-import Home from './routing/Home'
+import Home from '../src/component/routing/Home'
 function App() {
 
   return (
