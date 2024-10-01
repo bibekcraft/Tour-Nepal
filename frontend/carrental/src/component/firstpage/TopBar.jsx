@@ -23,7 +23,7 @@ function TopBar() {
       <div className="py-16 text-center">
         <h2 className="text-5xl font-bold text-green-800">Find Your Perfect Place to visit</h2>
         <p className="mt-4 text-lg text-gray-500">
-          Explore our wide range of place    for your journey.
+          Explore your best time in less time
         </p>
 
         {/* Features */}
