@@ -1,7 +1,7 @@
 import phoneImage from '../../assets/phone.png';  // Replace with your image path
 import camp from '../../assets/camp.svg';          // Replace with your image paths for the icons
 import map from '../../assets/map.svg';
-import future from '../../assets/featurebg.png';  // Background pattern image
+import future from '../../assets/futurebg.png';  // Background pattern image
 
 const Features = () => {
   return (
