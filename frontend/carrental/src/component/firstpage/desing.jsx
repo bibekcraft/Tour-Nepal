@@ -1,8 +1,9 @@
-import  { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import './places.css';
 import img2 from '../../assets/img2.jpg';
 import img3 from '../../assets/img3.jpg';
 import img4 from '../../assets/img4.jpg';
+
 const Design = () => {
     const nextDom = useRef(null);
     const prevDom = useRef(null);
@@ -20,8 +21,6 @@ const Design = () => {
         const thumbnailItemsDom = thumbnailBorderDom.current.querySelectorAll('.item');
         thumbnailBorderDom.current.appendChild(thumbnailItemsDom[0]);
 
-        // Auto run next slide
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         runNextAuto = setTimeout(() => {
             nextDom.current.click();
         }, timeAutoNext);
@@ -69,32 +68,42 @@ const Design = () => {
 
             <div className="carousel" ref={carouselDom}>
                 <div className="list" ref={SliderDom}>
-                    <div className="item">
-                        <img src={img2} alt="img1" />
-                        <img src={img3} alt="img1" />
-                        <img src={img4} alt="img1" />
+                <div className="item">
+                        <img src={img2} alt="thumb1" />
                         <div className="content">
-                            <div className="author">LUNDEV</div>
-                            <div className="title">DESIGN SLIDER</div>
-                            <div className="topic">ANIMAL</div>
-                            <div className="des">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat...
-                            </div>
-                            <div className="buttons">
-                                <button>SEE MORE</button>
-                                <button>SUBSCRIBE</button>
-                            </div>
+                            <div className="title">Sarmoli</div>
+                            <div className="description">The enchanting Himalayan haven</div>
+                        </div>
+                        <img src={img3} alt="thumb1" />
+                        <div className="content">
+                            <div className="title">Sarmoli</div>
+                            <div className="description">The enchanting Himalayan haven</div>
+                        </div>
+                        <img src={img4} alt="thumb1" />
+                        <div className="content">
+                            <div className="title">Sarmoli</div>
+                            <div className="description">The enchanting Himalayan haven</div>
                         </div>
                     </div>
-                    {/* Repeat other items as needed */}
+                    {/* Add other slides similarly */}
                 </div>
 
                 <div className="thumbnail" ref={thumbnailBorderDom}>
                     <div className="item">
-                        <img src={img2}alt="thumb1" />
+                        <img src={img2} alt="thumb1" />
                         <div className="content">
-                            <div className="title">Name Slider</div>
-                            <div className="description">Description</div>
+                            <div className="title">Sarmoli</div>
+                            <div className="description">The enchanting Himalayan haven</div>
+                        </div>
+                        <img src={img3} alt="thumb1" />
+                        <div className="content">
+                            <div className="title">Sarmoli</div>
+                            <div className="description">The enchanting Himalayan haven</div>
+                        </div>
+                        <img src={img4} alt="thumb1" />
+                        <div className="content">
+                            <div className="title">Sarmoli</div>
+                            <div className="description">The enchanting Himalayan haven</div>
                         </div>
                     </div>
                     {/* Repeat other thumbnail items */}
