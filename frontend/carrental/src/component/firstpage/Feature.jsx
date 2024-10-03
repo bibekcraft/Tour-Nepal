@@ -69,6 +69,7 @@ const Features = () => {
   );
 };
 
+// eslint-disable-next-line react/prop-types
 const FeatureItem = ({ title, icon, description }) => {
   return (
     <li className="flex flex-col items-start flex-1 w-full">
