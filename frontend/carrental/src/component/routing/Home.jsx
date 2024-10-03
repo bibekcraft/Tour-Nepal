@@ -5,6 +5,7 @@ import Features from "../firstpage/Feature"
 import Nepal from "../firstpage/Nepal"
 import VisitCountry from "../firstpage/VisitCountry"
 import Footer from "../firstpage/Footer"
+import Guide from "../firstpage/guide"
 function Home() {
   return (
     <div>
@@ -12,6 +13,7 @@ function Home() {
         <Design />
         <Features />
         <Nepal />
+        <Guide />
         <VisitCountry />
         {/* <Place /> */}
         <Footer />

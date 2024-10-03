@@ -1,4 +1,3 @@
-/* App.css */
-.hangover-font {
-    font-family: 'Hangover', sans-serif;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
