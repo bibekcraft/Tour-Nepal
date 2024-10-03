@@ -3,6 +3,7 @@ import TopBar from "../firstpage/TopBar"
 import Design from "../firstpage/desing"
 import Features from "../firstpage/Feature"
 import Nepal from "../firstpage/Nepal"
+import VisitCountry from "../firstpage/VisitCountry"
 function Home() {
   return (
     <div>
@@ -10,6 +11,7 @@ function Home() {
         <Design />
         <Features />
         <Nepal />
+        <VisitCountry />
         {/* <Place /> */}
 
     </div>
