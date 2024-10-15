@@ -1,65 +1,64 @@
-import React from 'react';
 import { Link } from 'react-router-dom'; // Import Link for routing
 import mapOfNepal from '../../assets/mapimg.png'; // Update this path to the actual location of your image
 
-const MapofNepal = () => {
+const MapOfNepal = () => {
   return (
-    <div className="relative flex min-h-screen overflow-hidden">
-      {/* Full page background map */}
-      <img 
-        src={mapOfNepal} 
-        alt="Map of Nepal" 
-        className="absolute inset-0 object-cover w-full h-full"
-      />
+    <div className="relative flex min-h-screen overflow-hidden bg-gray-50">
+      {/* Left side - Province Cards */}
+      <div className="relative z-10 flex flex-col justify-center w-1/3 p-12 space-y-8">
+        {/* Title for the section */}
+        <h2 className="text-4xl font-bold text-gray-900">Explore Provinces</h2>
 
-      {/* Consistent black overlay */}
-      <div className="absolute inset-0 bg-black opacity-90"></div>
+        {/* Province 1 */}
+        <Link to="/province1" className="group">
+          <div className="relative overflow-hidden transition-transform transform bg-white rounded-lg shadow-xl hover:shadow-2xl group-hover:scale-105">
+            <img src="province1.jpg" alt="Province 1" className="object-cover w-full h-48 transition-transform duration-500 transform group-hover:scale-110" />
+            <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-lg font-semibold text-white bg-gray-900 bg-opacity-75">
+              Province 1
+            </div>
+          </div>
+        </Link>
 
-      {/* Left side content */}
-      <div className="relative flex items-end justify-start w-2/3 min-h-screen p-16 text-white">
-        <div className="max-w-lg mb-16">
-          {/* Large title with shadow */}
-          <h1 className="mb-4 font-extrabold text-7xl text-shadow-lg">
-            Discover Nepal
-          </h1>
+        {/* Madesh Pradesh */}
+        <Link to="/province2" className="group">
+          <div className="relative overflow-hidden transition-transform transform bg-white rounded-lg shadow-xl hover:shadow-2xl group-hover:scale-105">
+            <img src="province2.jpg" alt="Madesh Pradesh" className="object-cover w-full h-48 transition-transform duration-500 transform group-hover:scale-110" />
+            <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-lg font-semibold text-white bg-gray-900 bg-opacity-75">
+              Madesh Pradesh
+            </div>
+          </div>
+        </Link>
 
-          {/* Subtext with larger size and slight shadow */}
-          <p className="mb-10 text-2xl text-shadow-md">
-            Nepal is a land of majestic mountains, rich culture, and spiritual heritage.
-            Embark on an unforgettable adventure today.
-          </p>
+        {/* Bagmati Pradesh */}
+        <Link to="/province3" className="group">
+          <div className="relative overflow-hidden transition-transform transform bg-white rounded-lg shadow-xl hover:shadow-2xl group-hover:scale-105">
+            <img src="province3.jpg" alt="Bagmati Pradesh" className="object-cover w-full h-48 transition-transform duration-500 transform group-hover:scale-110" />
+            <div className="absolute bottom-0 left-0 right-0 px-4 py-3 text-lg font-semibold text-white bg-gray-900 bg-opacity-75">
+              Bagmati Pradesh
+            </div>
+          </div>
+        </Link>
 
-          {/* Button with glow effect */}
-          <button className="px-10 py-4 text-lg font-semibold transition-all duration-300 bg-red-600 rounded-lg hover:bg-red-700 hover:shadow-lg hover:shadow-red-600/50">
-            Start Your Journey
-          </button>
-        </div>
+        {/* Add more provinces similarly if needed */}
       </div>
 
-      {/* Right side - Boxes with links */}
-      <div className="relative flex flex-col justify-center w-1/3 p-8">
-        <h2 className="mb-6 text-4xl font-bold text-center text-white">Explore More</h2>
-        
-        {/* Grid for the boxes in a row */}
-        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-          {/* Box 1 */}
-          <Link to="/page1" className="flex items-center justify-center p-6 transition-transform transform bg-white rounded-lg shadow-lg hover:scale-105">
-            <span className="text-xl font-semibold text-gray-800">Trekking Adventures</span>
-          </Link>
+      {/* Right side - Map of Nepal */}
+      <div className="relative w-2/3 h-full">
+        {/* Nepal Map Image */}
+        <img 
+          src={mapOfNepal} 
+          alt="Map of Nepal" 
+          className="absolute inset-0 object-cover w-full h-full opacity-90"
+        />
 
-          {/* Box 2 */}
-          <Link to="/page2" className="flex items-center justify-center p-6 transition-transform transform bg-white rounded-lg shadow-lg hover:scale-105">
-            <span className="text-xl font-semibold text-gray-800">Cultural Tours</span>
-          </Link>
-
-          {/* Box 3 */}
-          <Link to="/page3" className="flex items-center justify-center p-6 transition-transform transform bg-white rounded-lg shadow-lg hover:scale-105">
-            <span className="text-xl font-semibold text-gray-800">Wildlife Safaris</span>
-          </Link>
+        {/* Map Highlights or Icons (Optional) */}
+        <div className="absolute top-0 left-0 w-full h-full">
+          {/* Example marker (you can add more or customize) */}
+          <div className="absolute w-5 h-5 bg-red-500 rounded-full top-1/3 left-1/2"></div>
         </div>
       </div>
     </div>
   );
 };
 
-export default MapofNepal;
+export default MapOfNepal;

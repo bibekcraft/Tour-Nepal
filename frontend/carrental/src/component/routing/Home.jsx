@@ -3,6 +3,8 @@ import TopBar from "../firstpage/TopBar"
 import Design from "../firstpage/desing"
 import Features from "../firstpage/Feature"
 import MapofNepal from "../firstpage/MapofNepal"
+import NepalTitle from "../firstpage/NepalTitle"
+// import Footer from "../firstpage/Footer"
 function Home() {
   return (
     <div>
@@ -10,7 +12,9 @@ function Home() {
         <Design />
         <Features />
         <MapofNepal />
+        <NepalTitle />
         {/* <Place /> */}
+        {/* <Footer /> */}
 
     </div>
   )
