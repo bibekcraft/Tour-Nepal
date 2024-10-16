@@ -20,6 +20,11 @@ export default {
         fadeIn: 'fadeIn 3s ease-in-out',
         fadeInUp: 'fadeInUp 3s ease-in-out',
       },
+      fontFamily: {
+        hangover: ['Hangover', 'cursive'],
+        petemoss: ['Petemoss', 'cursive'],
+      },
+    
     },
   },
   plugins: [],

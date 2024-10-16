@@ -3,7 +3,7 @@ import TopBar from "../firstpage/TopBar"
 import Design from "../firstpage/desing"
 import Features from "../firstpage/Feature"
 import MapofNepal from "../firstpage/MapofNepal"
-import NepalTitle from "../firstpage/NepalTitle"
+// import NepalTitle from "../firstpage/NepalTitle"
 // import Footer from "../firstpage/Footer"
 function Home() {
   return (
@@ -12,7 +12,7 @@ function Home() {
         <Design />
         <Features />
         <MapofNepal />
-        <NepalTitle />
+        {/* <NepalTitle /> */}
         {/* <Place /> */}
         {/* <Footer /> */}
 
