@@ -1,0 +1,22 @@
+1. i want to add a place inside the differet plance like city , temple ,hunting area, trekking area . 
+ i have different section like
+
+ Mountain Trails - /mountain-trails
+Trekking Trails - /trekking-trails
+Hiking Trails - /hiking-trails
+Lakes - /lakes
+Wildlife Reserve - /wildlife-reserve
+Districts - /districts
+Historical Sites - /historical-sites
+Temples - /temples
+Adventure Activities - /adventure-activities
+
+
+ while people click on this there will be section that will show their photos ,description,name nad other 1-2 things
+
+ while we click on them it will show the details of that place like google map location , photos , description , name , and other things
+ where it is located and other things also how to do it 
+
+
+
+ i ma doing it through api so should i make different page for different trails or same for all the trailsso they can get
