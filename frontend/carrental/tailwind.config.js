@@ -24,6 +24,7 @@ export default {
         hangover: ['Hangover', 'cursive'],
         petemoss: ['Petemoss', 'cursive'],
       },
+      
     
     },
   },

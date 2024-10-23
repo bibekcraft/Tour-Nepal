@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import province1Image from '../../assets/mustang.jpg'; 
 import province2Image from '../../assets/np.png';
@@ -5,6 +6,44 @@ import province3Image from '../../assets/pokhara.jpg';
 import hm from '../../assets/futurebg.png';
 
 const MapOfNepal = () => {
+  const items = [
+    { image: province1Image, label: 'Mountain Trails', link: '/mountain-trails' },
+    { image: province2Image, label: 'Trekking Trails', link: '/trekking-trails' },
+    { image: province3Image, label: 'Hiking Trails', link: '/hiking-trails' },
+    { image: province1Image, label: 'Lakes', link: '/lakes' },
+    { image: province2Image, label: 'Wildlife Reserve', link: '/wildlife-reserve' },
+    { image: province3Image, label: 'Districts', link: '/districts' },
+    { image: province1Image, label: 'Historical Sites', link: '/historical-sites' },
+    { image: province2Image, label: 'Temples', link: '/temples' },
+    { image: province3Image, label: 'Adventure Activities', link: '/adventure-activities' },
+  ];
+
+  const carouselRef = useRef(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (carouselRef.current) {
+        const firstItemWidth = carouselRef.current.children[0].clientWidth;
+        const currentTransform = getComputedStyle(carouselRef.current).transform;
+        const currentTranslateX = currentTransform === 'none' ? 0 : parseFloat(currentTransform.split(',')[4]);
+
+        // Move the carousel to the left
+        carouselRef.current.style.transform = `translateX(${currentTranslateX - firstItemWidth}px)`;
+
+        // Reset position after scrolling through all items
+        if (Math.abs(currentTranslateX) >= firstItemWidth * (items.length - 2)) {
+          carouselRef.current.style.transition = 'none';
+          carouselRef.current.style.transform = `translateX(0)`;
+          setTimeout(() => {
+            carouselRef.current.style.transition = 'transform 0.5s ease';
+          }, 50);
+        }
+      }
+    }, 3000); // Adjust the speed here
+
+    return () => clearInterval(interval);
+  }, [items.length]);
+
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden bg-white">
       <div 
@@ -17,137 +56,32 @@ const MapOfNepal = () => {
       >
         {/* Title Section */}
         <div className="relative z-10 flex flex-col items-center justify-center w-full p-8 text-center">
-          <h2 className="text-5xl font-bold text-gray-700 md:text-8xl font-petemoss">Explore Nepal</h2>
+          <h2 className="text-5xl font-bold text-white md:text-8xl">Explore Nepal</h2>
+          <p className="mt-4 text-lg text-white">Discover the beauty and adventure that awaits you.</p>
         </div>
 
-        {/* Grid of Circles - Up to 5 per row */}
-        <div className="relative z-10 w-full px-8 mt-12">
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {/* Mountain Trails */}
-            <div className="flex flex-col items-center space-y-2">
-              <Link to="/mountain-trails">
-                <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                  <img
-                    src={province1Image}
-                    alt="Mountain Trails"
-                    className="object-cover w-full h-full rounded-full"
-                  />
-                </div>
-                <p className="text-lg font-bold text-gray-700 md:text-xl">Mountain Trails</p>
-              </Link>
-            </div>
-
-            {/* Trekking Trails */}
-            <div className="flex flex-col items-center space-y-2">
-              <Link to="/trekking-trails">
-                <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                  <img
-                    src={province2Image}
-                    alt="Trekking Trails"
-                    className="object-cover w-full h-full rounded-full"
-                  />
-                </div>
-                <p className="text-lg font-bold text-gray-700 md:text-xl">Trekking Trails</p>
-              </Link>
-            </div>
-
-            {/* Hiking Trails */}
-            <div className="flex flex-col items-center space-y-2">
-              <Link to="/hiking-trails">
-                <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                  <img
-                    src={province3Image}
-                    alt="Hiking Trails"
-                    className="object-cover w-full h-full rounded-full"
-                  />
-                </div>
-                <p className="text-lg font-bold text-gray-700 md:text-xl">Hiking Trails</p>
-              </Link>
-            </div>
-
-            {/* Lakes */}
-            <div className="flex flex-col items-center space-y-2">
-              <Link to="/lakes">
-                <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                  <img
-                    src={province1Image}
-                    alt="Lakes"
-                    className="object-cover w-full h-full rounded-full"
-                  />
-                </div>
-                <p className="text-lg font-bold text-gray-700 md:text-xl">Lakes</p>
-              </Link>
-            </div>
-
-            {/* Wildlife Reserve */}
-            <div className="flex flex-col items-center space-y-2">
-              <Link to="/wildlife-reserve">
-                <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                  <img
-                    src={province2Image}
-                    alt="Wildlife Reserve"
-                    className="object-cover w-full h-full rounded-full"
-                  />
-                </div>
-                <p className="text-lg font-bold text-gray-700 md:text-xl">Wildlife Reserve</p>
-              </Link>
-            </div>
-
-            {/* Districts */}
-            <div className="flex flex-col items-center space-y-2">
-              <Link to="/districts">
-                <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                  <img
-                    src={province3Image}
-                    alt="Districts"
-                    className="object-cover w-full h-full rounded-full"
-                  />
-                </div>
-                <p className="text-lg font-bold text-gray-700 md:text-xl">Districts</p>
-              </Link>
-            </div>
-
-            {/* Historical Sites */}
-            <div className="flex flex-col items-center space-y-2">
-              <Link to="/historical-sites">
-                <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                  <img
-                    src={province1Image}
-                    alt="Historical Sites"
-                    className="object-cover w-full h-full rounded-full"
-                  />
-                </div>
-                <p className="text-lg font-bold text-gray-700 md:text-xl">Historical Sites</p>
-              </Link>
-            </div>
-
-            {/* Temples */}
-            <div className="flex flex-col items-center space-y-2">
-              <Link to="/temples">
-                <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                  <img
-                    src={province2Image}
-                    alt="Temples"
-                    className="object-cover w-full h-full rounded-full"
-                  />
-                </div>
-                <p className="text-lg font-bold text-gray-700 md:text-xl">Temples</p>
-              </Link>
-            </div>
-
-            {/* Adventure Activities */}
-            <div className="flex flex-col items-center space-y-2">
-              <Link to="/adventure-activities">
-                <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                  <img
-                    src={province3Image}
-                    alt="Adventure Activities"
-                    className="object-cover w-full h-full rounded-full"
-                  />
-                </div>
-                <p className="text-lg font-bold text-gray-700 md:text-xl">Adventure Activities</p>
-              </Link>
-            </div>
+        {/* Carousel Section */}
+        <div className="relative z-10 w-full mt-12 overflow-hidden">
+          <div 
+            ref={carouselRef}
+            className="flex transition-transform duration-500 ease-in-out" 
+            style={{ whiteSpace: 'nowrap' }}
+          >
+            {/* Duplicate the items to create an infinite scroll effect */}
+            {[...items, ...items].map((item, index) => (
+              <div key={index} className="flex flex-col items-center inline-block w-40 mx-4 space-y-2">
+                <Link to={item.link}>
+                  <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
+                    <img
+                      src={item.image}
+                      alt={item.label}
+                      className="object-cover w-full h-full rounded-full"
+                    />
+                  </div>
+                  <p className="text-lg font-bold text-gray-700 md:text-xl">{item.label}</p>
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </div>
