@@ -1,8 +1,11 @@
-import React from 'react';
 
 export default function Practise() {
   // Define the photo URL here
-  const photoUrl = 'https://example.com/photo.jpg'; // Replace this with the actual URL of your image
+  const photoUrl1 = 'https://example.com/photo.jpg'; // Replace this with the actual URL of your image
+    const photoUrl2 = 'https://example.com/photo.jpg'; // Replace this with the actual URL of your image
+    const photoUrl3 = 'https://example.com/photo.jpg'; // Replace this with the actual URL of your image
+    const photoUrl4 = 'https://example.com/photo.jpg'; // Replace this with the actual URL of your image
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -32,15 +35,37 @@ export default function Practise() {
       </div>
 
       {/* Rectangle with Photo */}
-      <div className="flex items-center justify-center">
-  <div className="w-64 h-48 overflow-hidden transform border border-gray-400 rounded-lg shadow-md -rotate-6">
+      <div className="flex items-center justify-center mb-20 space-x-4">
+  <div className="w-64 h-48 overflow-hidden transition-transform transform border-4 border-green-800 rounded-lg shadow-md duration-800 -rotate-6 hover:rotate-0 animate-pulse">
     <img
-      src={photoUrl} // Use the photoUrl variable here
-      alt="Tilted Rectangle Photo"
-      className="object-cover w-full h-full border border-gray-400"
+      src={photoUrl1} // Use the photoUrl variable here
+      alt="Tilted Rectangle Photo 1"
+      className="object-cover w-full h-full border-4 border-gray-400"
+    />
+  </div>
+  <div className="w-64 h-48 overflow-hidden transition-transform duration-500 transform border-4 border-green-800 rounded-lg shadow-md -rotate-6 hover:rotate-0 animate-pulse">
+    <img
+      src={photoUrl2} // Use the photoUrl variable here
+      alt="Tilted Rectangle Photo 2"
+      className="object-cover w-full h-full border-4 border-green-800"
+    />
+  </div>
+  <div className="w-64 h-48 overflow-hidden transition-transform duration-500 transform border-4 border-green-800 rounded-lg shadow-md -rotate-6 hover:rotate-0 animate-pulse">
+    <img
+      src={photoUrl3} // Use the photoUrl variable here
+      alt="Tilted Rectangle Photo 3"
+      className="object-cover w-full h-full border-4 border-green-800"
+    />
+  </div>
+  <div className="w-64 h-48 overflow-hidden transition-transform duration-500 transform border-4 border-green-800 rounded-lg shadow-md -rotate-6 hover:rotate-0 animate-pulse">
+    <img
+      src={photoUrl4} // Use the photoUrl variable here
+      alt="Tilted Rectangle Photo 4"
+      className="object-cover w-full h-full border-4 border-green-800"
     />
   </div>
 </div>
+
 
 
     </div>
