@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Slider from 'react-slick'; // Import the react-slick carousel
 
+
 const trekInfo = {
   name: "Everest Base Camp Trek",
   location: "Solukhumbu District, Nepal",
