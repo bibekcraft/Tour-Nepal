@@ -1,3 +1,4 @@
+// src/component/firstpage/MapOfNepal.jsx
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -37,24 +38,16 @@ const MapOfNepal = () => {
           {status === 'failed' && <p>Error: {error}</p>}
 
           {/* Show categories if data is available */}
-          {categories && (
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {categories.map((category) => (
-                <div key={category.id} className="flex flex-col items-center space-y-2">
-                  <Link to={`/trails`}> {/* Use category ID to create a dynamic path */}
-                    <div className="relative flex items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                      <img
-                        src={category.image} // Assuming API provides an image URL
-                        alt={category.name}
-                        className="object-cover w-full h-full rounded-full"
-                      />
-                    </div>
-                    <p className="text-lg font-bold text-gray-700 md:text-xl">{category.name}</p>
-                  </Link>
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+            {categories && categories.map((category) => (
+              <Link key={category.id} to={`/trails/${category.id}`}> {/* Use category ID to filter products */}
+                <div className="relative flex flex-col items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
+                  <img src={category.image} alt={category.name} className="object-cover w-full h-full rounded-full" />
+                  <p className="mt-2 text-lg font-bold text-gray-700 md:text-xl">{category.name}</p>
                 </div>
-              ))}
-            </div>
-          )}
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>
