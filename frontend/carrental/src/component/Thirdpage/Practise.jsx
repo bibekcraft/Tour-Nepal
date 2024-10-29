@@ -95,7 +95,7 @@ export default function Manakamana() {
   </div>
 </div>
 
-      <section className="max-w-6xl p-8 mx-auto my-12 bg-white rounded-lg shadow-xl">
+      <section className="max-w-6xl p-8 mx-auto my-12 ">
   <h3 className="flex flex-col items-start mb-8 text-5xl font-bold text-center text-gray-800 font-petemoss">Cultural Significance</h3>
   <p className="mb-6 text-lg leading-relaxed text-gray-600">
     The Manakamana Temple holds immense cultural and spiritual significance for the people of Nepal. 
@@ -140,7 +140,7 @@ export default function Manakamana() {
       </div>
 
       {/* Temple Information Section */}
-      <section className="max-w-6xl p-6 mx-auto mb-12 bg-white rounded-lg shadow-xl">
+      <section className="max-w-6xl p-6 mx-auto mb-12 ">
         <h3 className="flex flex-col items-start mb-12 text-4xl font-bold tracking-wide text-center text-gray-800 font-petemoss" >Temple Information</h3>
 
         {/* Route Map Image */}
@@ -193,7 +193,7 @@ export default function Manakamana() {
         ))}
       </div>
 {/* Local Cuisine Section */}
-<section className="max-w-6xl p-8 mx-auto my-12 bg-white rounded-lg shadow-xl">
+<section className="max-w-6xl p-8 mx-auto my-12 ">
   <h3 className="mb-8 text-5xl font-bold text-center text-gray-800 font-petemoss">Local Cuisine</h3>
   <p className="mb-6 text-lg leading-relaxed text-gray-600">
     Hungry after conquering that temple hike? Fear not! The local Nepali cuisine is here to rescue your taste buds. From savory to sweet, you’ll find dishes that are not just tasty but loaded with a punch of culture and carbs (the trekkers' secret fuel!).
@@ -211,7 +211,7 @@ export default function Manakamana() {
 </section>
 
 {/* Recommended Hotels Section */}
-<section className="max-w-6xl p-8 mx-auto my-12 bg-white rounded-lg shadow-xl">
+<section className="max-w-6xl p-8 mx-auto my-12 ">
   <h3 className="mb-8 text-5xl font-bold text-center text-gray-800 font-petemoss">Recommended Hotels</h3>
   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {recommendedHotels.map((hotel, index) => (
@@ -227,7 +227,7 @@ export default function Manakamana() {
 </section>
 
       {/* Nearby Places Section */}
-      <section className="max-w-6xl p-8 mx-auto my-12 bg-white rounded-lg shadow-xl"> {/* Increased padding */}
+      <section className="max-w-6xl p-8 mx-auto my-12 "> {/* Increased padding */}
   <h3 className="mb-8 text-5xl font-bold text-center text-gray-800 font-petemoss">Nearby Places</h3> {/* Increased title font size */}
   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"> {/* Increased gap between cards */}
     {nearbyPlaces.map((place, index) => (
@@ -239,7 +239,7 @@ export default function Manakamana() {
   </div>
 </section>
 {/* Cultural Significance Section */}
-<section className="max-w-6xl p-6 mx-auto my-12 bg-white rounded-lg shadow-xl">
+<section className="max-w-6xl p-6 mx-auto my-12 ">
     <h3 className="mb-8 text-5xl font-bold text-center text-gray-800 font-petemoss">Local Guides</h3>
     <ul className="text-lg leading-relaxed text-gray-600 list-disc list-inside">
         <li><strong>Guide Name 1:</strong> Specializes in historical tours. Contact: 123-456-7890.</li>
@@ -249,7 +249,7 @@ export default function Manakamana() {
 
 
       {/* FAQs Section */}
-      <section className="max-w-6xl p-6 mx-auto my-12 mb-12 bg-white rounded-lg shadow-xl">
+      <section className="max-w-6xl p-6 mx-auto my-12 mb-12 ">
         <h3 className="mb-6 text-4xl font-bold text-center text-gray-800 font-petemoss">FAQs</h3>
         {faqs.map((faq, index) => (
           <div key={index} className="my-4 border-b border-gray-300">
