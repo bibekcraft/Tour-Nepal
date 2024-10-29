@@ -147,7 +147,7 @@ const RouteDetails = () => {
 
       {/* Itinerary */}
       <section id="itinerary" className="max-w-6xl px-4 py-16 mx-auto bg-white border border-gray-200 rounded-lg shadow-lg">
-        <h3 className="mb-8 text-3xl font-semibold text-center text-green-600">Itinerary</h3>
+        <h3 className="mb-8 text-3xl font-semibold text-center text-green-600 font-petemoss">Itinerary</h3>
         <table className="w-full text-left text-gray-800 border-collapse">
           <thead className="bg-green-200">
             <tr>
