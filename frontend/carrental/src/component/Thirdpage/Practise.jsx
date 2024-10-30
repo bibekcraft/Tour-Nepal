@@ -286,17 +286,25 @@ export default function Manakamana() {
 
 
       {/* Nearby Places Section */}
-      <section className="max-w-6xl p-8 mx-auto my-12 "> {/* Increased padding */}
-  <h3 className="flex flex-col items-start mb-8 font-bold text-center text-green-800 text-8xl font-petemoss">Nearby Places </h3> {/* Increased title font size */}
-  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"> {/* Increased gap between cards */}
+      <section className="max-w-6xl p-8 mx-auto my-12">
+  <h3 className="flex flex-col items-start mb-8 font-bold text-center text-green-800 text-8xl font-petemoss">
+    Nearby Places
+  </h3>
+  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {nearbyPlaces.map((place, index) => (
-      <div key={index} className="p-6 transition-shadow duration-300 border border-gray-200 rounded-lg shadow-md hover:shadow-xl"> {/* Increased padding for individual cards */}
-        <h4 className="mb-2 text-2xl font-semibold text-gray-800">{place.name}</h4> {/* Increased place name font size */}
+      <div key={index} className="p-6 transition-shadow duration-300 border border-gray-200 rounded-lg shadow-md hover:shadow-xl">
+        <img 
+          src={place.photo} 
+          alt={place.name} 
+          className="object-cover w-full h-24 mb-4 rounded-lg" 
+        />
+        <h4 className="mb-2 text-2xl font-semibold text-gray-800">{place.name}</h4>
         <p className="text-gray-600">District: {place.district}</p>
       </div>
     ))}
   </div>
 </section>
+
 {/* Cultural Significance Section */}
 <section className="max-w-6xl p-6 mx-auto my-12 ">
     <h3 className="flex flex-col items-start mb-8 font-bold text-center text-green-800 text-8xl font-petemoss">Local Guides</h3>
