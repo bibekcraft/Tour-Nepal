@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import guide from '../../assets/guide.png'; // Correct import for guide image
 
@@ -299,49 +299,49 @@ export default function Manakamana() {
           className="object-cover w-full h-24 mb-4 rounded-lg" 
         />
         <h4 className="mb-2 text-2xl font-semibold text-gray-800">{place.name}</h4>
-        <p className="text-gray-600">District: {place.district}</p>
+        <p className="text-green-800">{place.district}</p>
       </div>
     ))}
   </div>
 </section>
 
-{/* Cultural Significance Section */}
-<section className="max-w-6xl p-6 mx-auto my-12 ">
-    <h3 className="flex flex-col items-start mb-8 font-bold text-center text-green-800 text-8xl font-petemoss">Local Guides</h3>
-    <ul className="text-lg leading-relaxed text-gray-600 list-disc list-inside">
-        <li><strong>Guide Name 1:</strong> Specializes in historical tours. Contact: 123-456-7890.</li>
-        <li><strong>Guide Name 2:</strong> Expert in trekking routes. Contact: 098-765-4321.</li>
-    </ul>
-</section>
-
-
       {/* FAQs Section */}
-      <section className="max-w-6xl p-6 mx-auto my-12 mb-12 ">
-        <h3 className="flex flex-col items-start mb-6 font-bold text-center text-green-800 text-8xl font-petemoss">FAQs</h3>
-        {faqs.map((faq, index) => (
-          <div key={index} className="my-4 border-b border-gray-300">
-            <button
-              onClick={() => toggleFaq(index)}
-              className="flex items-center justify-between w-full p-4 text-lg font-semibold text-left text-gray-800 bg-gray-100 hover:bg-gray-200"
-            >
-              {faq.question}
-              <span className="ml-2">{visibleFaqIndex === index ? '-' : '+'}</span>
-            </button>
-            <AnimatePresence>
-              {visibleFaqIndex === index && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="p-4 text-gray-600"
+      <section className="max-w-6xl p-8 mx-auto my-12">
+        <h3 className="flex flex-col items-start mb-8 font-bold text-center text-green-800 text-8xl font-petemoss">
+          FAQs
+        </h3>
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <div key={index} className="p-4 transition-shadow duration-300 border border-gray-200 rounded-lg shadow-md hover:shadow-lg">
+              <button
+                onClick={() => toggleFaq(index)}
+                className="flex justify-between w-full text-left"
+              >
+                <span className="text-lg font-semibold text-gray-800">{faq.question}</span>
+                <motion.span
+                  animate={{ rotate: visibleFaqIndex === index ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  {faq.answer}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ))}
+                  <svg className="w-5 h-5 text-green-800" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.293 9.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L10 6.414l-3.293 3.293a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
+                </motion.span>
+              </button>
+              <AnimatePresence>
+                {visibleFaqIndex === index && (
+                  <motion.p
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-2 text-gray-700"
+                  >
+                    {faq.answer}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );

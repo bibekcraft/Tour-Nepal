@@ -7,7 +7,7 @@ import categoryItemReducer from '../Slice/CategoryitemSlice'; // Ensure the corr
 const store = configureStore({
   reducer: {
     categories: categoryReducer, // Register the CategorySlice reducer
-    categoryItems: categoryItemReducer, // Add your new slice to the store
+    categoryItem: categoryItemReducer, // Add your new slice to the store
   },
 });
 

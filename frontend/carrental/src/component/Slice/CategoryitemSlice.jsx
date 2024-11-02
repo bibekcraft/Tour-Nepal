@@ -1,70 +1,42 @@
-// src/slices/CategoryItemSlice.jsx
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-// Initial state
-const initialState = {
-  items: null,
-  selectedItem: null,
-  status: 'idle',
-  error: null,
-};
-
-// Async thunk for fetching category items
+// Define a thunk for fetching items based on the category ID
 export const fetchCategoryItems = createAsyncThunk(
-  'categoryItems/fetchCategoryItems',
-  async (categoryId) => {
-    const response = await fetch(`http://127.0.0.1:8000/category-items/?category=${categoryId}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch category items');
-    }
-    const data = await response.json();
-    return data;
+  'category/fetchCategoryItems', // Action type
+  async (categoryId) => { // Removed TypeScript annotation
+    console.log(`Fetching items for category ID: ${categoryId}`); // Debug log
+    const response = await axios.get(`http://127.0.0.1:8000/categories/${categoryId}/items/`);
+    return response.data; // Return the fetched data
   }
 );
 
-// Async thunk for fetching a single category item by ID
-export const fetchCategoryItemById = createAsyncThunk(
-  'categoryItems/fetchCategoryItemById',
-  async (itemId) => {
-    const response = await fetch(`http://127.0.0.1:8000/category-items/${itemId}/`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch category item');
-    }
-    const data = await response.json();
-    return data;
-  }
-);
-
-// Create the CategoryItemSlice
-const CategoryItemSlice = createSlice({
-  name: 'categoryItems',
-  initialState,
-  reducers: {},
+// Create a slice for category items
+const categoryItemSlice = createSlice({
+  name: 'categoryItem', // Name of the slice
+  initialState: {
+    items: [], // Store the items fetched from the API
+    status: 'idle', // Represents the state of the async operation
+    error: null, // Store any error messages
+  },
+  reducers: {}, // No synchronous actions for now
   extraReducers: (builder) => {
     builder
       .addCase(fetchCategoryItems.pending, (state) => {
-        state.status = 'loading';
+        state.status = 'loading'; // Set loading state when the fetch starts
       })
       .addCase(fetchCategoryItems.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.items = action.payload;
+        state.status = 'succeeded'; // Set succeeded state on successful fetch
+        state.items = action.payload; // Update items with the fetched data
+        console.log('Fetched items:', action.payload); // Debug log for fetched items
       })
       .addCase(fetchCategoryItems.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message || 'Failed to fetch category items';
-      })
-      .addCase(fetchCategoryItemById.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchCategoryItemById.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.selectedItem = action.payload;
-      })
-      .addCase(fetchCategoryItemById.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.error.message || 'Failed to fetch category item';
+        state.status = 'failed'; // Set failed state on fetch error
+        state.error = action.error.message; // Capture error message
+        console.error('Fetch error:', action.error.message); // Debug log for errors
       });
   },
 });
 
-export default CategoryItemSlice.reducer;
+// Export the reducer to be used in the store
+export default categoryItemSlice.reducer;

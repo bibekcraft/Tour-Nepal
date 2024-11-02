@@ -1,29 +1,21 @@
-// src/component/secondpage/Trails.jsx
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { motion } from 'framer-motion';
-import { fetchCategoryItems } from '../Slice/CategoryitemSlice'
-import { Link } from 'react-router-dom';
+import { fetchCategoryItems } from '../Slice/CategoryitemSlice';
+import { Link, useParams } from 'react-router-dom';
 
-const Trails = ({ categoryId }) => {
+const Trails = () => {
   const dispatch = useDispatch();
+  const { id: categoryId } = useParams();
 
-  // Get items, status, and error from Redux store
-  const { items: trails, status, error } = useSelector((state) => state.categoryItems);
+  const { items: trails, status, error } = useSelector((state) => state.categoryItem);
 
-  // Fetch category items (trails) when component mounts or categoryId changes
   useEffect(() => {
     if (categoryId) {
       dispatch(fetchCategoryItems(categoryId));
     }
   }, [dispatch, categoryId]);
 
-  // Sorting function (if needed)
-  const sortTrails = () => {
-    // Sorting logic for trails (you can expand this as needed)
-  };
-
-  // Motion variants for the cards
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: (i) => ({
@@ -33,28 +25,22 @@ const Trails = ({ categoryId }) => {
     }),
   };
 
+  if (status === 'loading') {
+    return <p>Loading...</p>;
+  }
+
+  if (status === 'failed') {
+    return <p>Error: {error}</p>;
+  }
+
   return (
     <div className="min-h-screen py-10 bg-gray-50">
-      {/* Show loading or error messages */}
-      {status === 'loading' && <p>Loading...</p>}
-      {status === 'failed' && <p>Error: {error}</p>}
-
-      {/* Sort Button */}
-      <button
-        onClick={sortTrails}
-        className="flex items-center px-3 py-1 mb-6 text-sm font-medium text-white transition duration-300 bg-green-500 rounded-full hover:bg-green-600"
-      >
-        Sort
-      </button>
-
-      {/* Header */}
       <div className="flex justify-center mb-8">
-        <h1 className="text-3xl font-semibold text-gray-800">Accommodations</h1>
+        <h1 className="text-3xl font-semibold text-gray-800">Trails in Category {categoryId}</h1>
       </div>
 
-      {/* Cards Section */}
       <div className="grid grid-cols-1 gap-6 px-5 sm:grid-cols-2 lg:grid-cols-3">
-        {trails &&
+        {trails.length > 0 ? (
           trails.map((trail, index) => (
             <motion.div
               key={trail.id}
@@ -65,17 +51,14 @@ const Trails = ({ categoryId }) => {
               custom={index}
               whileHover={{ scale: 1.05 }}
             >
-              {/* Image section */}
               <div className="overflow-hidden rounded-t-lg">
                 <motion.img
-                  src={trail.image} // Assuming the API provides an image URL
+                  src={trail.image}
                   alt={trail.name}
                   className="object-cover w-full h-40"
                   whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
                 />
               </div>
-
-              {/* Details section */}
               <div className="p-4">
                 <h3 className="text-lg font-bold text-gray-800">{trail.name}</h3>
                 <p className="text-gray-500">{trail.location}</p>
@@ -83,7 +66,6 @@ const Trails = ({ categoryId }) => {
                   <p className="text-xl font-semibold text-green-600">{trail.price}</p>
                   <p className="text-sm text-gray-400">/ night</p>
                 </div>
-
                 <Link
                   to={`/trail/${trail.id}`}
                   className="inline-block px-4 py-2 mt-4 text-white transition bg-blue-500 rounded-lg hover:bg-blue-600"
@@ -92,7 +74,10 @@ const Trails = ({ categoryId }) => {
                 </Link>
               </div>
             </motion.div>
-          ))}
+          ))
+        ) : (
+          <p>No trails found.</p>
+        )}
       </div>
     </div>
   );
