@@ -7,7 +7,6 @@ import { Link, useParams } from 'react-router-dom';
 const Trails = () => {
   const dispatch = useDispatch();
   const { id: categoryId } = useParams();
-
   const { items: trails, status, error } = useSelector((state) => state.categoryItem);
 
   useEffect(() => {
@@ -57,11 +56,15 @@ const Trails = () => {
                   alt={trail.name}
                   className="object-cover w-full h-40"
                   whileHover={{ scale: 1.1, transition: { duration: 0.3 } }}
+                  onError={(e) => { e.target.src = 'path/to/fallback-image.png'; }}
                 />
               </div>
               <div className="p-4">
                 <h3 className="text-lg font-bold text-gray-800">{trail.name}</h3>
                 <p className="text-gray-500">{trail.location}</p>
+                {trail.description && <p className="mt-2 text-sm text-gray-600">{trail.description}</p>}
+                <p className="text-sm text-gray-500">Duration: {trail.duration} days</p>
+                <p className="text-sm text-gray-500">Difficulty: {trail.difficulty}</p>
                 <div className="flex items-center justify-between mt-4">
                   <p className="text-xl font-semibold text-green-600">{trail.price}</p>
                   <p className="text-sm text-gray-400">/ night</p>
