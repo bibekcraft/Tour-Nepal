@@ -86,7 +86,8 @@ const Design = () => {
                         <img src={thumbnails[activeThumbnail]} alt={`main-img${activeThumbnail + 1}`} className="object-cover w-full h-full" />
                         {/* Top gradient overlay */}
                             <div className="absolute inset-x-0 top-0 h-1/6 bg-gradient-to-b from-gray-100 to-transparent" />                        {/* Bottom gradient overlay */}
-                        <div className="absolute inset-x-0 bottom-0 h-1/8bg-gradient-to-t from-gray-100 to-transparent" />                        <div className="absolute w-11/12 max-w-4xl text-white transform -translate-x-1/2 top-1/4 left-1/2 text-shadow-md">
+                        <div className="absolute inset-x-0 bottom-0 h-1/8bg-gradient-to-t from-gray-100 to-transparent" />                    
+                            <div className="absolute w-11/12 max-w-4xl text-white transform -translate-x-1/2 top-1/4 left-1/2 text-shadow-md">
                             <div className="text-5xl font-bold">{titles[activeThumbnail]}</div>
                             <div className="text-3xl font-light">{descriptions[activeThumbnail]}</div>
                         </div>
@@ -106,7 +107,7 @@ const Design = () => {
                 </div>
 
                 {/* Arrows Section */}
-                <div className="absolute z-10 flex gap-2 transform translate-y-1/2 arrows top-1/2 left-2">
+                {/* <div className="absolute z-10 flex gap-2 transform translate-y-1/2 arrows top-1/2 left-2">
                     <button className="w-10 h-10 bg-gray-300 bg-opacity-50 rounded-full" ref={prevDom} onClick={() => showSlider('prev')}>
                         &lt;
                     </button>
@@ -115,7 +116,7 @@ const Design = () => {
                     <button className="w-10 h-10 bg-gray-300 bg-opacity-50 rounded-full" ref={nextDom} onClick={() => showSlider('next')}>
                         &gt;
                     </button>
-                </div>
+                </div> */}
 
                 {/* Time bar */}
                 <div className="time absolute top-0 left-0 w-0 h-[3px] bg-orange-600" ref={timeDom}></div>

@@ -39,7 +39,7 @@ const MapOfNepal = () => {
             {categories && categories.map((category) => (
               <Link 
                 key={category.id} 
-                to={`/trails/${category.id}`}          
+                to={`/trails`}          
                 aria-label={`Explore ${category.name}`}
                               >
                 <div className="relative flex flex-col items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">

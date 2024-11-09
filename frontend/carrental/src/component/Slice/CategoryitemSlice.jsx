@@ -5,7 +5,7 @@ export const fetchCategoryItems = createAsyncThunk(
   'category/fetchCategoryItems', 
   async (categoryId) => { 
     console.log(`Fetching items for category ID: ${categoryId}`); 
-    const response = await axios.get(`http://127.0.0.1:8000/categories/${categoryId}/items`);
+    const response = await axios.get(`http://127.0.0.1:8000/items`);
     return response.data; 
   }
 );
