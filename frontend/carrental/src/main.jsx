@@ -7,10 +7,10 @@ import store from '../src/component/store/Store.jsx'
 
 createRoot(document.getElementById('root')).render(
   
-  <Provider store={store}>
+<Provider store={store}>
   <StrictMode>
-
     <App />
   </StrictMode>
-  </Provider>,
+</Provider>
+
 )
