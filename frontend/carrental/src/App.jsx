@@ -10,6 +10,8 @@ import RouteDetails from '../src/component/Thirdpage/RouteDetails';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Practise from '../src/component/Thirdpage/Practise';
+import Search from '../src/component/firstpage/SearchBar';
+import SearchBar from '../src/component/firstpage/SearchBar';
 
 // Error Boundary Component
 class ErrorBoundary extends React.Component {
@@ -51,9 +53,10 @@ function App() {
                             <Route path="/" element={<Home />} />
                             <Route path="/trails/:id" element={<Trails />} />
                             <Route path="/categories/:id" element={<MapOfNepal />} />
-                            <Route path="/trails" element={<MapOfNepal />} />
+                            <Route path="/trails" element={<Trails />} />
                             <Route path="/route" element={<RouteDetails />} />
                             <Route path="/practise" element={<Practise />} />
+                            <Route path='/search' element={<SearchBar />} />
                             {/* Uncomment the following line if you have a NotFound component */}
                             {/* <Route path="*" element={<NotFound />} /> */}
                         </Routes>
