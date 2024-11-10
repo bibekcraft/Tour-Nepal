@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import SmoothScrollbarWrapper from '../src/component/scrolling/SmoothScrollbarWrapper '; // Ensure no trailing spaces
 import Home from './component/routing/Home';
@@ -12,39 +11,12 @@ import "slick-carousel/slick/slick-theme.css";
 import Practise from '../src/component/Thirdpage/Practise';
 import SearchBar from '../src/component/firstpage/SearchBar';
 
-// Error Boundary Component
-class ErrorBoundary extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { hasError: false };
-    }
-
-    static getDerivedStateFromError(error) {
-        // Update state so the next render shows the fallback UI
-        return { hasError: true };
-    }
-
-    componentDidCatch(error, errorInfo) {
-        // You can also log the error to an error reporting service
-        console.error("Error caught by Error Boundary:", error, errorInfo);
-    }
-
-    render() {
-        if (this.state.hasError) {
-            // You can render any custom fallback UI
-            return <h1>Something went wrong.</h1>;
-        }
-
-        return this.props.children; 
-    }
-}
 
 // Main App Component
 function App() {
     const queryClient = new QueryClient();
 
     return (
-        <ErrorBoundary>
             <QueryClientProvider client={queryClient}>
                 <BrowserRouter>
                     <SmoothScrollbarWrapper>
@@ -56,12 +28,13 @@ function App() {
   <Route path="/route" element={<RouteDetails />} />
   <Route path="/practise" element={<Practise />} />
   <Route path='/search' element={<SearchBar />} />
+  <Route path="/category/:id" component={Trails} />
+
 </Routes>
 
                     </SmoothScrollbarWrapper>
                 </BrowserRouter>
             </QueryClientProvider>
-        </ErrorBoundary>
     );
 }
 

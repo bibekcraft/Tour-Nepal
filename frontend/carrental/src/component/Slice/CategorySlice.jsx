@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 // Initial state
@@ -8,7 +8,6 @@ const initialState = {
   error: null,
 };
 
-// Async thunk for fetching category data
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
   const response = await fetch('http://127.0.0.1:8000/categories/');
   const data = await response.json();

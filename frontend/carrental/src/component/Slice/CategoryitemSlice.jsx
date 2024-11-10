@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// Define the async action to fetch category items
 export const fetchCategoryItems = createAsyncThunk(
   'category/fetchCategoryItems', 
-  async (categoryId) => { 
-    console.log(`Fetching items for category ID: ${categoryId}`); 
-    const response = await axios.get(`http://127.0.0.1:8000/items`);
+  async () => { 
+    const response = await axios.get(`http://127.0.0.1:8000/trail-items/`);
     return response.data; 
   }
 );
@@ -27,7 +27,6 @@ const categoryItemSlice = createSlice({
       .addCase(fetchCategoryItems.fulfilled, (state, action) => {
         state.status = 'succeeded'; 
         state.items = action.payload; 
-        console.log('Fetched items:', action.payload); 
       })
       .addCase(fetchCategoryItems.rejected, (state, action) => {
         state.status = 'failed'; // Set failed state on fetch error
@@ -36,5 +35,14 @@ const categoryItemSlice = createSlice({
       });
   },
 });
+
+// Selector to access the list of items (products)
+export const selectCategoryItems = (state) => state.categoryItem.items;
+
+// Selector to access the loading status
+export const selectCategoryStatus = (state) => state.categoryItem.status;
+
+// Selector to access any error messages
+export const selectCategoryError = (state) => state.categoryItem.error;
 
 export default categoryItemSlice.reducer;

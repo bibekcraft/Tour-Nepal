@@ -28,7 +28,7 @@ function TopBar() {
 
         {/* Features */}
         <div className="flex justify-center mt-20 space-x-20">
-          <div className="flex items-center space-x-5 text-2xl">
+          {/* <div className="flex items-center space-x-5 text-2xl"> */}
             <FcOk className="text-4xl" />
             <span>Time Friendly</span>
           </div>
@@ -85,7 +85,7 @@ function TopBar() {
           </button>
         </div>
       </div>
-    </div>
+    
   );
 }
 
