@@ -36,6 +36,8 @@ const categoryItemSlice = createSlice({
   },
 });
 
+
+
 // Selector to access the list of items (products)
 export const selectCategoryItems = (state) => state.categoryItem.items;
 
