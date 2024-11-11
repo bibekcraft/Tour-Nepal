@@ -1,33 +1,32 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { fetchCategoryItems } from '../Slice/CategoryitemSlice';
+import { fetchCategoryItems } from '../Slice/CategoryItemSlice';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationPin } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../firstpage/SearchBar';
 
 const Trails = () => {
-  // Extract the categoryId from the URL using useParams
-  const { id: categoryId } = useParams(); // categoryId is now definable and extracted from the URL
-
+  const { id: categoryId } = useParams(); // Extract categoryId from URL
   const dispatch = useDispatch();
-  const { items, status, error } = useSelector((state) => state.categoryItem); // Get data from Redux store
-  const [selectedLetter, setSelectedLetter] = useState(''); // State for filtering by letter
+  const { items, status, error } = useSelector((state) => state.categoryItem);
+  const [selectedLetter, setSelectedLetter] = useState(''); // For alphabet filtering
 
-  // Fetch category items whenever categoryId changes
   useEffect(() => {
     if (categoryId) {
-      dispatch(fetchCategoryItems(categoryId)); // Dispatch the action to fetch category items by categoryId
+      dispatch(fetchCategoryItems(categoryId)); // Fetch category items based on categoryId
     }
-  }, [dispatch, categoryId]); // Re-fetch whenever categoryId changes
+  }, [dispatch, categoryId]);
 
-  // Filter items based on the selected letter
+  // Filter items based on selected letter
   const filteredTrails = selectedLetter
     ? items.filter((trail) => trail.name?.[0].toUpperCase() === selectedLetter)
     : items;
 
-  // Animation for the motion divs
+  // Alphabet for filter buttons
+  const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: (i) => ({
@@ -37,25 +36,22 @@ const Trails = () => {
     }),
   };
 
-  // Alphabet for filtering
-  const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
-
   return (
     <div>
       <SearchBar />
       <div className="min-h-screen py-10 bg-gray-50">
         <div className="flex flex-col items-center mb-8">
           <h1 className="mb-6 text-3xl font-semibold text-gray-800">
-            Trails in Category {categoryId} {/* Display the categoryId dynamically */}
+            Trails in Category {categoryId}
           </h1>
 
-          {/* Alphabet filter buttons */}
+          {/* Alphabet filter */}
           <div className="flex items-center p-4 mt-4 space-x-2 overflow-x-auto bg-gray-200 rounded-lg shadow-md">
             {alphabet.map((letter) => (
               <button
                 key={letter}
                 className="px-4 py-2 text-xl font-semibold text-gray-700 transition-colors duration-300 bg-gray-300 rounded-full hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                onClick={() => setSelectedLetter(letter)} // Set selected letter for filtering
+                onClick={() => setSelectedLetter(letter)}
               >
                 {letter}
               </button>
@@ -79,11 +75,11 @@ const Trails = () => {
                   initial="hidden"
                   animate="visible"
                   custom={index}
-                  style={{ transform: 'unset' }} // Apply styles directly here if necessary
+                  style={{ transform: 'unset' }}
                 >
                   <div className="relative">
                     <img
-                      src={trail.image || 'https://via.placeholder.com/300'} // Use placeholder image if no image is found
+                      src={trail.image || 'https://via.placeholder.com/300'}
                       alt={trail.name}
                       className="object-cover w-full h-48 rounded-t-lg"
                     />
@@ -92,7 +88,7 @@ const Trails = () => {
                     <h3 className="mb-2 text-lg font-semibold text-gray-800">{trail.name}</h3>
                     <p className="flex items-center mb-3 text-gray-500">
                       <FontAwesomeIcon icon={faLocationPin} className="mr-1 text-green-600" />
-                      {trail.location || 'Location not available'} {/* Handle missing location */}
+                      {trail.location || 'Location not available'}
                     </p>
                     <div className="flex items-center justify-between mb-4 text-md">
                       <p className="font-semibold text-gray-600">

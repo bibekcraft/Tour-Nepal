@@ -8,7 +8,7 @@ export const fetchCategoryItems = createAsyncThunk(
       console.error('Category ID is missing');
       return [];
     }
-    const response = await axios.get(`http://127.0.0.1:8000/trail-items/}`);
+    const response = await axios.get(`http://127.0.0.1:8000/trail-items/${categoryId}/`);
     return response.data; 
   }
 );
