@@ -8,22 +8,26 @@ import { faLocationPin } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../firstpage/SearchBar';
 
 const Trails = () => {
-  const { id: categoryId } = useParams(); // Extract categoryId from URL params
+  // Extract the categoryId from the URL using useParams
+  const { id: categoryId } = useParams(); // categoryId is now definable and extracted from the URL
+
   const dispatch = useDispatch();
   const { items, status, error } = useSelector((state) => state.categoryItem); // Get data from Redux store
   const [selectedLetter, setSelectedLetter] = useState(''); // State for filtering by letter
 
-  // Fetch category items when categoryId changes
+  // Fetch category items whenever categoryId changes
   useEffect(() => {
-    dispatch(fetchCategoryItems(categoryId));
-  }, [dispatch, categoryId]);
+    if (categoryId) {
+      dispatch(fetchCategoryItems(categoryId)); // Dispatch the action to fetch category items by categoryId
+    }
+  }, [dispatch, categoryId]); // Re-fetch whenever categoryId changes
 
-  // Filter items by selected letter
+  // Filter items based on the selected letter
   const filteredTrails = selectedLetter
     ? items.filter((trail) => trail.name?.[0].toUpperCase() === selectedLetter)
     : items;
 
-  // Define animation for the motion divs
+  // Animation for the motion divs
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: (i) => ({
@@ -41,7 +45,9 @@ const Trails = () => {
       <SearchBar />
       <div className="min-h-screen py-10 bg-gray-50">
         <div className="flex flex-col items-center mb-8">
-          <h1 className="mb-6 text-3xl font-semibold text-gray-800">Trails in Category {categoryId}</h1>
+          <h1 className="mb-6 text-3xl font-semibold text-gray-800">
+            Trails in Category {categoryId} {/* Display the categoryId dynamically */}
+          </h1>
 
           {/* Alphabet filter buttons */}
           <div className="flex items-center p-4 mt-4 space-x-2 overflow-x-auto bg-gray-200 rounded-lg shadow-md">
@@ -66,15 +72,15 @@ const Trails = () => {
           <div className="grid grid-cols-1 gap-6 px-5 sm:grid-cols-2 lg:grid-cols-4">
             {filteredTrails.length > 0 ? (
               filteredTrails.map((trail, index) => (
-<motion.div
-  key={trail.id}
-  className="overflow-hidden transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg hover:scale-105"
-  variants={cardVariants}
-  initial="hidden"
-  animate="visible"
-  custom={index}
-  style={{ transform: 'unset' }} // Apply styles directly here if necessary
->
+                <motion.div
+                  key={trail.id}
+                  className="overflow-hidden transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg hover:scale-105"
+                  variants={cardVariants}
+                  initial="hidden"
+                  animate="visible"
+                  custom={index}
+                  style={{ transform: 'unset' }} // Apply styles directly here if necessary
+                >
                   <div className="relative">
                     <img
                       src={trail.image || 'https://via.placeholder.com/300'} // Use placeholder image if no image is found

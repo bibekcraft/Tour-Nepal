@@ -36,23 +36,21 @@ const MapOfNepal = () => {
 
           {/* Show categories if data is available */}
           <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
-            {categories && categories.map((category) => (
+            {categories?.map((category) => (
               <Link 
-  key={category.id} 
-  to={`/trails/${category.id}`} // Correct dynamic path
-  aria-label={`Explore ${category.name}`}
->
-  <div className="relative flex flex-col items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-    <img 
-      src={category.image} 
-      alt={category.name} 
-      className="object-cover w-full h-full rounded-full" 
-      onError={(e) => { e.target.src = '/path/to/fallback-image.png'; }} // Fallback image
-    />
-  </div>
-  <p className="mt-2 text-lg font-bold text-gray-700 md:text-xl">{category.name}</p>
-</Link>
-
+                key={category.id} 
+                to={`/trails/${category.id}`} // Point to the specific category route
+                aria-label={`Explore ${category.name}`}
+              >
+                <div className="relative flex flex-col items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
+                  <img 
+                    src={category.image || '/path/to/fallback-image.png'} // Fallback image
+                    alt={category.name} 
+                    className="object-cover w-full h-full rounded-full" 
+                  />
+                </div>
+                <p className="mt-2 text-lg font-bold text-gray-700 md:text-xl">{category.name}</p>
+              </Link>
             ))}
           </div>
         </div>

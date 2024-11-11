@@ -1,14 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Define the async action to fetch category items
 export const fetchCategoryItems = createAsyncThunk(
   'category/fetchCategoryItems', 
-  async () => { 
-    const response = await axios.get(`http://127.0.0.1:8000/trail-items/`);
+  async (categoryId) => { 
+    if (!categoryId) {
+      console.error('Category ID is missing');
+      return [];
+    }
+    const response = await axios.get(`http://127.0.0.1:8000/trail-items/}`);
     return response.data; 
   }
 );
+
+
 
 // Create a slice for category items
 const categoryItemSlice = createSlice({
