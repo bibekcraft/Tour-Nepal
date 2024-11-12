@@ -11,9 +11,11 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/categories/:id" element={<MapOfNepal />} /> {/* Handle category-specific content */}
-                <Route path="/trails/:categoryId" element={<Trails />} /> {/* Show trails for specific category */}
+                <Route path="/categories" element={<MapOfNepal />} /> {/* Display all categories */}
+                {/* <Route path="/category/:categoryId/items" element={<Trails />} />        */}
                 <Route path="/route" element={<RouteDetails />} />
+                <Route path="/items" element={<Trails />} />       
+
                 <Route path="/practise" element={<Practise />} />
                 <Route path="/search" element={<SearchBar />} />
             </Routes>

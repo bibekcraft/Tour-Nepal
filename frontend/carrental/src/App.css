@@ -1,4 +1,5 @@
 .carousel-item {
+
   transition: transform 0.3s ease;
 }
 
@@ -19,3 +20,4 @@ html, body {
 h1, h2, h3, p {
   -webkit-text-size-adjust: none;
 }
+@import url('https://fonts.googleapis.com/css2?family=Hangover&display=swap');

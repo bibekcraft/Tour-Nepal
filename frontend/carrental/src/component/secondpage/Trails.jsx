@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
-import { fetchCategoryItems } from '../Slice/CategoryItemSlice';
+import { fetchCategoryItems } from '../Slice/CategoryitemSlice';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationPin } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../firstpage/SearchBar';
 
 const Trails = () => {
-  const { id: categoryId } = useParams(); // Extract categoryId from URL
+  const { categoryId } = useParams();  // Use categoryId from route params
   const dispatch = useDispatch();
-  const { items, status, error } = useSelector((state) => state.categoryItem);
+  const { items, status, error } = useSelector((state) => state.category);
   const [selectedLetter, setSelectedLetter] = useState(''); // For alphabet filtering
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const Trails = () => {
                 >
                   <div className="relative">
                     <img
-                      src={trail.image || 'https://via.placeholder.com/300'}
+                      src={trail.image || 'https://nepalecoadventure.com/wp-content/uploads/2017/07/Trekking-in-Nepal-in-August-848x571.jpg'}
                       alt={trail.name}
                       className="object-cover w-full h-48 rounded-t-lg"
                     />

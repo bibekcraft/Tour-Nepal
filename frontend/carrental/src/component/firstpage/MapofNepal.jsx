@@ -39,12 +39,12 @@ const MapOfNepal = () => {
             {categories?.map((category) => (
               <Link 
                 key={category.id} 
-                to={`/trails/${category.name}`} // Point to the specific category route
+                to={`/category/${category.id}/trails`} // Point to the specific category route
                 aria-label={`Explore ${category.name}`}
               >
                 <div className="relative flex flex-col items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
                   <img 
-                    src={category.image || 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fntnc.org.np%2Fnepal-people-and-nature&psig=AOvVaw1qZDCI_fd7i3AZyyqp4bQJ&ust=1731425063033000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJD865TL1IkDFQAAAAAdAAAAABAE'} // Fallback image
+                    src={category.image || 'https://via.placeholder.com/150'} // Use a valid fallback image URL
                     alt={category.name} 
                     className="object-cover w-full h-full rounded-full" 
                   />
