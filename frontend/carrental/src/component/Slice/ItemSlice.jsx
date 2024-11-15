@@ -1,23 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const fetchItemsByCategory = createAsyncThunk(
-  'items/fetchItemsByCategory',
-  async (categoryId) => {
-    const response = await fetch(`http://127.0.0.1:8000/categories/${categoryId}/items/`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch items');
-    }
-    return await response.json();
-  }
-);
+// Fetch items by category ID
+export const fetchItemsByCategory = createAsyncThunk('items/fetchItemsByCategory', async (categoryId) => {
+  const response = await fetch(`http://127.0.0.1:8000/trail-items/?category=${categoryId}`);
+  const data = await response.json();
+  return data;
+});
 
-const itemsSlice = createSlice({
+const initialState = {
+  items: [],
+  status: 'idle',
+  error: null,
+};
+
+const itemSlice = createSlice({
   name: 'items',
-  initialState: {
-    items: [],
-    status: 'idle', 
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -30,9 +28,9 @@ const itemsSlice = createSlice({
       })
       .addCase(fetchItemsByCategory.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
+        state.error = action.error.message || 'Failed to fetch items';
       });
   },
 });
 
-export default itemsSlice.reducer;
+export default itemSlice.reducer;

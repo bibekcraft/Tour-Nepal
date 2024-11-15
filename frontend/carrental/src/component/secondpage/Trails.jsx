@@ -1,14 +1,12 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom'; // To get categoryId from the URL
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationPin } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { fetchItemsByCategory } from '../Slice/ItemSlice';
+import { fetchItemsByCategory } from '../Slice/ItemSlice'; // Ensure this function is handling the dynamic category fetching
 import SearchBar from '../firstpage/SearchBar';
-import MapOfNepal from '../firstpage/MapofNepal';
-
-
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.8 },
   visible: (index) => ({
@@ -22,13 +20,17 @@ const cardVariants = {
 
 const Trails = () => {
   const dispatch = useDispatch();
+  const { categoryId } = useParams(); // Get categoryId from the URL
   const { items: categoryItems, status, error } = useSelector((state) => state.items);
   const [selectedLetter, setSelectedLetter] = useState('');
 
   useEffect(() => {
-    dispatch(fetchItemsByCategory(1));
-  }, [dispatch]);
+    if (categoryId) {
+      dispatch(fetchItemsByCategory(Number(categoryId))); // Dispatch fetch for specific category
+    }
+  }, [dispatch, categoryId]);
 
+  // Filter trails based on the selected letter
   const filteredTrails = selectedLetter
     ? categoryItems.filter((trail) => trail.name?.[0].toUpperCase() === selectedLetter)
     : categoryItems;

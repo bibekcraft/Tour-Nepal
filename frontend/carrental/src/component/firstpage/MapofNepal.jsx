@@ -6,7 +6,7 @@ import hm from '../../assets/futurebg.png';
 
 const MapOfNepal = () => {
   const dispatch = useDispatch();
-  const { data: categories, status, error } = useSelector((state) => state.categories);
+  const { data: categories, status, error } = useSelector((state) => state.categories.categories);
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -37,22 +37,20 @@ const MapOfNepal = () => {
           {/* Show categories if data is available */}
           <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
             {categories?.map((category) => (
-// In your MapOfNepal component, you already have the link setup to pass the category ID when clicked.
-<Link
-  key={category.id}
-  to={`/categories/${category.id}/trails`} // Pass category ID in the route
-  aria-label={`Explore ${category.name}`}
->
-  <div className="relative flex flex-col items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-    <img 
-      src={category.image || 'https://fallback-image-url.com'} // Use a valid fallback image URL
-      alt={category.name} 
-      className="object-cover w-full h-full rounded-full" 
-    />
-  </div>
-  <p className="mt-2 text-lg font-bold text-gray-700 md:text-xl">{category.name}</p>
-</Link>
-
+              <Link
+                key={category.id}
+                to={`/categories/${category.id}/trails`} // Pass category ID in the route
+                aria-label={`Explore ${category.name}`}
+              >
+                <div className="relative flex flex-col items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
+                  <img 
+                    src={category.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1Mruulf62N9f6S6KW5SDXa41tjDPBZ5-ZGQ&s'} 
+                    alt={category.name} 
+                    className="object-cover w-full h-full rounded-full" 
+                  />
+                </div>
+                <p className="mt-2 text-lg font-bold text-gray-700 md:text-xl">{category.name}</p>
+              </Link>
             ))}
           </div>
         </div>

@@ -14,10 +14,11 @@ function App() {
                 <Route path="/categories" element={<MapOfNepal />} /> 
                 <Route path="/route" element={<RouteDetails />} />
                 <Route path="/trails" element={<Trails />} />       
-                <Route path="/categories/:category_id/trails" element={<Trails />} /> 
+                <Route path="/categories/:category_id/trails" element={<Trails />} />
                 <Route path="/practise" element={<Practise />} />
                 <Route path="/search" element={<SearchBar />} />
-                <Route path="/categories/:categoryId/trails" element={<MapOfNepal/>} /> {/* Dynamic Route */}
+                <Route path="/categories/:categoryId/trails" element={<MapOfNepal/>} /> 
+                <Route path="/category/:categoryId" component={MapOfNepal} /> 
             </Routes>
         </BrowserRouter>
     );
