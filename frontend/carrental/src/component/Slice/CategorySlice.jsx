@@ -1,20 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Initial state
 const initialState = {
   data: null,
   status: 'idle',
   error: null,
 };
 
-// Async thunk for fetching categories
 export const fetchCategories = createAsyncThunk('categories/fetchCategories', async () => {
   const response = await fetch('http://127.0.0.1:8000/categories/');
   const data = await response.json();
   return data;
 });
 
-// Slice creation
 const CategorySlice = createSlice({
   name: 'categories',
   initialState,

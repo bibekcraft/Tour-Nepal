@@ -1,4 +1,3 @@
-import React from 'react';
 import npl from '../../assets/npl.png';
 
 function Nepal() {

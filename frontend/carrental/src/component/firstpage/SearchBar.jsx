@@ -1,38 +1,36 @@
-import  { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategoryItems, selectCategoryItems } from '../Slice/CategoryitemSlice'; // Adjust path
+import { useState } from 'react';
 
 function SearchBar() {
-  const dispatch = useDispatch();
-  
-  // Get data from Redux store
-  const items = useSelector(selectCategoryItems);
-
-  // State to hold selected duration
+  const [selectedDestination, setSelectedDestination] = useState("");
+  const [selectedActivity, setSelectedActivity] = useState("");
   const [selectedDuration, setSelectedDuration] = useState("");
 
-  useEffect(() => {
-    // Dispatch the action to fetch category items
-    dispatch(fetchCategoryItems());
-  }, [dispatch]);
+  // Sample static data for destinations, activities, and durations
+  const items = [
+    { id: 1, name: 'Annapurna Circuit', activity: 'Trekking', traveltimeinday: '5 days' },
+    { id: 2, name: 'Everest Base Camp', activity: 'Hiking', traveltimeinday: '10 days' },
+    { id: 3, name: 'Langtang Valley', activity: 'Sightseeing', traveltimeinday: '7 days' },
+  ];
 
-  // Extract unique travel time in days from items
+  // Unique destinations, activities, and durations
+  const destinations = [...new Set(items.map((item) => item.name))];
+  const activities = [...new Set(items.map((item) => item.activity))];
   const durations = [...new Set(items.map((item) => item.traveltimeinday))];
-
-  const handleDurationChange = (e) => {
-    setSelectedDuration(e.target.value);
-  };
 
   return (
     <div className="flex items-center max-w-5xl p-8 mx-auto mt-20 space-x-8 bg-white rounded-lg shadow-lg">
       {/* Destination Dropdown */}
       <div className="flex flex-col w-1/3">
         <label className="text-base font-bold text-gray-700 uppercase">Destination</label>
-        <select className="p-3 mt-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
-          <option>All</option>
-          {items.map((item) => (
-            <option key={item.id} value={item.name}>
-              {item.name}
+        <select
+          value={selectedDestination}
+          onChange={(e) => setSelectedDestination(e.target.value)}
+          className="p-3 mt-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
+          <option value="">All</option>
+          {destinations.map((destination, index) => (
+            <option key={index} value={destination}>
+              {destination}
             </option>
           ))}
         </select>
@@ -41,11 +39,15 @@ function SearchBar() {
       {/* Activity Dropdown */}
       <div className="flex flex-col w-1/3">
         <label className="text-base font-bold text-gray-700 uppercase">Activity</label>
-        <select className="p-3 mt-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
-          <option disabled selected>Select an Option</option>
-          {items.map((item) => (
-            <option key={item.id} value={item.name}>
-              {item.name}
+        <select
+          value={selectedActivity}
+          onChange={(e) => setSelectedActivity(e.target.value)}
+          className="p-3 mt-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
+          <option value="">Select an Option</option>
+          {activities.map((activity, index) => (
+            <option key={index} value={activity}>
+              {activity}
             </option>
           ))}
         </select>
@@ -56,13 +58,13 @@ function SearchBar() {
         <label className="text-base font-bold text-gray-700 uppercase">Duration</label>
         <select
           value={selectedDuration}
-          onChange={handleDurationChange}
+          onChange={(e) => setSelectedDuration(e.target.value)}
           className="p-3 mt-3 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500"
         >
-          <option disabled selected>Select Duration</option>
+          <option value="">Select Duration</option>
           {durations.map((duration, index) => (
             <option key={index} value={duration}>
-              {duration} 
+              {duration}
             </option>
           ))}
         </select>

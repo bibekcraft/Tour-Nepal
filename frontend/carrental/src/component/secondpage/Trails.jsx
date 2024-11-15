@@ -1,56 +1,53 @@
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useParams, Link } from 'react-router-dom';
-import { fetchCategoryItems } from '../Slice/CategoryitemSlice';
+import  { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationPin } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import { fetchItemsByCategory } from '../Slice/ItemSlice';
 import SearchBar from '../firstpage/SearchBar';
+import MapOfNepal from '../firstpage/MapofNepal';
+
+
+const cardVariants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: (index) => ({
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delay: index * 0.1,
+    },
+  }),
+};
 
 const Trails = () => {
-  const { categoryId } = useParams();  // Use categoryId from route params
   const dispatch = useDispatch();
-  const { items, status, error } = useSelector((state) => state.category);
-  const [selectedLetter, setSelectedLetter] = useState(''); // For alphabet filtering
+  const { items: categoryItems, status, error } = useSelector((state) => state.items);
+  const [selectedLetter, setSelectedLetter] = useState('');
 
   useEffect(() => {
-    if (categoryId) {
-      dispatch(fetchCategoryItems(categoryId)); // Fetch category items based on categoryId
-    }
-  }, [dispatch, categoryId]);
+    dispatch(fetchItemsByCategory(1));
+  }, [dispatch]);
 
-  // Filter items based on selected letter
   const filteredTrails = selectedLetter
-    ? items.filter((trail) => trail.name?.[0].toUpperCase() === selectedLetter)
-    : items;
+    ? categoryItems.filter((trail) => trail.name?.[0].toUpperCase() === selectedLetter)
+    : categoryItems;
 
-  // Alphabet for filter buttons
   const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.2, duration: 0.5, ease: 'easeInOut' },
-    }),
-  };
 
   return (
     <div>
       <SearchBar />
       <div className="min-h-screen py-10 bg-gray-50">
         <div className="flex flex-col items-center mb-8">
-          <h1 className="mb-6 text-3xl font-semibold text-gray-800">
-            Trails in Category {categoryId}
-          </h1>
-
-          {/* Alphabet filter */}
+          <h1 className="mb-6 text-3xl font-semibold text-gray-800">Trails</h1>
           <div className="flex items-center p-4 mt-4 space-x-2 overflow-x-auto bg-gray-200 rounded-lg shadow-md">
             {alphabet.map((letter) => (
               <button
                 key={letter}
-                className="px-4 py-2 text-xl font-semibold text-gray-700 transition-colors duration-300 bg-gray-300 rounded-full hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                className={`px-4 py-2 text-xl font-semibold text-gray-700 transition-colors duration-300 bg-gray-300 rounded-full ${
+                  selectedLetter === letter ? 'bg-blue-500 text-white' : 'hover:bg-gray-400'
+                }`}
                 onClick={() => setSelectedLetter(letter)}
               >
                 {letter}
@@ -59,12 +56,10 @@ const Trails = () => {
           </div>
         </div>
 
-        {/* Loading, Error, or Trails display */}
-        {status === 'loading' ? (
-          <p className="text-center text-gray-600">Loading trails...</p>
-        ) : error ? (
-          <p className="text-center text-red-600">Error loading trails: {error}</p>
-        ) : (
+        {/* Display Loading, Error, or Trails */}
+        {status === 'loading' && <p className="text-center text-gray-600">Loading trails...</p>}
+        {status === 'failed' && <p className="text-center text-red-600">Error: {error}</p>}
+        {status === 'succeeded' && (
           <div className="grid grid-cols-1 gap-6 px-5 sm:grid-cols-2 lg:grid-cols-4">
             {filteredTrails.length > 0 ? (
               filteredTrails.map((trail, index) => (
@@ -75,12 +70,11 @@ const Trails = () => {
                   initial="hidden"
                   animate="visible"
                   custom={index}
-                  style={{ transform: 'unset' }}
                 >
                   <div className="relative">
                     <img
-                      src={trail.image || 'https://nepalecoadventure.com/wp-content/uploads/2017/07/Trekking-in-Nepal-in-August-848x571.jpg'}
-                      alt={trail.name}
+                      src={trail.image}
+                      alt={`Image of the trail ${trail.name}`}
                       className="object-cover w-full h-48 rounded-t-lg"
                     />
                   </div>
@@ -88,11 +82,11 @@ const Trails = () => {
                     <h3 className="mb-2 text-lg font-semibold text-gray-800">{trail.name}</h3>
                     <p className="flex items-center mb-3 text-gray-500">
                       <FontAwesomeIcon icon={faLocationPin} className="mr-1 text-green-600" />
-                      {trail.location || 'Location not available'}
+                      {trail.location}
                     </p>
                     <div className="flex items-center justify-between mb-4 text-md">
                       <p className="font-semibold text-gray-600">
-                        {trail.traveltimeinday} & {trail.traveltimeinnight}
+                        {trail.traveltimeinday}Day & {trail.traveltimeinnight}Night
                       </p>
                       <p className="font-semibold text-red-600">Difficulty Level: {trail.difficulty}</p>
                     </div>

@@ -11,13 +11,13 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/categories" element={<MapOfNepal />} /> {/* Display all categories */}
-                {/* <Route path="/category/:categoryId/items" element={<Trails />} />        */}
+                <Route path="/categories" element={<MapOfNepal />} /> 
                 <Route path="/route" element={<RouteDetails />} />
-                <Route path="/items" element={<Trails />} />       
-
+                <Route path="/trails" element={<Trails />} />       
+                <Route path="/categories/:category_id/trails" element={<Trails />} /> 
                 <Route path="/practise" element={<Practise />} />
                 <Route path="/search" element={<SearchBar />} />
+                <Route path="/categories/:categoryId/trails" element={<MapOfNepal/>} /> {/* Dynamic Route */}
             </Routes>
         </BrowserRouter>
     );
