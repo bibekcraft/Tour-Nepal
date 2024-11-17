@@ -1,8 +1,10 @@
-import  { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationPin } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTrails } from '../slice/tourismSlice';  // Adjust import if necessary
 import SearchBar from '../firstpage/SearchBar';
 
 const cardVariants = {
@@ -18,44 +20,30 @@ const cardVariants = {
 
 const Trails = () => {
   const [selectedLetter, setSelectedLetter] = useState('');
+  const dispatch = useDispatch();
+  const { categoryId } = useParams();  // Assuming you are passing categoryId as a URL parameter
+  const { trails, isLoading, error } = useSelector((state) => state.tourism);  // Get state from Redux
 
-  // Trail data defined directly in the component
-  const trailsData = [
-    {
-      id: 1,
-      name: "Everest Base Camp",
-      image: "https://ntnc.org.np/sites/default/files/styles/slider_1920x1024/public/default_images/default-cover_0.jpg?itok=14XRQdhm",
-      location: "Solukhumbu, Province 1",
-      traveltimeinday: 12,
-      traveltimeinnight: 1,
-      difficulty: "Medium",
-    },
-    {
-      id: 2,
-      name: "Annapurna Circuit",
-      image: "https://ntnc.org.np/sites/default/files/styles/slider_1920x1024/public/default_images/default-cover_0.jpg?itok=14XRQdhm",
-      location: "Annapurna, Province 4",
-      traveltimeinday: 15,
-      traveltimeinnight: 2,
-      difficulty: "Hard",
-    },
-    {
-      id: 3,
-      name: "Langtang Valley",
-      image: "https://ntnc.org.np/sites/default/files/styles/slider_1920x1024/public/default_images/default-cover_0.jpg?itok=14XRQdhm",
-      location: "Langtang, Province 3",
-      traveltimeinday: 10,
-      traveltimeinnight: 1,
-      difficulty: "Easy",
-    },
-    // Add more trail data as needed
-  ];
+  useEffect(() => {
+    // Fetch trails when the component mounts or when categoryId changes
+    if (categoryId) {
+      dispatch(fetchTrails(categoryId));
+    }
+  }, [categoryId, dispatch]);
 
   const filteredTrails = selectedLetter
-    ? trailsData.filter((trail) => trail.name?.[0].toUpperCase() === selectedLetter)
-    : trailsData;
+    ? trails.filter((trail) => trail.name?.[0].toUpperCase() === selectedLetter)
+    : trails;
 
   const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center text-red-600">{error}</p>;
+  }
 
   return (
     <div>
