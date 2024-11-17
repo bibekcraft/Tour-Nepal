@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom'; // To get categoryId from the URL
+import  { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationPin } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { fetchItemsByCategory } from '../Slice/ItemSlice'; // Ensure this function is handling the dynamic category fetching
 import SearchBar from '../firstpage/SearchBar';
+
 const cardVariants = {
   hidden: { opacity: 0, scale: 0.8 },
   visible: (index) => ({
@@ -19,21 +17,43 @@ const cardVariants = {
 };
 
 const Trails = () => {
-  const dispatch = useDispatch();
-  const { categoryId } = useParams(); // Get categoryId from the URL
-  const { items: categoryItems, status, error } = useSelector((state) => state.items);
   const [selectedLetter, setSelectedLetter] = useState('');
 
-  useEffect(() => {
-    if (categoryId) {
-      dispatch(fetchItemsByCategory(Number(categoryId))); // Dispatch fetch for specific category
-    }
-  }, [dispatch, categoryId]);
+  // Trail data defined directly in the component
+  const trailsData = [
+    {
+      id: 1,
+      name: "Everest Base Camp",
+      image: "https://ntnc.org.np/sites/default/files/styles/slider_1920x1024/public/default_images/default-cover_0.jpg?itok=14XRQdhm",
+      location: "Solukhumbu, Province 1",
+      traveltimeinday: 12,
+      traveltimeinnight: 1,
+      difficulty: "Medium",
+    },
+    {
+      id: 2,
+      name: "Annapurna Circuit",
+      image: "https://ntnc.org.np/sites/default/files/styles/slider_1920x1024/public/default_images/default-cover_0.jpg?itok=14XRQdhm",
+      location: "Annapurna, Province 4",
+      traveltimeinday: 15,
+      traveltimeinnight: 2,
+      difficulty: "Hard",
+    },
+    {
+      id: 3,
+      name: "Langtang Valley",
+      image: "https://ntnc.org.np/sites/default/files/styles/slider_1920x1024/public/default_images/default-cover_0.jpg?itok=14XRQdhm",
+      location: "Langtang, Province 3",
+      traveltimeinday: 10,
+      traveltimeinnight: 1,
+      difficulty: "Easy",
+    },
+    // Add more trail data as needed
+  ];
 
-  // Filter trails based on the selected letter
   const filteredTrails = selectedLetter
-    ? categoryItems.filter((trail) => trail.name?.[0].toUpperCase() === selectedLetter)
-    : categoryItems;
+    ? trailsData.filter((trail) => trail.name?.[0].toUpperCase() === selectedLetter)
+    : trailsData;
 
   const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 
@@ -58,52 +78,47 @@ const Trails = () => {
           </div>
         </div>
 
-        {/* Display Loading, Error, or Trails */}
-        {status === 'loading' && <p className="text-center text-gray-600">Loading trails...</p>}
-        {status === 'failed' && <p className="text-center text-red-600">Error: {error}</p>}
-        {status === 'succeeded' && (
+        {filteredTrails.length === 0 ? (
+          <p className="text-center text-gray-600">No trails found.</p>
+        ) : (
           <div className="grid grid-cols-1 gap-6 px-5 sm:grid-cols-2 lg:grid-cols-4">
-            {filteredTrails.length > 0 ? (
-              filteredTrails.map((trail, index) => (
-                <motion.div
-                  key={trail.id}
-                  className="overflow-hidden transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg hover:scale-105"
-                  variants={cardVariants}
-                  initial="hidden"
-                  animate="visible"
-                  custom={index}
-                >
-                  <div className="relative">
-                    <img
-                      src={trail.image}
-                      alt={`Image of the trail ${trail.name}`}
-                      className="object-cover w-full h-48 rounded-t-lg"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="mb-2 text-lg font-semibold text-gray-800">{trail.name}</h3>
-                    <p className="flex items-center mb-3 text-gray-500">
-                      <FontAwesomeIcon icon={faLocationPin} className="mr-1 text-green-600" />
-                      {trail.location}
+            {filteredTrails.map((trail, index) => (
+              <motion.div
+                key={trail.id}
+                className="overflow-hidden transition-all duration-300 ease-in-out bg-white rounded-lg shadow-lg hover:scale-105"
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                custom={index}
+              >
+                <div className="relative">
+                  <img
+                    src={trail.image}
+                    alt={`Image of the trail ${trail.name}`}
+                    className="object-cover w-full h-48 rounded-t-lg"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="mb-2 text-lg font-semibold text-gray-800">{trail.name}</h3>
+                  <p className="flex items-center mb-3 text-gray-500">
+                    <FontAwesomeIcon icon={faLocationPin} className="mr-1 text-green-600" />
+                    {trail.location}
+                  </p>
+                  <div className="flex items-center justify-between mb-4 text-md">
+                    <p className="font-semibold text-gray-600">
+                      {trail.traveltimeinday} Day & {trail.traveltimeinnight} Night
                     </p>
-                    <div className="flex items-center justify-between mb-4 text-md">
-                      <p className="font-semibold text-gray-600">
-                        {trail.traveltimeinday}Day & {trail.traveltimeinnight}Night
-                      </p>
-                      <p className="font-semibold text-red-600">Difficulty Level: {trail.difficulty}</p>
-                    </div>
-                    <Link
-                      to={`/trail/${trail.id}`}
-                      className="inline-block px-4 py-2 mt-4 text-white transition-all duration-300 bg-blue-500 rounded-lg hover:bg-blue-600"
-                    >
-                      View Details
-                    </Link>
+                    <p className="font-semibold text-red-600">Difficulty Level: {trail.difficulty}</p>
                   </div>
-                </motion.div>
-              ))
-            ) : (
-              <p className="text-center text-gray-600">No trails found.</p>
-            )}
+                  <Link
+                    to="/practise"
+                    className="inline-block px-4 py-2 mt-4 text-white transition-all duration-300 bg-blue-500 rounded-lg hover:bg-blue-600"
+                  >
+                    View Details
+                  </Link>
+                </div>
+              </motion.div>
+            ))}
           </div>
         )}
       </div>

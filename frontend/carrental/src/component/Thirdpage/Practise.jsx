@@ -4,12 +4,16 @@ import guide from '../../assets/guide.png'; // Correct import for guide image
 
 // Example hotel images (replace with actual URLs)
 const hotelPhotos = [
-  'https://example.com/hotel1.jpg',
-  'https://example.com/hotel2.jpg',
-  'https://example.com/hotel3.jpg',
-  'https://example.com/hotel4.jpg',
-  'https://example.com/hotel5.jpg',
-  'https://example.com/hotel6.jpg',
+  'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+  'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+  'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+
+  'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+
+  'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+
+  'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+
 ];
 
 // Recommended hotels
@@ -19,52 +23,58 @@ const recommendedHotels = [
     location: 'Near the Cable Car Station', 
     phone: '9876543210', 
     description: 'A perfect spot with beautiful views and comfortable rooms.', 
-    photo: 'https://example.com/photo1.jpg' 
+    photo:   'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+ 
   },
   { 
     name: 'Hotel Gorkha Inn', 
     location: 'Close to Main Trekking Routes', 
     phone: '9823456789', 
     description: 'Ideal for trekkers looking for a cozy rest stop.', 
-    photo: 'https://example.com/photo2.jpg' 
+    photo:   'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+ 
   },
   { 
     name: 'Himalayan View Hotel', 
     location: 'Short Drive from Base Camp', 
     phone: '9812345678', 
     description: 'Enjoy the magnificent Himalayan views from your window.', 
-    photo: 'https://example.com/photo3.jpg' 
+    photo:  'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+
   },
   { 
     name: 'Buddha Hotel and Restaurant', 
     location: 'In the Heart of the Village', 
     phone: '9801234567', 
     description: 'Great food, friendly service, and a central location.', 
-    photo: 'https://example.com/photo4.jpg' 
+    photo:   'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+
   },
   { 
     name: 'Rama Hotel', 
     location: 'Budget-Friendly Option', 
     phone: '9798765432', 
     description: 'Affordable and clean accommodations for budget travelers.', 
-    photo: 'https://example.com/photo5.jpg' 
+    photo:   'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
   },
+
   { 
     name: 'Green Palace Resort', 
     location: 'Peaceful Retreat', 
     phone: '9787654321', 
     description: 'Escape the hustle with a relaxing stay at our peaceful retreat.', 
-    photo: 'https://example.com/photo6.jpg' 
+    photo:  'https://images.travelandleisureasia.com/wp-content/uploads/sites/3/2023/12/29122025/pokhra.jpeg',
+ 
   },
 ];
 
 // Nearby places
 const nearbyPlaces = [
-  { name: 'Gorkha Durbar', district: 'Gorkha' },
-  { name: 'Taal Barahi Temple', district: 'Pokhara' },
-  { name: 'Bhimsen Thapa Palace', district: 'Gorkha' },
-  { name: 'Syangja District', district: 'Syangja' },
-  { name: 'Khadga Devi Temple', district: 'Syangja' },
+  { name: 'Gorkha Durbar', district: 'Gorkha' ,photo:'https://media.digitalnomads.world/wp-content/uploads/2021/07/20115822/kathmandu-digital-nomads.jpg'},
+  { name: 'Taal Barahi Temple', district: 'Pokhara' ,photo:'https://media.digitalnomads.world/wp-content/uploads/2021/07/20115822/kathmandu-digital-nomads.jpg'},
+  { name: 'Bhimsen Thapa Palace', district: 'Gorkha',photo:'https://media.digitalnomads.world/wp-content/uploads/2021/07/20115822/kathmandu-digital-nomads.jpg' },
+  { name: 'Syangja District', district: 'Syangja' ,photo:'https://media.digitalnomads.world/wp-content/uploads/2021/07/20115822/kathmandu-digital-nomads.jpg'},
+  { name: 'Khadga Devi Temple', district: 'Syangja',photo:'https://media.digitalnomads.world/wp-content/uploads/2021/07/20115822/kathmandu-digital-nomads.jpg' },
 ];
 
 // Temple information

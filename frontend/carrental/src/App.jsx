@@ -5,6 +5,7 @@ import Trails from './component/secondpage/Trails';
 import RouteDetails from './component/Thirdpage/RouteDetails';
 import Practise from './component/Thirdpage/Practise';
 import SearchBar from './component/firstpage/SearchBar';
+import Footer from './component/firstpage/Footer';
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/search" element={<SearchBar />} />
                 <Route path="/categories/:categoryId/trails" element={<MapOfNepal/>} /> 
                 <Route path="/category/:categoryId" component={MapOfNepal} /> 
+                <Route path='/footer' element={<Footer />} />
             </Routes>
         </BrowserRouter>
     );

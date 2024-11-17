@@ -1,58 +1,37 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchCategories } from '../Slice/CategorySlice';
-import hm from '../../assets/futurebg.png';
+// src/components/MapOfNepal.js
+import { useCategoryContext } from "../context/CategoryContext";
+import CategoryCard from "./CategoryCard";
+import hm from "../../assets/futurebg.png";
 
 const MapOfNepal = () => {
-  const dispatch = useDispatch();
-  const { data: categories, status, error } = useSelector((state) => state.categories.categories);
+  const { categories, isLoading, error } = useCategoryContext();
 
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
+  if (isLoading) {
+    return <div className="text-xl text-gray-700">Loading categories...</div>;
+  }
+
+  if (error) {
+    return <div className="text-xl text-red-600">Failed to load categories. Please try again.</div>;
+  }
 
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden bg-white">
-      <div 
-        className="absolute inset-0 z-0 bg-center"
-        style={{
-          backgroundImage: `url(${hm})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        {/* Title Section */}
+      <div className="absolute inset-0 z-0 bg-center bg-cover" style={{ backgroundImage: `url(${hm})` }}>
         <div className="relative z-10 flex flex-col items-center justify-center w-full p-8 text-center">
           <h2 className="text-5xl font-bold text-gray-700 md:text-8xl font-petemoss">Explore Nepal</h2>
         </div>
-
-        {/* Content */}
         <div className="relative z-10 w-full px-8 mt-12">
-          {/* Show loading or error states */}
-          {status === 'loading' && <p className="text-xl text-center text-gray-700">Loading...</p>}
-          {status === 'failed' && <p className="text-xl text-center text-red-500">Error: {error}</p>}
-          {status === 'succeeded' && (!categories || categories.length === 0) && <p className="text-xl text-center text-gray-700">No categories available.</p>}
-
-          {/* Show categories if data is available */}
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4">
-            {categories?.map((category) => (
-              <Link
-                key={category.id}
-                to={`/categories/${category.id}/trails`} // Pass category ID in the route
-                aria-label={`Explore ${category.name}`}
-              >
-                <div className="relative flex flex-col items-center justify-center w-40 h-40 transition-transform duration-300 ease-in-out bg-white rounded-full shadow-lg hover:scale-110">
-                  <img 
-                    src={category.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1Mruulf62N9f6S6KW5SDXa41tjDPBZ5-ZGQ&s'} 
-                    alt={category.name} 
-                    className="object-cover w-full h-full rounded-full" 
-                  />
-                </div>
-                <p className="mt-2 text-lg font-bold text-gray-700 md:text-xl">{category.name}</p>
-              </Link>
-            ))}
-          </div>
+          {categories.length === 0 ? (
+            <div className="text-center">
+              <p className="text-xl text-gray-700">No categories available right now. Check back later!</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
+              {categories.map((category) => (
+                <CategoryCard key={category.id} category={category} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
