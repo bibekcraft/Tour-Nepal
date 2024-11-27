@@ -9,37 +9,39 @@ const initialState = {
 };
 
 export const fetchCategories = createAsyncThunk(
-    'tourism/fetchCategories',
-    async () => {
-      try {
-        const res = await fetch('http://127.0.0.1:8000/categories/');
-        if (!res.ok) {
-          throw new Error('Failed to fetch categories');
-        }
-        return res.json();
-      } catch (error) {
-        throw new Error(error.message || 'Failed to fetch categories');
-      }
+  'tourism/fetchCategories',
+  async () => {
+    const res = await fetch('http://127.0.0.1:8000/categories/');
+    if (!res.ok) {
+      throw new Error('Failed to fetch categories');
     }
-  );
-  
-export const fetchTrails = createAsyncThunk(
-  'tourism/fetchTrails',
-  async (categoryId) => {
-    const res = await fetch(`http://127.0.0.1:8000/trails/${categoryId}/`);
     return res.json();
   }
 );
 
+export const fetchTrails = createAsyncThunk(
+  'tourism/fetchTrails',
+  async (id) => {
+    const res = await fetch(`http://127.0.0.1:8000/categories/${id}/trail-items/`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch trails');
+    }   
+    const data = await res.json();
+    return Array.isArray(data) ? data : [];
+  }
+);
+    
 export const fetchTrailDetails = createAsyncThunk(
   'tourism/fetchTrailDetails',
   async (trailId) => {
     const res = await fetch(`http://127.0.0.1:8000/trail-items/${trailId}/`);
+    if (!res.ok) {
+      throw new Error('Failed to fetch trail details');
+    }
     return res.json();
   }
 );
 
-// Slice
 const tourismSlice = createSlice({
   name: 'tourism',
   initialState,
@@ -82,5 +84,4 @@ const tourismSlice = createSlice({
   },
 });
 
-// Export the actions and the reducer
 export default tourismSlice.reducer;

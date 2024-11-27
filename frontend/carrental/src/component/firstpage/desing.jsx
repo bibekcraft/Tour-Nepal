@@ -123,7 +123,7 @@ const Design = () => {
             </div>
 
             {/* CSS Styles */}
-            <style jsx>{`
+            <style jsx ="true">{`
                 .fade-in {
                     opacity: 1;
                     transform: translateY(0);

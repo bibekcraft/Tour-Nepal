@@ -178,10 +178,10 @@ export default Design;
 //////////
 
 
-body{
-    margin: 0;
-    background-color: #020000;
-    color: #0f924c;
-    font-family: Poppins;
-    font-size: 12px;
-}
+// body{
+//     margin: 0;
+//     background-color: #020000;
+//     color: #0f924c;
+//     font-family: Poppins;
+//     font-size: 12px;
+// }

@@ -1,6 +1,14 @@
 import { FcOk } from "react-icons/fc";
 
+import { useState } from "react";
+
 function TopBar() {
+  const [selectedValue, setSelectedValue] = useState("");
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+  
   return (
     <div className="bg-gray-100 font-poppins">
       {/* Navbar */}
@@ -48,10 +56,10 @@ function TopBar() {
           <div className="flex flex-col w-1/3">
             <label className="text-sm font-semibold text-gray-700 uppercase">Destination</label>
             <select className="p-3 mt-2 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500">
-              <option>All</option>
-              <option>Destination 1</option>
-              <option>Destination 2</option>
-              {/* Add more options as needed */}
+<select value={selectedValue} onChange={handleChange}>
+  <option value="option1">Option 1</option>
+  <option value="option2">Option 2</option>
+</select>
             </select>
           </div>
 

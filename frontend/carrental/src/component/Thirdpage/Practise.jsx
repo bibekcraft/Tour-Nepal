@@ -153,7 +153,6 @@ export default function Manakamana() {
 
 
 
-      {/* Dashed Line with Arrow Section */}
       <div className="relative flex items-center justify-center my-16">
         <div className="absolute flex items-center justify-between w-full h-full">
           <div className="w-full h-px border-t-4 border-gray-400 border-dashed"></div>
