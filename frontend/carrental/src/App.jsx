@@ -5,6 +5,7 @@ import Trails from './component/secondpage/Trails';
 import Practise from './component/Thirdpage/Practise';
 import SearchBar from './component/firstpage/SearchBar';
 import Footer from './component/firstpage/Footer';
+import Bloginput from './component/blog/Bloginput';
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                 <Route path="/practise" element={<Practise />} />
                 <Route path="/search" element={<SearchBar />} />
                 <Route path='/footer' element={<Footer />} />
+                <Route path='/blog' element={<Bloginput />} />
             </Routes>
         </BrowserRouter>
     );

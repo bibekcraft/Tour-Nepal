@@ -2,20 +2,33 @@ import { FcOk } from "react-icons/fc";
 
 import { useState } from "react";
 
+const fetchData=async()=>{
+  const response = await fetch('http://127.0.0.1:8000/trail-items/');
+  if (!response.ok) {
+    throw new Error('Network reponse is not working ');
+  }
+  return response.json();
+
+}
+
+
+
 function TopBar() {
   const [selectedValue, setSelectedValue] = useState("");
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
+
   
   return (
     <div className="bg-gray-100 font-poppins">
       {/* Navbar */}
       <div className="flex items-center justify-between px-8 py-6 bg-white shadow-lg">
+        
         <div className="flex items-center space-x-4">
           <div className="w-12 h-12 bg-black rounded-full"></div>
-          <h1 className="text-4xl font-semibold text-gray-900">Urban Wheels</h1>
+          <h1 className="text-4xl font-semibold text-gray-900">Urban Visit</h1>
         </div>
         <div className="flex space-x-4">
           <button className="px-8 py-3 text-lg transition-all border border-black rounded-lg hover:bg-gray-200 focus:outline-none">

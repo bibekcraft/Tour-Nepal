@@ -96,7 +96,7 @@ const Trails = () => {
                   <p className="font-semibold text-red-600">Difficulty: {trail.difficulty}</p>
                 </div>
                 <Link
-                  to={`/trail/${trail.id}`}
+                  to={`/trail/${trail.id}/practise`}
                   className="inline-block px-4 py-2 mt-4 text-white transition-all duration-300 bg-blue-500 rounded-lg hover:bg-blue-600"
                 >
                   View Details
