@@ -1,49 +1,84 @@
 import np from '../../assets/np.png';
+import arrow from '../../assets/arrow.png';
 
 function Footer() {
   return (
-    <div className="py-10 text-white bg-black">
+    <>
       <div className="relative w-full h-64">
-        <img src={np} alt="Nepal" className="object-cover w-full h-full opacity-60" />
-        <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="absolute bottom-0 pb-5 text-center transform -translate-x-1/2 left-1/2">
-          <h2 className="text-3xl font-bold text-white">Explore Nepal with Us</h2>
-          <p className="mt-2 text-lg">The adventure of a lifetime awaits you. Start your journey today!</p>
-        </div>
-      </div>
-      <div className="container grid grid-cols-1 gap-10 mx-auto mt-10 text-center md:grid-cols-4">
-        <div>
-          <h3 className="text-xl font-semibold">About Us</h3>
-          <p className="mt-2 text-sm">Learn more about our services and how we bring the best tours to you.</p>
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold">Quick Links</h3>
-          <ul className="mt-2">
-            <li><a href="/about" className="text-sm hover:text-blue-400">About</a></li>
-            <li><a href="/contact" className="text-sm hover:text-blue-400">Contact</a></li>
-            <li><a href="/terms" className="text-sm hover:text-blue-400">Terms & Conditions</a></li>
-            <li><a href="/privacy" className="text-sm hover:text-blue-400">Privacy Policy</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold">Social Media</h3>
-          <div className="flex justify-center gap-4 mt-2">
-            <a href="https://facebook.com" className="text-sm hover:text-blue-400">Facebook</a>
-            <a href="https://twitter.com" className="text-sm hover:text-blue-400">Twitter</a>
-            <a href="https://instagram.com" className="text-sm hover:text-blue-400">Instagram</a>
+        <img
+          src={np}
+          alt="Nepal"
+          className="object-cover w-full h-full opacity-70"
+        />
+        <footer className="py-10 bg-gradient-to-t bg-lightGray">
+          <div className="container px-6 mx-auto md:px-12">
+            <div className="grid grid-cols-1 gap-8 text-left md:grid-cols-2 lg:grid-cols-4">
+              {/* Contacts Section */}
+              <div>
+                <h2 className="mb-4 font-serif text-2xl text-yellow-400">Contacts</h2>
+                <ul className="space-y-2 text-gray-300">
+                  <li className="transition duration-200 hover:text-yellow-300">Kathmandu, Nepal</li>
+                  <li className="transition duration-200 hover:text-yellow-300">Calltobibek@gmail.com</li>
+                  <li className="transition duration-200 hover:text-yellow-300">+977 9860056658</li>
+                </ul>
+              </div>
+
+              {/* Explore Section */}
+              <div>
+                <h2 className="mb-4 font-serif text-2xl text-yellow-400">Explore</h2>
+                <ul className="space-y-2 text-gray-300">
+                  <li className="transition duration-200 hover:text-yellow-300">Category</li>
+                  <li className="transition duration-200 hover:text-yellow-300">Feature</li>
+                  <li className="transition duration-200 hover:text-yellow-300">Search</li>
+                </ul>
+              </div>
+
+              {/* Company Section */}
+              <div>
+                <h2 className="mb-4 font-serif text-2xl text-yellow-400">Company</h2>
+                <p className="text-gray-300 transition duration-200 hover:text-yellow-300">
+                  The company is registered under Bibek Pandye.
+                </p>
+              </div>
+
+              {/* Help Center Section */}
+              <div>
+                <h2 className="mb-4 font-serif text-2xl text-yellow-400">Help Center</h2>
+                <ul className="space-y-2 text-gray-300">
+                  <li className="transition duration-200 hover:text-yellow-300">Contact</li>
+                  <li className="transition duration-200 hover:text-yellow-300">Terms & Conditions</li>
+                  <li className="hover:text-yellow-300 transition duration=200">Feedback</li>
+                  <li className="hover:text-yellow-300 transition duration=200">Join Our Team</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center mt-10 md:flex-row md:justify-between">
+              {/* Left Section */}
+              <div className="text-center md:text-left">
+                <p className="text-sm text-gray-400">
+                  &copy; {new Date().getFullYear()} Bibek Pandye. All rights reserved.
+                </p>
+              </div>
+
+              {/* Right Section with Arrows */}
+              <div className="flex mt-4 space-x-4 md:mt-0">
+                {Array(5)
+                  .fill(null)
+                  .map((_, index) => (
+                    <img
+                      key={index}
+                      src={arrow}
+                      alt={`Arrow ${index + 1}`}
+                      className="w-10 h-10 transition duration=200 ease-in-out transform hover:scale-[1.3] hover:rotate-[15deg]"
+                    />
+                  ))}
+              </div>
+            </div>
           </div>
-        </div>
-        <div>
-          <h3 className="text-xl font-semibold">Newsletter</h3>
-          <p className="mt-2 text-sm">Stay updated with the latest offers and news.</p>
-          <input type="email" placeholder="Enter your email" className="p-2 mt-2 text-black rounded" />
-          <button className="px-4 py-2 mt-2 text-white bg-blue-500 rounded">Subscribe</button>
-        </div>
+        </footer>
       </div>
-      <div className="mt-10 text-center">
-        <p className="text-sm">© 2024 Explore Nepal. All rights reserved.</p>
-      </div>
-    </div>
+    </>
   );
 }
 

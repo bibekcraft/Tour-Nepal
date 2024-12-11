@@ -22,7 +22,6 @@ const Bloginput = () => {
       </div>
       <div className="grid gap-12 md:grid-cols-3">
 
-        {/* Blog Post 1 */}
         <div className="overflow-hidden bg-white rounded-lg shadow-lg">
           <img 
             className="object-cover w-full h-64" 

@@ -7,6 +7,9 @@ export default {
   
   theme: {
     extend: {
+      colors:{
+        lightGray: '#F4F4F4',
+      },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
