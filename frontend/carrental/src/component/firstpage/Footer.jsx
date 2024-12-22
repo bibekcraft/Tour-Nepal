@@ -20,9 +20,9 @@ function Footer() {
               <div>
                 <h2 className="mb-4 font-serif text-2xl text-green-800">Contacts</h2>
                 <ul className="space-y-2 text-gray-600">
-                  <li className="transition duration-200 hover:text-green-300">Kathmandu, Nepal</li>
-                  <li className="transition duration-200 hover:text-green-300">Calltobibek@gmail.com</li>
-                  <li className="transition duration-200 hover:text-green-300">+977 9860056658</li>
+                  <li className="transition duration-200 ">Kathmandu, Nepal</li>
+                  <li className="transition duration-200 ">Calltobibek@gmail.com</li>
+                  <li className="transition duration-200 ">+977 9860056658</li>
                 </ul>
               </div>
 
@@ -30,16 +30,16 @@ function Footer() {
               <div>
                 <h2 className="mb-4 font-serif text-2xl text-green-800">Explore</h2>
                 <ul className="space-y-2 text-gray-600">
-                  <li className="transition duration-200 hover:text-green-300">Category</li>
-                  <li className="transition duration-200 hover:text-green-300">Feature</li>
-                  <li className="transition duration-200 hover:text-green-300">Search</li>
+                  <li className="transition duration-200 ">Category</li>
+                  <li className="transition duration-200 ">Feature</li>
+                  <li className="transition duration-200 =">Search</li>
                 </ul>
               </div>
 
               {/* Company Section */}
               <div>
                 <h2 className="mb-4 font-serif text-2xl text-green-800">Company</h2>
-                <p className="text-gray-600 transition duration-200 hover:text-green-300">
+                <p className="text-gray-600 transition duration-200 ">
                   The company is registered under Bibek Pandye.
                 </p>
               </div>
@@ -48,10 +48,10 @@ function Footer() {
               <div>
                 <h2 className="mb-4 font-serif text-2xl text-green-800">Help Center</h2>
                 <ul className="space-y-2 text-gray-600">
-                  <li className="transition duration-200 hover:text-green-300">Contact</li>
-                  <li className="transition duration-200 hover:text-green-300">Terms & Conditions</li>
-                  <li className="transition duration-200 hover:text-green-300">Feedback</li>
-                  <li className="transition duration-200 hover:text-green-300">Join Our Team</li>
+                  <li className="transition duration-200">Contact</li>
+                  <li className="transition duration-200">Terms & Conditions</li>
+                  <li className="transition duration-200">Feedback</li>
+                  <li className="transition duration-200">Join Our Team</li>
                 </ul>
               </div>
             </div>
