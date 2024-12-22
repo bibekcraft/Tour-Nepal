@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import Home from './component/routing/Home';
+import Home from './component/routing/Home'
 import Why from './new/Why';
 import MapOfNepal from './component/firstpage/MapofNepal'; 
 import Trails from './component/secondpage/Trails';
@@ -11,11 +12,12 @@ import TrendingDestinations from './new/TrendingDestinations'
 import Populartour from './new/Populartour';
 import Crausel from './new/Crausel'
 import Popularthingtodo from './new/Popularthingtodo';
+import DsnCrausel from './new/DsnCrausel'
 function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* <Route path="/" element={<Home />} /> */}
+                <Route path="/" element={<Home />} />
                 <Route path="/categories/:id" element={<MapOfNepal />} /> 
                 <Route path="/categories/:categoryId/trails" element={<Trails />} />
                 <Route path="/trail/:id" element={<Trails />} />
@@ -29,6 +31,7 @@ function App() {
 
                 <Route path='/crausels' element={<Crausel />} />
                 <Route path='/Popularthingtodo' element={<Popularthingtodo/>} />
+                <Route path='/DsnCrausel' element={<DsnCrausel/>} />
 
                 {/* <Route path='/home' element={<Home/>}></Route> */}
             </Routes>

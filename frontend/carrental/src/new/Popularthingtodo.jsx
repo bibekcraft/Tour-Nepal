@@ -3,7 +3,7 @@ import React from 'react';
 function Popularthingtodo() {
   return (
     <>
-      <div className="flex flex-col w-7/12 mx-auto rounded-lg mt-11">
+      <div className="flex flex-col w-7/12 mx-auto bg-gray-100 rounded-lg mt-11">
         {/* Top Section */}
         <div className="flex h-72">
           {/* Left Section */}

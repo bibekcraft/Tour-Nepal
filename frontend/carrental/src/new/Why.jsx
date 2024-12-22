@@ -2,7 +2,7 @@ import { FaCar, FaUmbrellaBeach, FaHiking, FaHotel } from 'react-icons/fa';  // 
 
 function Why() {
   return (
-    <div className="my-8 text-center">
+    <div className="my-8 text-center ">
       <p className="mb-6 text-2xl font-bold text--800">
         Why Choose Us!
       </p>

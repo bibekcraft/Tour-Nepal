@@ -4,6 +4,8 @@ import Design from "../firstpage/desing"
 import Features from "../firstpage/Feature"
 import MapofNepal from "../firstpage/MapofNepal"
 import Footer from '../firstpage/Footer'
+import Popularthingtodo from '../../new/Popularthingtodo'
+import Why from '../../new/Why'
 // import NepalTitle from "../firstpage/NepalTitle"
 // import Footer from "../firstpage/Footer"
 function Home() {
@@ -13,6 +15,8 @@ function Home() {
         <Design />
         <Features />
         <MapofNepal />
+        <Why/>
+        <Popularthingtodo/>
         <Footer />
         {/* <NepalTitle /> */}
         {/* <Place /> */}

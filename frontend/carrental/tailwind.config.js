@@ -9,6 +9,7 @@ export default {
     extend: {
       colors:{
         lightGray: '#F4F4F4',
+        lightpurple:'#4A43C4',
       },
       keyframes: {
         fadeIn: {
