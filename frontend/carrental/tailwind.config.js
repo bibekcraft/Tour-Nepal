@@ -10,6 +10,9 @@ export default {
       colors:{
         lightGray: '#F4F4F4',
         lightpurple:'#4A43C4',
+        orange:'#EB662B',
+        main:'#F7F7F9',
+        next:'#FCFCFD',
       },
       keyframes: {
         fadeIn: {

@@ -5,7 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationPin } from '@fortawesome/free-solid-svg-icons';
 import { Link, useParams } from 'react-router-dom';
 import SearchBar from '../firstpage/SearchBar';
-
+import Footer from '../firstpage/Footer';
+import Why from '../../new/Why';
+// import Popularthingtodo from '../../new/Popularthingtodo';
 const Trails = () => {
   const [trails, setTrails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -105,7 +107,10 @@ const Trails = () => {
             </motion.div>
           ))}
       </div>
-    </div>
+      <Why/>
+        {/* <Popularthingtodo/> */}
+        <Footer />
+            </div>
   );
 };
 
