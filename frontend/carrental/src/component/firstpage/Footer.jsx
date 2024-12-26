@@ -7,13 +7,13 @@ import linkedinIcon from '../../assets/linkedin.png'; // Add the LinkedIn icon
 function Footer() {
   return (
     <>
-      <div className="relative w-full h-64 bg-next">
+      <div className="relative w-full h-64 ">
         <img
           src={np}
           alt="Nepal"
           className="object-cover w-full h-full opacity-70"
         />
-        <footer className="py-10 bg-gray-200">
+        <footer className="py-10 bg-main">
           <div className="container px-6 mx-auto md:px-12">
             <div className="grid grid-cols-1 gap-8 text-left md:grid-cols-2 lg:grid-cols-4">
               {/* Contacts Section */}
