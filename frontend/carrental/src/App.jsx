@@ -14,6 +14,7 @@ import Crausel from './new/Crausel'
 import Popularthingtodo from './new/Popularthingtodo';
 import DsnCrausel from './new/DsnCrausel'
 import PhuketTours from '../src/secondpage/PhuketTours'
+import Details from '../src/secondpage/Details'
 function App() {
     return (
         <BrowserRouter>
@@ -35,6 +36,9 @@ function App() {
                 <Route path='/DsnCrausel' element={<DsnCrausel/>} />
 
                 <Route path='/PhuketTours' element={<PhuketTours/>} />  
+                <Route path='/Details' element={<Details/>} />
+
+
 
                 {/* <Route path='/home' element={<Home/>}></Route> */}
             </Routes>
