@@ -49,7 +49,7 @@ function PhuketTours() {
                     src="https://images.squarespace-cdn.com/content/v1/609d3f1781f4a87463f238cb/1692302796055-97BM3S7YLYKRR1DEI2DS/image-asset.jpeg"
                     alt="Phi Phi Islands"
                   />
-                  <span className="absolute p-3 text-xs font-semibold text-white bg-orange-500 rounded top-2 left-2 bg-orange">
+                  <span className="absolute p-3 text-xs font-semibold text-white bg-orange-500 bg-green-700 rounded top-2 left-2">
                     Difficulty
                   </span>
                 </div>
@@ -97,7 +97,7 @@ function PhuketTours() {
                     src="https://images.squarespace-cdn.com/content/v1/609d3f1781f4a87463f238cb/1692302796055-97BM3S7YLYKRR1DEI2DS/image-asset.jpeg"
                     alt="Phi Phi Islands"
                   />
-                  <span className="absolute p-3 text-xs font-semibold text-white bg-orange-500 rounded top-2 left-2 bg-orange">
+                  <span className="absolute p-3 text-xs font-semibold text-white bg-orange-500 bg-green-700 rounded top-2 left-2">
                     Difficulty
                   </span>
                 </div>
@@ -145,7 +145,7 @@ function PhuketTours() {
                     src="https://images.squarespace-cdn.com/content/v1/609d3f1781f4a87463f238cb/1692302796055-97BM3S7YLYKRR1DEI2DS/image-asset.jpeg"
                     alt="Phi Phi Islands"
                   />
-                  <span className="absolute p-3 text-xs font-semibold text-white bg-orange-500 rounded top-2 left-2 bg-orange">
+                  <span className="absolute p-3 text-xs font-semibold text-white bg-orange-500 bg-green-700 rounded top-2 left-2">
                     Difficulty
                   </span>
                 </div>

@@ -1,19 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import Home from './component/routing/Home';
-import Home from './component/routing/Home'
-import Why from './new/Why';
+import Home from './component/routing/Home';
 import MapOfNepal from './component/firstpage/MapofNepal'; 
 import Trails from './component/secondpage/Trails';
 import Practise from './component/Thirdpage/Practise';
 import SearchBar from './component/firstpage/SearchBar';
 import Footer from './component/firstpage/Footer';
-import TrendingDestinations from './new/TrendingDestinations'
-import Populartour from './new/Populartour';
-import Crausel from './new/Crausel'
-import Popularthingtodo from './new/Popularthingtodo';
-import DsnCrausel from './new/DsnCrausel'
-import PhuketTours from '../src/secondpage/PhuketTours'
-import Details from '../src/secondpage/Details'
+import PhuketTours from './secondpage/PhuketTours';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Corrected import
+
 function App() {
     return (
         <BrowserRouter>
@@ -25,20 +18,10 @@ function App() {
                 <Route path="/practise" element={<Practise />} />
                 <Route path="/search" element={<SearchBar />} />
                 <Route path='/footer' element={<Footer />} />
-                <Route path='/why' element={<Why/>} />
-                <Route path='/TrendingDestinations' element={<TrendingDestinations/>} />
-                <Route path='/Populartour' element={<Populartour/>} />
-
-                <Route path='/crausels' element={<Crausel />} />
-                <Route path='/Popularthingtodo' element={<Popularthingtodo/>} />
-                <Route path='/DsnCrausel' element={<DsnCrausel/>} />
-
-                <Route path='/PhuketTours' element={<PhuketTours/>} />  
-                <Route path='/Details' element={<Details/>} />
+                <Route path='/trails' element={<PhuketTours />} />
 
 
 
-                {/* <Route path='/home' element={<Home/>}></Route> */}
             </Routes>
         </BrowserRouter>
     );
