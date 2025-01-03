@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Footer from "../component/firstpage/Footer";
 // import SearchBar from "../component/firstpage/SearchBar";
 function PhuketTours() {
@@ -17,30 +18,30 @@ function PhuketTours() {
               <p className="flex items-center justify-center w-full h-32 mx-auto text-white rounded-t-lg bg-orange">
                 When to when travel
               </p>
-              <div className="flex items-center justify-center mt-4 ">Tour Type </div>
+              <div className="flex items-center justify-center mt-4 ">
+                Tour Type{" "}
+              </div>
               <div className="flex flex-col ml-3">
-  <label>
-    <input type="checkbox" /> Temple
-  </label>
-  <label>
-    <input type="checkbox" /> Adventure
-  </label>
-  <label>
-    <input type="checkbox" /> National Park
-  </label>
-  <label>
-    <input type="checkbox" /> Geographical Regions
-  </label>
-</div>
-    
-</div>
+                <label>
+                  <input type="checkbox" /> Temple
+                </label>
+                <label>
+                  <input type="checkbox" /> Adventure
+                </label>
+                <label>
+                  <input type="checkbox" /> National Park
+                </label>
+                <label>
+                  <input type="checkbox" /> Geographical Regions
+                </label>
+              </div>
+            </div>
 
             <div className="ml-2"></div>
           </div>
 
           {/* MAIN CONTENT */}
           <div className="w-4/5 h-screen p-4 overflow-y-scroll bg-white rounded-lg">
-
             <div className="max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-md mb-9">
               <div className="flex">
                 <div className="relative flex-shrink-0 w-1/3">
@@ -177,16 +178,16 @@ function PhuketTours() {
                     </div>
 
                     <div className="flex-grow"></div>
-
-                    <button className="w-auto h-10 mt-10 font-semibold border-2 rounded-lg text-orange border-orange">
-                      Show Details
-                    </button>
+                    <Link to="/details">
+                      <button className="w-auto h-10 mt-10 font-semibold border-2 rounded-lg text-orange border-orange">
+                        Show Details
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
         </div>
         <Footer />
       </div>

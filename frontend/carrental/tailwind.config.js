@@ -10,7 +10,7 @@ export default {
       colors:{
         lightGray: '#F4F4F4',
         lightpurple:'#4A43C4',
-        orange:'#EB662B',
+        orange:'#166534',
         main:'#F2F2F2',
         next:'#FCFCFD',
       },
