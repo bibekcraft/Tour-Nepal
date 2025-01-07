@@ -83,9 +83,12 @@ function PhuketTours() {
 
                     <div className="flex-grow"></div>
 
+                    <Link to='/details'>
                     <button className="w-auto h-10 mt-10 font-semibold border-2 rounded-lg text-orange border-orange">
                       Show Details
                     </button>
+                    </Link>
+                    
                   </div>
                 </div>
               </div>
