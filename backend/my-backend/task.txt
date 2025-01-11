@@ -14,3 +14,7 @@ POST /user/ = create new user
 PATCH/USER/1 = EDIT THE USER WITH ID 1
 
 DELETE/USER/1= DELETE THE USER WITH ID 1
+
+
+
+///npm run  test
