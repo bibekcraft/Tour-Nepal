@@ -128,10 +128,10 @@ const Navbar = () => {
               Blogs
             </a>
             <a
-              href="/profile"
+              href="/ViewBlog"
               className="block font-medium text-gray-600 transition hover:text-blue-600"
             >
-              Profile
+              View Blogs
             </a>
             <div className="mt-3 space-y-2">
 

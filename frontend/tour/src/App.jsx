@@ -10,6 +10,7 @@ import Navbar from '../src/nav/Navbar';
 import Blog from './nav/Blog';
 import Login from './component/auth/Login';
 import Register from './component/auth/Register';
+import ViewBlog from './nav/ViewBlog';
 function App() {
     return (
         <BrowserRouter>
@@ -26,6 +27,7 @@ function App() {
                 <Route path='/blogs' element={<Blog />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />
+                <Route path='/ViewBlog' element={<ViewBlog/>} />
 
 
 
