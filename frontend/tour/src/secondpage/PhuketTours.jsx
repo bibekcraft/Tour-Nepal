@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import Footer from "../component/firstpage/Footer";
-// import SearchBar from "../component/firstpage/SearchBar";
+import Navbar from "../nav/Navbar"
 function PhuketTours() {
   return (
+    
     <>
+    <Navbar/>
       <div className="w-full h-full bg-white ">
-        {/* <SearchBar /> */}
+
         <div className="flex w-4/5 h-20 p-6 mx-auto mt-5 bg-white rounded-lg">
           <div className="flex items-center justify-between w-full">
             <h1>Home / Category / Nepal</h1>

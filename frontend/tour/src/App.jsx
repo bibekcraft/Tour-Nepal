@@ -5,8 +5,11 @@ import SearchBar from './component/firstpage/SearchBar';
 import Footer from './component/firstpage/Footer';
 import PhuketTours from './secondpage/PhuketTours';
 import Details from '../src/component/ThirdPage/Details'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'; // Corrected import
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
+import Navbar from '../src/nav/Navbar';
+import Blog from './nav/Blog';
+import Login from './component/auth/Login';
+import Register from './component/auth/Register';
 function App() {
     return (
         <BrowserRouter>
@@ -19,6 +22,12 @@ function App() {
                 <Route path='/footer' element={<Footer />} />
                 <Route path='/trails' element={<PhuketTours />} />
                 <Route path='/details' element={<Details />} />
+                <Route path='/navbar' element={<Navbar/>} />
+                <Route path='/blogs' element={<Blog />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/register' element={<Register />} />
+
+
 
 
 
