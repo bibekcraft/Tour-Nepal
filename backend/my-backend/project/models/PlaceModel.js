@@ -1,27 +1,36 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('postgres://username:password@localhost:5432/tourismDB');  
+const mongoose = require('mongoose');
 
-const Place = sequelize.define('Place', {
+const placeSchema = new mongoose.Schema({
   name: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true,
   },
-  image: {
-    type: DataTypes.STRING,
-    allowNull: false
+  difficulty_Level: {
+    type: String,
+    enum: ['easy', 'medium', 'hard'],
+    required: true,
   },
-  daytravel: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+  dayTravelTime: {
+    type: String,
+    required: true,
   },
-  nighttravel: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+  nightTravelTime: {
+    type: String,
+    required: true,
   },
-  TotalTime: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  }
+  shortDescription: {
+    type: String,
+    required: true,
+  },
+  photo: {
+    type: String,
+    required: true,
+  },
+  categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
 });
 
-module.exports = Place;
+module.exports = mongoose.model('Place', placeSchema);

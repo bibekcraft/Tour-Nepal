@@ -1,96 +1,71 @@
-const express = require("express");
-const Category = require("./models/Category"); // Assuming your model is in a folder named 'models'
-const { Sequelize } = require("sequelize");
+// routes/categoryRoutes.js
+const express = require('express');
+const Category = require('../models/Category');
 
-// Initialize Express app
-const app = express();
-const PORT = 8001;
+const router = express.Router();
 
-// Middleware to parse JSON
-app.use(express.json());
-
-// Establish database connection
-const sequelize = new Sequelize('postgres://username:password@localhost:5432/tourismDB');
-
-// Route: Get all categories
-app.get("/categories", async (req, res) => {
-    try {
-        const categories = await Category.findAll();
-        res.status(200).json(categories);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+// Get all categories
+router.get('/', async (req, res) => {
+  try {
+    const categories = await Category.find();
+    res.status(200).json(categories);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Route: Get a single category by ID
-app.get("/categories/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const category = await Category.findByPk(id);
-        if (!category) {
-            return res.status(404).json({ message: "Category not found" });
-        }
-        res.status(200).json(category);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+// Get category by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const category = await Category.findById(req.params.id);
+    if (!category) {
+      return res.status(404).json({ message: 'Category not found' });
     }
+    res.status(200).json(category);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Route: Create a new category
-app.post("/categories", async (req, res) => {
-    try {
-        const { name, image } = req.body;
-        if (!name || !image) {
-            return res.status(400).json({ message: "Name and image are required" });
-        }
-        const newCategory = await Category.create({ name, image });
-        res.status(201).json(newCategory);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+// Create a new category
+router.post('/', async (req, res) => {
+  try {
+    const newCategory = new Category(req.body);
+    await newCategory.save();
+    res.status(201).json(newCategory);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Route: Update a category by ID
-app.put("/categories/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { name, image } = req.body;
-        const category = await Category.findByPk(id);
-        if (!category) {
-            return res.status(404).json({ message: "Category not found" });
-        }
-        category.name = name || category.name;
-        category.image = image || category.image;
-        await category.save();
-        res.status(200).json(category);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+// Update category by ID
+router.put('/:id', async (req, res) => {
+  try {
+    const updatedCategory = await Category.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!updatedCategory) {
+      return res.status(404).json({ message: 'Category not found' });
     }
+    res.status(200).json(updatedCategory);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Route: Delete a category by ID
-app.delete("/categories/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const category = await Category.findByPk(id);
-        if (!category) {
-            return res.status(404).json({ message: "Category not found" });
-        }
-        await category.destroy();
-        res.status(204).send(); // Send no content on successful deletion
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+// Delete category by ID
+router.delete('/:id', async (req, res) => {
+  try {
+    const deletedCategory = await Category.findByIdAndDelete(req.params.id);
+    if (!deletedCategory) {
+      return res.status(404).json({ message: 'Category not found' });
     }
+    res.status(200).json({ message: 'Category deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
-// Sync the database and start the server
-sequelize
-    .authenticate()
-    .then(async () => {
-        console.log("Database connected...");
-        await Category.sync(); // Synchronizes the model with the database
-        app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-    })
-    .catch((error) => {
-        console.error("Unable to connect to the database:", error.message);
-    });
+module.exports = router;

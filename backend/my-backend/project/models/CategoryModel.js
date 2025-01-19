@@ -1,15 +1,16 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('postgres://username:password@localhost:5432/tourismDB');  
+const mongoose = require('mongoose');
 
-const Category=sequelize.define('Category',{
-    name:{
-        type:DataTypes.STRING,
-        allowNull:false
-    },
-    image:{
-        type:DataTypes.STRING,
-        allowNull:false
-    }
+const categorySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Category name is required'],
+    unique: true,
+    trim: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-})
-module.exports=Category;
+module.exports = mongoose.model('Category', categorySchema);

@@ -1,103 +1,105 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('postgres://username:password@localhost:5432/tourismDB');  
+const mongoose = require('mongoose');
 
-const Details = sequelize.define('Details', {
+const detailsSchema = new mongoose.Schema({
+  placeId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Place',
+    required: true,
+  },
   image1: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true,
   },
   image2: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true,
   },
   image3: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true,
   },
   image4: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true,
   },
   image5: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true,
   },
-  Difficulty: {
-    type: DataTypes.STRING,
-    allowNull: false
+  difficulty: {
+    type: String,
+    required: true,
   },
-  Travel:{
-  daytravel: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+  travel: {
+    daytravel: {
+      type: String,
+      required: true,
+    },
+    nighttravel: {
+      type: String,
+      required: true,
+    },
   },
-  nighttravel: {
-    type: DataTypes.INTEGER,
-    allowNull: false
-  }}
-  ,
   location: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true,
   },
-  Overview: {
-    type: DataTypes.STRING
+  overview: {
+    type: String,
   },
-  TourHighlights: { 
-    type: DataTypes.STRING
+  tourHighlights: {
+    type: String,
   },
-  WhatIncluded: {
-    type: DataTypes.STRING
+  whatIncluded: {
+    type: String,
   },
-  Itinary: {
-    type: DataTypes.STRING
+  itinerary: {
+    type: String,
   },
   mapImage: {
-    type: DataTypes.STRING
+    type: String,
   },
-  Recommendedplace: {
+  recommendedPlace: {
     title: {
-      type: DataTypes.STRING
+      type: String,
     },
     description: {
-      type: DataTypes.STRING
+      type: String,
     },
     image: {
-      type: DataTypes.STRING
-    }
+      type: String,
+    },
   },
-  RecommendedFood: {
+  recommendedFood: {
     title: {
-      type: DataTypes.STRING
+      type: String,
     },
     description: {
-      type: DataTypes.STRING
+      type: String,
     },
     image: {
-      type: DataTypes.STRING
-    }
+      type: String,
+    },
   },
-  RecommendedGuide: {
+  recommendedGuide: {
     title: {
-      type: DataTypes.STRING
+      type: String,
     },
     description: {
-      type: DataTypes.STRING
+      type: String,
     },
     image: {
-      type: DataTypes.STRING
-    }
+      type: String,
+    },
   },
   faq: {
     question: {
-      type: DataTypes.STRING
+      type: String,
     },
     answer: {
-      type: DataTypes.STRING
-    }
-  }
-}, {
-  // Define any necessary options here
+      type: String,
+    },
+  },
 });
 
-module.exports = Details;
+module.exports = mongoose.model('Details', detailsSchema);
