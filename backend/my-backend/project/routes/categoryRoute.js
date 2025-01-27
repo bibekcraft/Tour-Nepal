@@ -14,18 +14,18 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get category by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const category = await Category.findById(req.params.id);
-    if (!category) {
-      return res.status(404).json({ message: 'Category not found' });
+  // Get category by ID
+  router.get('/:id', async (req, res) => {
+    try {
+      const category = await Category.findById(req.params.id);
+      if (!category) {
+        return res.status(404).json({ message: 'Category not found' });
+      }
+      res.status(200).json(category);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
     }
-    res.status(200).json(category);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+  });
 
 // Create a new category
 router.post('/', async (req, res) => {

@@ -95,3 +95,32 @@ exports.deletePlace = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+export const createPlaceController = async (req, res) => {
+  try {
+    const { categoryId } = req.body;
+    const category = await Category.findById(categoryId);
+    if (!category) {
+      return res.status(404).json({ message: 'Category not found' });
+    }
+
+    const newPlace = new Place(req.body);
+    await newPlace.save();
+    res.status(201).json(newPlace);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+export const  getPlaceByID=async (req, res) => {
+  try {
+    const place = await Place.findById(req.params.id).populate('categoryId', 'name');
+    if (!place) {
+      return res.status(404).json({ message: 'Place not found' });
+    }
+    res.status(200).json(place);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}

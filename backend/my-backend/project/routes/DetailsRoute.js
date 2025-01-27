@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 // Get details by place ID
 router.get('/:id', async (req, res) => {
   try {
-    const details = await Details.findOne({ placeId: req.params.id }).populate('placeId', 'name');
+    const details = await Details``.findOne({ placeId: req.params.id }).populate('placeId', 'name');
     if (!details) {
       return res.status(404).json({ message: 'Details not found' });
     }

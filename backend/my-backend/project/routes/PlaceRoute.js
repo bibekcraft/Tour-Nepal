@@ -2,6 +2,7 @@
 const express = require('express');
 const Place = require('../models/Place');
 const Category = require('../models/Category');
+const { createPlaceController, getPlaceByID } = require('../controller/placeController');
 
 const router = express.Router();
 
@@ -16,34 +17,12 @@ router.get('/', async (req, res) => {
 });
 
 // Get place by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const place = await Place.findById(req.params.id).populate('categoryId', 'name');
-    if (!place) {
-      return res.status(404).json({ message: 'Place not found' });
-    }
-    res.status(200).json(place);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+router.get('/:id',getPlaceByID );
 
 // Create a new place
-router.post('/', async (req, res) => {
-  try {
-    const { categoryId } = req.body;
-    const category = await Category.findById(categoryId);
-    if (!category) {
-      return res.status(404).json({ message: 'Category not found' });
-    }
+router.post('/', createPlaceController);
 
-    const newPlace = new Place(req.body);
-    await newPlace.save();
-    res.status(201).json(newPlace);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+
 
 // Update place by ID
 router.put('/:id', async (req, res) => {
