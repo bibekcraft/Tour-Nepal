@@ -3,34 +3,22 @@ const mongoose = require('mongoose');
 const placeSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: true
   },
-  difficulty_Level: {
+  location: {
     type: String,
-    enum: ['easy', 'medium', 'hard'],
-    required: true,
+    required: true
   },
-  dayTravelTime: {
-    type: String,
-    required: true,
+  description: {
+    type: String
   },
-  nightTravelTime: {
-    type: String,
-    required: true,
-  },
-  shortDescription: {
-    type: String,
-    required: true,
-  },
-  photo: {
-    type: String,
-    required: true,
-  },
-  categoryId: {
+  category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
-    required: true,
-  },
+    required: true
+  }
 });
 
-module.exports = mongoose.model('Place', placeSchema);
+const Place = mongoose.model('Place', placeSchema);
+
+module.exports = Place;

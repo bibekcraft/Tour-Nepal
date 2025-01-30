@@ -1,37 +1,34 @@
-const express = require("express");
-const users = require("./project/MOCK_DATA.json");
+const express = require('express');
+const mongoose = require('mongoose');
+const categoryRoutes = require('./project/routes/CategoryRoute');
+const detailsRoutes = require('./project/routes/DetailsRoute');
+const placeRoutes = require('./project/routes/PlaceRoute');
+
 const app = express();
-const PORT = 8001;
 
-// Return full users' JSON data
-app.get('/users', (req, res) => {
-    return res.json(users);
+// Middleware
+app.use(express.json());  // Use express built-in JSON middleware
+
+// Routes
+app.use('/api/categories', categoryRoutes);
+app.use('/api/details', detailsRoutes);
+app.use('/api/places', placeRoutes);
+
+// MongoDB connection string
+const mongoURI = 'mongodb://localhost:27017/tourism_db';  // Replace with your actual database name
+
+// Connecting to MongoDB
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('MongoDB connected');
+    app.listen(5000, () => console.log('Server running on port 5000'));
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send({ message: 'Something went wrong!' });
 });
-
-// Return user by id
-app.get('/users/:id', (req, res) => {
-    const id = parseInt(req.params.id, 10);  // Ensure id is treated as an integer
-    const user = users.find((user) => user.id === id);
-    
-    if (!user) {
-        return res.status(404).json({ message: "User not found" });
-    }
-
-    return res.json(user);
-});
-app.post('api/users',(req,res)=>{
-    ///to create new user
-    return res.json({status:"pending"});
-})
-app.patch('api/users/:id',(req,res)=>{
-    ///to edit new user
-    return res.json({status:"pending"});
-})
-
-app.post('api/users/:id',(req,res)=>{
-    ///to delete new user   
-    return res.json ({status:"deleted"});
-})
-
-
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

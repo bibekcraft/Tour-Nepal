@@ -1,105 +1,50 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const detailsSchema = new mongoose.Schema({
-  placeId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Place',
-    required: true,
-  },
-  image1: {
-    type: String,
-    required: true,
-  },
-  image2: {
-    type: String,
-    required: true,
-  },
-  image3: {
-    type: String,
-    required: true,
-  },
-  image4: {
-    type: String,
-    required: true,
-  },
-  image5: {
-    type: String,
-    required: true,
-  },
-  difficulty: {
-    type: String,
-    required: true,
-  },
-  travel: {
-    daytravel: {
-      type: String,
-      required: true,
+const DetailsSchema = new mongoose.Schema({
+  images: [{ type: String, required: true }], // Array of image URLs (1 to 5 or more)
+  name: { type: String, required: true },
+  location: { type: String, required: true },
+  difficulty: { type: String, enum: ["Easy", "Medium", "Hard"], required: true },
+  duration: { type: String, required: true },
+  tour_overview: { type: String, required: true },
+  tour_highlights: [{ type: String, required: true }], // Array of tour highlights
+  whats_included: [{ type: String, required: true }], // Array of included items
+  itinerary: [
+    {
+      day: { type: Number, required: true },
+      title: { type: String, required: true },
+      description: { type: String, required: true },
     },
-    nighttravel: {
-      type: String,
-      required: true,
+  ],
+  map: { type: String, required: true }, // URL for the map image
+  recommendations: [
+    {
+      image: { type: String, required: true },
+      title: { type: String, required: true },
+      description: { type: String, required: true },
     },
-  },
-  location: {
-    type: String,
-    required: true,
-  },
-  overview: {
-    type: String,
-  },
-  tourHighlights: {
-    type: String,
-  },
-  whatIncluded: {
-    type: String,
-  },
-  itinerary: {
-    type: String,
-  },
-  mapImage: {
-    type: String,
-  },
-  recommendedPlace: {
-    title: {
-      type: String,
+  ],
+  must_try_food: [
+    {
+      title: { type: String, required: true },
+      description: { type: String, required: true },
     },
-    description: {
-      type: String,
+  ],
+  recommended_guides: [
+    {
+      name: { type: String, required: true },
+      experience: { type: String, required: true },
+      contact: { type: String, required: true },
     },
-    image: {
-      type: String,
+  ],
+  faqs: [
+    {
+      question: { type: String, required: true },
+      answer: { type: String, required: true },
     },
-  },
-  recommendedFood: {
-    title: {
-      type: String,
-    },
-    description: {
-      type: String,
-    },
-    image: {
-      type: String,
-    },
-  },
-  recommendedGuide: {
-    title: {
-      type: String,
-    },
-    description: {
-      type: String,
-    },
-    image: {
-      type: String,
-    },
-  },
-  faq: {
-    question: {
-      type: String,
-    },
-    answer: {
-      type: String,
-    },
-  },
+  ],
 });
 
-module.exports = mongoose.model('Details', detailsSchema);
+const DetailsModel = mongoose.model("DetailsModel", DetailsSchema);
+
+module.exports = DetailsModel;
