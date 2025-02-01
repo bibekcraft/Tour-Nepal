@@ -1,60 +1,113 @@
-const mongoose = require("mongoose");
+const DetailsModel = require('../models/DetailsModel');
 
-const DetailsSchema = new mongoose.Schema({
-  images: [{ type: String, required: true }], // Array of image URLs
-  name: { type: String, required: true },
-  location: { type: String, required: true },
-  difficulty: { type: String, enum: ["Easy", "Medium", "Hard"], required: true },
-  duration: { type: String, required: true },
-  tour_overview: { type: String, required: true },
-  tour_highlights: [{ type: String, required: true }], // Array of tour highlights
-  whats_included: [{ type: String, required: true }], // Array of included items
-  itinerary: [
-    {
-      day: { type: Number, required: true },
-      title: { type: String, required: true },
-      description: { type: String, required: true },
-    },
-  ],
-  map: { type: String, required: true }, // URL for the map image
-  recommendations: [
-    {
-      image: { type: String, required: true },
-      title: { type: String, required: true },
-      description: { type: String, required: true },
-    },
-  ],
-  must_try_food: [
-    {
-      title: { type: String, required: true },
-      description: { type: String, required: true },
-    },
-  ],
-  recommended_guides: [
-    {
-      name: { type: String, required: true },
-      experience: { type: String, required: true },
-      contact: { type: String, required: true },
-    },
-  ],
-  faqs: [
-    {
-      question: { type: String, required: true },
-      answer: { type: String, required: true },
-    },
-  ],
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category",
-    required: true, // Ensures that every detail entry has a category
-  },
-  place: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Place",
-    required: true, // Ensures that every detail entry is linked to a place
-  },
-});
+// Create a new details entry
+exports.addDetails = async (req, res) => {
+  try {
+    const newDetails = new DetailsModel({
+      firstimage1: req.files.firstimage1[0].path,
+      firstimage2: req.files.firstimage2[0].path,
+      firstimage3: req.files.firstimage3[0].path,
+      firstimage4: req.files.firstimage4[0].path,
+      firstimage5: req.files.firstimage5[0].path,
+      name: req.body.name,
+      location: req.body.location,
+      difficulty: req.body.difficulty,
+      duration: req.body.duration,
+      tour_overview: req.body.tour_overview,
+      tour_highlights: req.body.tour_highlights,
+      whats_included: req.body.whats_included,
+      itinerary: req.body.itinerary,
+      map_image: req.files.map_image[0].path,
+      recommendations: req.body.recommendations,
+      must_try_food: req.body.must_try_food,
+      recommended_guides: req.body.recommended_guides,
+      faqs: req.body.faqs,
+      category: req.body.category,
+      place: req.body.place,
+    });
 
-const DetailsModel = mongoose.model("DetailsModel", DetailsSchema);
+    await newDetails.save();
+    res.status(201).json(newDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
 
-module.exports = DetailsModel;
+// Get all details
+exports.getAllDetails = async (req, res) => {
+  try {
+    const details = await DetailsModel.find()
+      .populate('category')
+      .populate('place');
+    res.status(200).json(details);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+// Get a single details entry by ID
+exports.getDetailsById = async (req, res) => {
+  try {
+    const details = await DetailsModel.findById(req.params.id)
+      .populate('category')
+      .populate('place');
+    
+    if (!details) {
+      return res.status(404).json({ message: 'Details not found' });
+    }
+
+    res.status(200).json(details);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+// Update a details entry
+exports.updateDetails = async (req, res) => {
+  try {
+    const updatedDetails = await DetailsModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body, // Ensure you are correctly updating the fields
+        $push: { // For arrays like tour_highlights, recommendations, etc.
+          tour_highlights: req.body.tour_highlights,
+          whats_included: req.body.whats_included,
+          itinerary: req.body.itinerary,
+          recommendations: req.body.recommendations,
+          must_try_food: req.body.must_try_food,
+          recommended_guides: req.body.recommended_guides,
+          faqs: req.body.faqs,
+        }
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedDetails) {
+      return res.status(404).json({ message: 'Details not found' });
+    }
+
+    res.status(200).json(updatedDetails);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+// Delete a details entry
+exports.deleteDetails = async (req, res) => {
+  try {
+    const deletedDetails = await DetailsModel.findByIdAndDelete(req.params.id);
+
+    if (!deletedDetails) {
+      return res.status(404).json({ message: 'Details not found' });
+    }
+
+    res.status(200).json({ message: 'Details deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
