@@ -1,15 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const categoryController = require('../controller/CategoryController');
-const upload = require("../middlewear/upload");  // Ensure correct path
+const upload = require('../middlewear/upload'); // Middleware for file upload
 
-router.post('/add', upload.fields([
-  { name: 'image', maxCount: 1 }, // for a single image upload field
-]), categoryController.addCategory);
+// Route to add a new category with an image
+router.post('/add', categoryController.addCategory);
 
+// Route to fetch all categories
 router.get('/', categoryController.getAllCategories);
+
+// Route to fetch a single category by ID
 router.get('/:id', categoryController.getCategoryById);
-router.put('/:id', upload.single('image'), categoryController.updateCategory);
+
+// Route to update category by ID (allows updating name and image)
+router.put('/:id', categoryController.updateCategory);
+
+// Route to delete a category by ID
 router.delete('/:id', categoryController.deleteCategory);
 
 module.exports = router;

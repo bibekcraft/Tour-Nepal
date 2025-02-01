@@ -1,35 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const detailsController = require('../controller/DetailsController');
-const upload = require('../middleware/upload');
+const upload = require('../middlewear/upload'); // Middleware for file uploads
 
-// Route to add details
-router.post('/add', upload.fields([
-  { name: 'firstimage1', maxCount: 1 },
-  { name: 'firstimage2', maxCount: 1 },
-  { name: 'firstimage3', maxCount: 1 },
-  { name: 'firstimage4', maxCount: 1 },
-  { name: 'firstimage5', maxCount: 1 },
-  { name: 'map_image', maxCount: 1 }
-]), detailsController.addDetails);
+// Add a new details entry
+router.post('/add', detailsController.addDetails);
 
-// Route to get all details
+// Get all details entries
 router.get('/', detailsController.getAllDetails);
 
-// Route to get details by ID
+// Get a specific details entry by ID
 router.get('/:id', detailsController.getDetailsById);
 
-// Route to update details by ID
-router.put('/:id', upload.fields([
-  { name: 'firstimage1', maxCount: 1 },
-  { name: 'firstimage2', maxCount: 1 },
-  { name: 'firstimage3', maxCount: 1 },
-  { name: 'firstimage4', maxCount: 1 },
-  { name: 'firstimage5', maxCount: 1 },
-  { name: 'map_image', maxCount: 1 }
-]), detailsController.updateDetails);
+// Update a details entry by ID
+router.put('/:id',detailsController.updateDetails);
 
-// Route to delete details by ID
+// Delete a details entry by ID
 router.delete('/:id', detailsController.deleteDetails);
 
 module.exports = router;
