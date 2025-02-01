@@ -15,7 +15,7 @@ app.use('/api/details', detailsRoutes);
 app.use('/api/places', placeRoutes);
 
 // MongoDB connection string
-const mongoURI = 'mongodb://localhost:27017/tourism_db';  // Replace with your actual database name
+const mongoURI = 'mongodb://localhost:27017/Travelnepal';
 
 // Connecting to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })

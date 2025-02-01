@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const DetailsSchema = new mongoose.Schema({
-  images: [{ type: String, required: true }], // Array of image URLs (1 to 5 or more)
+  images: [{ type: String, required: true }], // Array of image URLs
   name: { type: String, required: true },
   location: { type: String, required: true },
   difficulty: { type: String, enum: ["Easy", "Medium", "Hard"], required: true },
@@ -43,6 +43,16 @@ const DetailsSchema = new mongoose.Schema({
       answer: { type: String, required: true },
     },
   ],
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true, // Ensures that every detail entry has a category
+  },
+  place: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Place",
+    required: true, // Ensures that every detail entry is linked to a place
+  },
 });
 
 const DetailsModel = mongoose.model("DetailsModel", DetailsSchema);
