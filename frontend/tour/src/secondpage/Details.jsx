@@ -12,7 +12,7 @@ function Details() {
     setOpen(open===index ? null:index);
   }
   const faqData = [
-    {
+    { 
       question: "What is React?",
       answer:
         "React is a JavaScript library for building user interfaces. It allows the creation of reusable UI components and offers efficient rendering using a virtual DOM.",
@@ -266,6 +266,7 @@ function Details() {
         </MapContainer>
       </div>
     </div>
+    
 
 
 {/* Recommendations Section */}

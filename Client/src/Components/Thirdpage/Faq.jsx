@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Navbar from "../navbar/Navbar";
+import Footer from "../navbar/Footer";
 
 function Faq() {
     const[open,setOpen]=useState("null");
@@ -66,7 +66,7 @@ function Faq() {
             ))}
           </div>
         </section>
-        <Navbar />
+        <Footer />
     </div>
   )
 }

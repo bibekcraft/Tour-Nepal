@@ -11,6 +11,7 @@ import Blog from './nav/Blog';
 import Login from './component/auth/Login';
 import Register from './component/auth/Register';
 import ViewBlog from './nav/ViewBlog';
+import Final from './component/Detailspage/Final';
 function App() {
     return (
         <BrowserRouter>
@@ -28,6 +29,9 @@ function App() {
                 <Route path='/login' element={<Login />} />
                 <Route path='/register' element={<Register />} />
                 <Route path='/ViewBlog' element={<ViewBlog/>} />
+
+                <Route path='/Final' element={<Final/>} />
+
 
 
 

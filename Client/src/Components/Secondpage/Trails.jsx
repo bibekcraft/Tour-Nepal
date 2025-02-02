@@ -2,12 +2,10 @@ import { Link } from "react-router-dom";
 import Footer from "../navbar/Footer";
 import Navbar from "../navbar/Footer"
 function PhuketTours() {
-  return (
-    
+  return (    
     <>
-    <Navbar/>
       <div className="w-full h-full bg-white ">
-
+      <Navbar/>
         <div className="flex w-4/5 h-20 p-6 mx-auto mt-5 bg-white rounded-lg">
           <div className="flex items-center justify-between w-full">
             <h1>Home / Category / Nepal</h1>
@@ -21,11 +19,9 @@ function PhuketTours() {
               <p className="flex items-center justify-center w-full h-32 mx-auto text-white rounded-t-lg bg-orange">
                 When to when travel
               </p>
-       
               <div className="mx-auto mb-5 text-xl text-orange">
                 Tour Activities
                 </div>
-
               <div className="flex flex-col ml-3 text-gray-600">
                 <label>
                   <input type="checkbox" /> Temple
@@ -40,7 +36,6 @@ function PhuketTours() {
                   <input type="checkbox" /> Geographical Regions
                 </label>
               </div>
-
               <div className="mx-auto mt-5 mb-5 text-xl align-middle text-orange">
                 Estimated date
                 </div>
@@ -50,9 +45,7 @@ function PhuketTours() {
                 <p>4-6 day</p>
                 <p>6-10 day</p>
                 </div>
-                
             </div>
-
             <div className="ml-2"></div>
           </div>
 
