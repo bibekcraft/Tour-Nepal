@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FaPen, FaUser, FaImage, FaCalendarAlt, FaAlignLeft } from "react-icons/fa"; // Icons for the form fields
-import Navbar from "../navbar/Navbar";
 import Footer from "../navbar/Footer";
 
 const Blog = () => {
@@ -37,7 +36,6 @@ const Blog = () => {
 
   return (
     <div>
-      <Navbar />
 
       <div className="max-w-4xl px-6 py-12 mx-auto bg-gray-50">
         <div className="relative p-10 overflow-hidden bg-white shadow-lg rounded-3xl">

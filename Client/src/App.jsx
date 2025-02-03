@@ -7,7 +7,8 @@ import Footer from './Components/navbar/Footer';
 import Blog from './Components/Blog/Blog';
 import ViewBlog from './Components/Blog/ViewBlog';
 import Login from './Components/Auth/Login';
-import Register from './Components/Auth/Register';
+import Register from './Components/Auth/Register'
+import Sidebar from './Components/adminpanel/Sidebar';
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +24,9 @@ function App() {
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />
       <Route path='/ViewBlog' element={<ViewBlog/>} />
+
+
+      <Route path='/dashboard' element={<Sidebar />} />
 
 
       </Routes>
