@@ -4,7 +4,7 @@ import google from "../../assets/google-maps.png";
 function Hard() {
   return (
     <div>
-              <div className="max-w-screen-lg px-4 py-8 mx-auto bg-white rounded-md">
+      <div className="max-w-screen-lg px-4 py-8 mx-auto bg-white rounded-md">
         <div className="flex items-center justify-between mb-8 space-x-8">
           <div className="flex items-center">
             <img src={dart} alt="Difficulty" className="w-12 h-12" />
@@ -23,9 +23,9 @@ function Hard() {
             </span>
           </div>
         </div>
+      </div>
     </div>
-    </div>
-  )
+  );
 }
 
-export default Hard
+export default Hard;
