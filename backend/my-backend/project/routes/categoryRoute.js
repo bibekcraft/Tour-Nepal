@@ -1,21 +1,52 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+const { addCategory, getAllCategories, getCategoryById, updateCategory, deleteCategory } = require('../controller/CategoryController');
+
 const router = express.Router();
-const categoryController = require('../controller/CategoryController');
-const upload = require('../middlewear/upload'); // Middleware for file upload
 
-// Route to add a new category with an image
-router.post('/add', categoryController.addCategory);
+// Ensure the uploads folder exists
+const uploadDir = 'photos';
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
 
-// Route to fetch all categories
-router.get('/', categoryController.getAllCategories);
+// Multer storage configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'photos/'); // Store images in 'uploads' folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // Rename file with timestamp
+  }
+});
 
-// Route to fetch a single category by ID
-router.get('/:id', categoryController.getCategoryById);
+// File validation: only allow images (jpg, jpeg, png, gif)
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /jpeg|jpg|png|gif/;
+  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = allowedTypes.test(file.mimetype);
 
-// Route to update category by ID (allows updating name and image)
-router.put('/:id', categoryController.updateCategory);
+  if (extname && mimetype) {
+    return cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed!'), false);
+  }
+};
 
-// Route to delete a category by ID
-router.delete('/:id', categoryController.deleteCategory);
+// Multer configuration with file size limit and file filter
+const upload = multer({ 
+  storage, 
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit
+  fileFilter
+});
+
+// Routes for category management
+router.post('/add', upload.single('image'), addCategory);
+router.get('/all', getAllCategories);
+router.get('/:id', getCategoryById);
+router.put('/:id', upload.single('image'), updateCategory);
+router.delete('/:id', deleteCategory);
 
 module.exports = router;
