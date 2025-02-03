@@ -10,7 +10,7 @@ const fetchCategories = async () => {
 const addCategory = async (category) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/categories",
+        "http://localhost:5000/api/categories/add",
         category,
         {
           headers: {
@@ -27,7 +27,7 @@ const addCategory = async (category) => {
   
 // Update Category function
 const updateCategory = async ({ id, name, image }) => {
-  const response = await axios.put(`http://localhost:5000/api/categories/${id}`, { name, image });
+  const response = await axios.put(`http://localhost:5000/api/categories/${id}`,g { name, image });
   return response.data;
 };
 
