@@ -7,7 +7,7 @@ const { addCategory, getAllCategories, getCategoryById, updateCategory, deleteCa
 const router = express.Router();
 
 // Ensure the uploads folder exists
-const uploadDir = 'photos';
+const uploadDir = 'uploads';
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
@@ -15,14 +15,14 @@ if (!fs.existsSync(uploadDir)) {
 // Multer storage configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'photos/'); // Store images in 'uploads' folder
+    cb(null, 'uploads/'); // Store images in 'uploads' folder
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname)); // Rename file with timestamp
   }
 });
 
-// File validation: only allow images (jpg, jpeg, png, gif)
+// File validation
 const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|gif/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
@@ -35,7 +35,6 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// Multer configuration with file size limit and file filter
 const upload = multer({ 
   storage, 
   limits: { fileSize: 2 * 1024 * 1024 }, // 2MB limit
