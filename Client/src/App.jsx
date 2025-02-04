@@ -9,20 +9,25 @@ import Blog from "./Components/Blog/Blog";
 import ViewBlog from "./Components/Blog/ViewBlog";
 import Login from "./Components/Auth/Login";
 import Register from "./Components/Auth/Register";
-import DashboardLayout from "./Components/adminpanel/DashboardLayout "; // Fixed import
+import DashboardLayout from "./Components/adminpanel/DashboardLayout "; 
 import AddCategory from "./Components/Category/AddCategory";
-import AddPlace from "./Components/adminpanel/AddPlace";
+import AddPlace from "./Components/Place/AddPlace";
 import AddDetails from "./Components/adminpanel/AddDetails";
 import ErrorBoundary from "./Components/ErrorBoundary";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// import CategoryDisplay from "./Components/Category/CategoryDisplay";
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+      <ToastContainer />
+
         <Routes>
           <Route path="/" element={<Home />} />
+
           <Route path="/trails" element={<Trails />} />
           <Route path="/details" element={<Final />} />
           <Route path="/login" element={<Login />} />
@@ -30,6 +35,10 @@ function App() {
           <Route path="/ViewBlog" element={<ViewBlog />} />
           <Route path="/footer" element={<Footer />} />
           <Route path="/navbar" element={<Navbar />} />
+
+
+          
+          {/* <Route path="/show-categroy" element={<CategoryDisplay />} /> */}
 
           <Route
             path="/dashboard"
