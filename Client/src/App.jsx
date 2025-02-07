@@ -12,7 +12,7 @@ import Register from "./Components/Auth/Register";
 import DashboardLayout from "./Components/adminpanel/DashboardLayout "; 
 import AddCategory from "./Components/Category/AddCategory";
 import AddPlace from "./Components/Place/AddPlace";
-import AddDetails from "./Components/adminpanel/AddDetails";
+import AddDetails from "./Components/Details/AddDetails";
 import ErrorBoundary from "./Components/ErrorBoundary";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
