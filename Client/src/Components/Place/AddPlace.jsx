@@ -1,13 +1,16 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { FaUpload, FaPlusCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { MdCategory, MdDescription } from "react-icons/md";
+import { useCategories } from "../hooks/useCategory"; // Importing the useCategories hook
 
 const AddPlace = () => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [image, setImage] = useState(null);
+  const [category, setCategory] = useState(""); // Store selected category ID
+  const [, setImage] = useState(null);
+
+  const { data: categories, isLoading, error } = useCategories(); // Fetch categories
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen flex items-center justify-center">
@@ -15,9 +18,10 @@ const AddPlace = () => {
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 flex items-center justify-center gap-2">
           <FaMapMarkerAlt className="text-blue-500" /> Add Place
         </h2>
+
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Place Name</label>
-          <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300 focus-within:border-blue-500">
+          <div className="flex items-center border rounded-lg p-3">
             <FaMapMarkerAlt className="text-gray-500 mr-2" />
             <input
               type="text"
@@ -29,9 +33,10 @@ const AddPlace = () => {
             />
           </div>
         </div>
+
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Location</label>
-          <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300 focus-within:border-blue-500">
+          <div className="flex items-center border rounded-lg p-3">
             <FaMapMarkerAlt className="text-gray-500 mr-2" />
             <input
               type="text"
@@ -43,9 +48,10 @@ const AddPlace = () => {
             />
           </div>
         </div>
+
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Description</label>
-          <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300 focus-within:border-blue-500">
+          <div className="flex items-center border rounded-lg p-3">
             <MdDescription className="text-gray-500 mr-2" />
             <textarea
               className="w-full outline-none"
@@ -56,20 +62,33 @@ const AddPlace = () => {
             ></textarea>
           </div>
         </div>
+
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Category</label>
-          <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300 focus-within:border-blue-500">
+          <div className="flex items-center border rounded-lg p-3">
             <MdCategory className="text-gray-500 mr-2" />
-            <input
-              type="text"
+            <select
               className="w-full outline-none"
-              placeholder="Enter category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               required
-            />
+            >
+              <option value="">Select a category</option>
+              {isLoading ? (
+                <option>Loading...</option>
+              ) : error ? (
+                <option>Error loading categories</option>
+              ) : (
+                categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))
+              )}
+            </select>
           </div>
         </div>
+
         <div className="mb-6">
           <label className="block text-gray-700 font-medium mb-2">Upload Image</label>
           <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-100">
@@ -83,6 +102,7 @@ const AddPlace = () => {
             />
           </label>
         </div>
+
         <button
           type="button"
           className="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-lg hover:opacity-90 transition flex items-center justify-center gap-2 font-semibold"

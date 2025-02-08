@@ -1,4 +1,7 @@
-import axiosInstance from './Index';
+// Place.jsx (API Functions and `usePlaces` Hook)
+
+import { useQuery } from '@tanstack/react-query';
+import axiosInstance from './Index';  // Adjust the path as needed
 
 // Fetch places
 export const fetchPlaces = async () => {
@@ -22,4 +25,13 @@ export const updatePlace = async (id, data) => {
 export const deletePlace = async (id) => {
   const response = await axiosInstance.delete(`/places/${id}`);
   return response.data;
+};
+
+// Fetch all places (React Query hook)
+export const usePlaces = () => {
+  return useQuery({
+    queryKey: ['places'],
+    queryFn: fetchPlaces,
+  })
+  
 };

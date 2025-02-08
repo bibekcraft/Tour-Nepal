@@ -2,7 +2,7 @@ import axiosInstance from './Index';
 
 // Fetch categories
 export const fetchCategories = async () => {
-  const response = await axiosInstance.get('/categories');
+  const response = await axiosInstance.get('/categories/all');
   return response.data;
 };
 

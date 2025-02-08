@@ -16,6 +16,7 @@ import AddDetails from "./Components/Details/AddDetails";
 import ErrorBoundary from "./Components/ErrorBoundary";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import MapOfNepal from "./Components/firstpage/MapofNepal";
 // import CategoryDisplay from "./Components/Category/CategoryDisplay";
 const queryClient = new QueryClient();
 
@@ -29,7 +30,10 @@ function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="/trails" element={<Trails />} />
+          <Route path="/details/:id" element={<Final />} />
           <Route path="/details" element={<Final />} />
+          <Route path="/categories/:categoryId/trails" component={<MapOfNepal />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/ViewBlog" element={<ViewBlog />} />
