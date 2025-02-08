@@ -1,26 +1,38 @@
 const mongoose = require('mongoose');
 
 const DetailsSchema = new mongoose.Schema({
-  firstimage1: { type: String, default: null },
-  firstimage2: { type: String, default: null },
-  firstimage3: { type: String, default: null },
-  firstimage4: { type: String, default: null },
-  firstimage5: { type: String, default: null },
+  images: { type: [String], default: [] }, // Array of image URLs
   name: { type: String, required: true },
   location: { type: String, required: true },
   difficulty: { type: String, required: true },
-  duration: { type: String, required: true },
+  duration: { type: Number, required: true }, // Duration in days
   tour_overview: { type: String, required: true },
   tour_highlights: { type: [String], required: true },
-  whats_included: { type: [String], required: true },
+  whats_included: [{
+    item: String,
+    description: String
+  }],
   itinerary: { type: [String], required: true },
   map_image: { type: String, default: null },
   recommendations: { type: [String], required: true },
   must_try_food: { type: [String], required: true },
-  recommended_guides: { type: [String], required: true },
-  faqs: { type: [{ question: String, answer: String }], required: true },
+  recommended_guides: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Guide' }],
+  faqs: [{ question: String, answer: String }],
   category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
   place: { type: mongoose.Schema.Types.ObjectId, ref: 'Place', required: true },
+  geo_location: {
+    latitude: { type: Number },
+    longitude: { type: Number }
+  },
+  reviews: [{
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    rating: { type: Number, min: 1, max: 5 },
+    comment: { type: String }
+  }],
+  tags: { type: [String], default: [] },
+  price: { type: Number, required: true },
+  currency: { type: String, default: "NPR" },
+  favorited_by: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Details', DetailsSchema);
