@@ -11,7 +11,10 @@ import Login from "./Components/Auth/Login";
 import Register from "./Components/Auth/Register";
 import DashboardLayout from "./Components/adminpanel/DashboardLayout "; 
 import AddCategory from "./Components/Category/AddCategory";
+import ViewCategory from "./Components/Category/ViewCategory";
 import AddPlace from "./Components/Place/AddPlace";
+import Viewdetails from "./Components/Details/Viewdetails";
+import Viewplace from "./Components/Place/Viewplace";
 import AddDetails from "./Components/Details/AddDetails";
 import ErrorBoundary from "./Components/ErrorBoundary";
 import { ToastContainer } from "react-toastify";
@@ -62,6 +65,16 @@ function App() {
               </DashboardLayout>
             }
           />
+                    <Route
+            path="/viewCategory"
+            element={
+              <DashboardLayout>
+                <ErrorBoundary>
+                  <ViewCategory />
+                </ErrorBoundary>
+              </DashboardLayout>
+            }
+          />
           <Route
             path="/add-place"
             element={
@@ -70,11 +83,31 @@ function App() {
               </DashboardLayout>
             }
           />
+                              <Route
+            path="/viewPlace"
+            element={
+              <DashboardLayout>
+                <ErrorBoundary>
+                  <Viewplace />
+                </ErrorBoundary>
+              </DashboardLayout>
+            }
+          />
           <Route
             path="/add-details"
             element={
               <DashboardLayout>
                 <AddDetails />
+              </DashboardLayout>
+            }
+          />
+                              <Route
+            path="/viewDetails"
+            element={
+              <DashboardLayout>
+                <ErrorBoundary>
+                  <Viewdetails />
+                </ErrorBoundary>
               </DashboardLayout>
             }
           />

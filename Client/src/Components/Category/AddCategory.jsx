@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { FaUpload, FaPlusCircle } from "react-icons/fa";
 import { MdCategory } from "react-icons/md";
 
