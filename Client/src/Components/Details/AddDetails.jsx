@@ -1,142 +1,424 @@
-import { useState } from "react";
-import { FaUpload, FaPlusCircle, FaMapMarkerAlt } from "react-icons/fa";
+import React, { useState } from 'react';
 
-const DetailsForm = () => {
-  const [formData, setFormData] = useState({
-    image1: "",
-    image2: "",
-    image3: "",
-    image4: "",
-    image5: "",
-    name: "",
-    location: "",
-    difficulty: "",
-    duration: "",
-    tour_overview: "",
-    tour_highlights: [],
-    whats_included: [],
-    itinerary: [],
-    recommendations: [],
-    must_try_food: [],
-    recommended_guides: [],
-    faqs: [{ question: "", answer: "" }],
-    map_image: "",
-    category: "",
-    place: "",
-    geo_location: { latitude: "", longitude: "" },
-    price: "",
-    currency: "NPR",
-    tags: [],
-    reviews: [],
-    favorited_by: []
+const AddDetails = () => {
+  const [details, setDetails] = useState({
+    images1: [''],
+    images2: [''],
+    images3: [''],
+    images4: [''],
+    images5: [''],
+    location: '',
+    difficulty: '',
+    duration: '',
+    tour_overview: '',
+    tour_highlights: [''],
+    whats_included: [{ item: '', description: '' }],
+    itinerary: [{ day: '', title: '', description: '' }],
+    map_image: '',
+    recommendations: [{ title: '', description: '', image: '' }],
+    must_try_food: [{ title: '', short_description: '' }],
+    recommended_guides: [{ name: '', description: '', image: '' }],
+    faqs: [{ question: '', answer: '' }],
+    category: '',
+    place: '',
+    t: '',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setDetails({
+      ...details,
+      [name]: value,
+    });
   };
 
-  const handleArrayChange = (name, index, value) => {
-    const updatedArray = [...formData[name]];
-    updatedArray[index] = value;
-    setFormData({ ...formData, [name]: updatedArray });
+  const handleArrayChange = (e, key, index) => {
+    const { name, value } = e.target;
+    const updatedArray = [...details[key]];
+    updatedArray[index] = { ...updatedArray[index], [name]: value };
+    setDetails({
+      ...details,
+      [key]: updatedArray,
+    });
   };
 
-  const addArrayField = (name) => {
-    setFormData({ ...formData, [name]: [...formData[name], ""] });
+  const handleAddItem = (key, defaultValue) => {
+    setDetails({
+      ...details,
+      [key]: [...details[key], defaultValue],
+    });
   };
 
-  const handleImageChange = (e) => {
-    const files = e.target.files;
-    const imageNames = Array.from(files).map(file => file.name); // Get the file names
-    setFormData({ ...formData, images: imageNames });
+  const handleRemoveItem = (key, index) => {
+    const updatedArray = details[key].filter((_, i) => i !== index);
+    setDetails({
+      ...details,
+      [key]: updatedArray,
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Submit form data to the backend API
+    console.log(details);
+    // Handle form submission logic (e.g., send the details to your backend)
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen flex items-start justify-start">
-      <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-2xl">
-        <h2 className="text-3xl font-bold mb-6 text-gray-800 flex items-center gap-2">
-          <FaMapMarkerAlt className="text-blue-500" /> Add Tour Details
-        </h2>
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 gap-4">
-            {/* PHOTO */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2">photo</label>
-              <input type="text" name="name" className="w-full border rounded-lg p-3" placeholder="Enter name" onChange={handleChange} required />
-            </div>
+    <div className="container mx-auto p-6">
+      <h1 className="text-3xl font-semibold mb-6">Add Tour Details</h1>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        
+        {/* Location */}
+        <div className="space-y-2">
+          <label className="block text-lg">Location</label>
+          <input
+            type="text"
+            name="location"
+            value={details.location}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
 
-            
-            {/* Tour Name */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2">Name</label>
-              <input type="text" name="name" className="w-full border rounded-lg p-3" placeholder="Enter name" onChange={handleChange} required />
-            </div>
+        {/* Difficulty */}
+        <div className="space-y-2">
+          <label className="block text-lg">Difficulty</label>
+          <input
+            type="text"
+            name="difficulty"
+            value={details.difficulty}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
 
-            {/* Location */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2">Location</label>
-              <input type="text" name="location" className="w-full border rounded-lg p-3" placeholder="Enter location" onChange={handleChange} required />
-            </div>
+        {/* Duration */}
+        <div className="space-y-2">
+          <label className="block text-lg">Duration (days)</label>
+          <input
+            type="number"
+            name="duration"
+            value={details.duration}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
 
-            {/* Tour Highlights */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2">Tour Highlights</label>
-              {formData.tour_highlights.map((item, index) => (
-                <input key={index} type="text" className="w-full border rounded-lg p-3 mb-2" placeholder="Enter tour highlight" value={item} onChange={(e) => handleArrayChange("tour_highlights", index, e.target.value)} />
-              ))}
-              <button type="button" className="text-blue-500" onClick={() => addArrayField("tour_highlights")}>+ Add More</button>
-            </div>
+        {/* Tour Overview */}
+        <div className="space-y-2">
+          <label className="block text-lg">Tour Overview</label>
+          <textarea
+            name="tour_overview"
+            value={details.tour_overview}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
 
-            {/* Recommended Guides */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2">Recommended Guides</label>
-              {formData.recommended_guides.map((item, index) => (
-                <input key={index} type="text" className="w-full border rounded-lg p-3 mb-2" placeholder="Enter guide name" value={item} onChange={(e) => handleArrayChange("recommended_guides", index, e.target.value)} />
-              ))}
-              <button type="button" className="text-blue-500" onClick={() => addArrayField("recommended_guides")}>+ Add More</button>
+        {/* Tour Highlights */}
+        <div className="space-y-2">
+          <label className="block text-lg">Tour Highlights</label>
+          {details.tour_highlights.map((highlight, index) => (
+            <div key={index} className="flex space-x-2">
+              <input
+                type="text"
+                name="tour_highlights"
+                value={highlight}
+                onChange={(e) => handleArrayChange(e, 'tour_highlights', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Add a highlight"
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveItem('tour_highlights', index)}
+                className="p-2 bg-red-500 text-white rounded"
+              >
+                Remove
+              </button>
             </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => handleAddItem('tour_highlights', '')}
+            className="p-2 bg-blue-500 text-white rounded"
+          >
+            Add Highlight
+          </button>
+        </div>
 
-            {/* FAQs */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2">FAQs</label>
-              {formData.faqs.map((faq, index) => (
-                <div key={index} className="flex gap-2 mb-2">
-                  <input type="text" className="w-1/2 border rounded-lg p-3" placeholder="Question" value={faq.question} onChange={(e) => handleArrayChange("faqs", index, { ...faq, question: e.target.value })} />
-                  <input type="text" className="w-1/2 border rounded-lg p-3" placeholder="Answer" value={faq.answer} onChange={(e) => handleArrayChange("faqs", index, { ...faq, answer: e.target.value })} />
-                </div>
-              ))}
-              <button type="button" className="text-blue-500" onClick={() => addArrayField("faqs")}>+ Add More</button>
+        {/* Itinerary */}
+        <div className="space-y-2">
+          <label className="block text-lg">Itinerary</label>
+          {details.itinerary.map((dayItem, index) => (
+            <div key={index} className="flex space-x-2">
+              <input
+                type="text"
+                name="day"
+                value={dayItem.day}
+                onChange={(e) => handleArrayChange(e, 'itinerary', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Day"
+              />
+              <input
+                type="text"
+                name="title"
+                value={dayItem.title}
+                onChange={(e) => handleArrayChange(e, 'itinerary', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Title"
+              />
+              <input
+                type="text"
+                name="description"
+                value={dayItem.description}
+                onChange={(e) => handleArrayChange(e, 'itinerary', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Description"
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveItem('itinerary', index)}
+                className="p-2 bg-red-500 text-white rounded"
+              >
+                Remove
+              </button>
             </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => handleAddItem('itinerary', { day: '', title: '', description: '' })}
+            className="p-2 bg-blue-500 text-white rounded"
+          >
+            Add Itinerary Item
+          </button>
+        </div>
 
-            {/* Image Upload */}
-            <div className="mb-4">
-              <label className="block text-gray-700 font-medium mb-2">Upload Images</label>
-              <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-100">
-                <FaUpload className="text-gray-600 mb-2 text-3xl" />
-                <span className="text-gray-600">Click to upload</span>
-                <input type="file" name="images" className="hidden" onChange={handleImageChange} multiple />
-              </label>
-              <div className="mt-2">
-                <p className="text-gray-600">Uploaded Images: {formData.images.join(", ")}</p>
-              </div>
+        {/* Map Image URL */}
+        <div className="space-y-2">
+          <label className="block text-lg">Map Image URL</label>
+          <input
+            type="url"
+            name="map_image"
+            value={details.map_image}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          />
+        </div>
+
+        {/* Recommendations */}
+        <div className="space-y-2">
+          <label className="block text-lg">Recommendations</label>
+          {details.recommendations.map((recommendation, index) => (
+            <div key={index} className="flex space-x-2">
+              <input
+                type="text"
+                name="title"
+                value={recommendation.title}
+                onChange={(e) => handleArrayChange(e, 'recommendations', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Title"
+              />
+              <input
+                type="text"
+                name="description"
+                value={recommendation.description}
+                onChange={(e) => handleArrayChange(e, 'recommendations', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Description"
+              />
+              <input
+                type="text"
+                name="image"
+                value={recommendation.image}
+                onChange={(e) => handleArrayChange(e, 'recommendations', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Image URL"
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveItem('recommendations', index)}
+                className="p-2 bg-red-500 text-white rounded"
+              >
+                Remove
+              </button>
             </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => handleAddItem('recommendations', { title: '', description: '', image: '' })}
+            className="p-2 bg-blue-500 text-white rounded"
+          >
+            Add Recommendation
+          </button>
+        </div>
 
-            {/* Submit Button */}
-            <button type="submit" className="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-lg hover:opacity-90 transition flex items-center gap-2 font-semibold">
-              <FaPlusCircle className="text-white" /> Submit
-            </button>
-          </div>
-        </form>
-      </div>
+        {/* Must Try Food */}
+        <div className="space-y-2">
+          <label className="block text-lg">Must Try Food</label>
+          {details.must_try_food.map((food, index) => (
+            <div key={index} className="flex space-x-2">
+              <input
+                type="text"
+                name="title"
+                value={food.title}
+                onChange={(e) => handleArrayChange(e, 'must_try_food', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Title"
+              />
+              <input
+                type="text"
+                name="short_description"
+                value={food.short_description}
+                onChange={(e) => handleArrayChange(e, 'must_try_food', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Short Description"
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveItem('must_try_food', index)}
+                className="p-2 bg-red-500 text-white rounded"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => handleAddItem('must_try_food', { title: '', short_description: '' })}
+            className="p-2 bg-blue-500 text-white rounded"
+          >
+            Add Must Try Food
+          </button>
+        </div>
+
+        {/* Recommended Guides */}
+        <div className="space-y-2">
+          <label className="block text-lg">Recommended Guides</label>
+          {details.recommended_guides.map((guide, index) => (
+            <div key={index} className="flex space-x-2">
+              <input
+                type="text"
+                name="name"
+                value={guide.name}
+                onChange={(e) => handleArrayChange(e, 'recommended_guides', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Guide Name"
+              />
+              <input
+                type="text"
+                name="description"
+                value={guide.description}
+                onChange={(e) => handleArrayChange(e, 'recommended_guides', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Guide Description"
+              />
+              <input
+                type="text"
+                name="image"
+                value={guide.image}
+                onChange={(e) => handleArrayChange(e, 'recommended_guides', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Guide Image URL"
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveItem('recommended_guides', index)}
+                className="p-2 bg-red-500 text-white rounded"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => handleAddItem('recommended_guides', { name: '', description: '', image: '' })}
+            className="p-2 bg-blue-500 text-white rounded"
+          >
+            Add Recommended Guide
+          </button>
+        </div>
+
+        {/* FAQs */}
+        <div className="space-y-2">
+          <label className="block text-lg">FAQs</label>
+          {details.faqs.map((faq, index) => (
+            <div key={index} className="flex space-x-2">
+              <input
+                type="text"
+                name="question"
+                value={faq.question}
+                onChange={(e) => handleArrayChange(e, 'faqs', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Question"
+              />
+              <input
+                type="text"
+                name="answer"
+                value={faq.answer}
+                onChange={(e) => handleArrayChange(e, 'faqs', index)}
+                className="w-full p-2 border rounded"
+                placeholder="Answer"
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveItem('faqs', index)}
+                className="p-2 bg-red-500 text-white rounded"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={() => handleAddItem('faqs', { question: '', answer: '' })}
+            className="p-2 bg-blue-500 text-white rounded"
+          >
+            Add FAQ
+          </button>
+        </div>
+
+        {/* Category */}
+        <div className="space-y-2">
+          <label className="block text-lg">Category</label>
+          <input
+            type="text"
+            name="category"
+            value={details.category}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+
+        {/* Place */}
+        <div className="space-y-2">
+          <label className="block text-lg">Place</label>
+          <input
+            type="text"
+            name="place"
+            value={details.place}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+
+        {/* Submit */}
+        <div className="mt-6">
+          <button
+            type="submit"
+            className="w-full p-3 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Submit Details
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
 
-export default DetailsForm;
+export default AddDetails;

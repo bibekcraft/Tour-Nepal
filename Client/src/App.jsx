@@ -9,7 +9,7 @@ import Blog from "./Components/Blog/Blog";
 import ViewBlog from "./Components/Blog/ViewBlog";
 import Login from "./Components/Auth/Login";
 import Register from "./Components/Auth/Register";
-import DashboardLayout from "./Components/adminpanel/DashboardLayout "; 
+import DashboardLayout from "./Components/adminpanel/DashboardLayout ";
 import AddCategory from "./Components/Category/AddCategory";
 import ViewCategory from "./Components/Category/ViewCategory";
 import AddPlace from "./Components/Place/AddPlace";
@@ -20,6 +20,8 @@ import ErrorBoundary from "./Components/ErrorBoundary";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MapOfNepal from "./Components/firstpage/MapofNepal";
+import FrontBlog from "./Components/Blog/FrontBlog";
+import ViewFrontBlog from "./Components/Blog/ViewFrontBlog";
 // import CategoryDisplay from "./Components/Category/CategoryDisplay";
 const queryClient = new QueryClient();
 
@@ -27,7 +29,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-      <ToastContainer />
+        <ToastContainer />
 
         <Routes>
           <Route path="/" element={<Home />} />
@@ -35,16 +37,17 @@ function App() {
           <Route path="/trails" element={<Trails />} />
           <Route path="/details/:id" element={<Final />} />
           <Route path="/details" element={<Final />} />
-          <Route path="/categories/:categoryId/trails" component={<MapOfNepal />} />
-
+          <Route path="/categories/:categoryId/trails" element={<Trails />} />
+          <Route path="/MapofNepal" element={<MapOfNepal />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/ViewBlog" element={<ViewBlog />} />
+          <Route path="/admin/blogs" element={<ViewBlog />} />
+          <Route path="/admin/blog/edit/:id" element={<ViewBlog />} />
           <Route path="/footer" element={<Footer />} />
           <Route path="/navbar" element={<Navbar />} />
+          <Route path="/blogging" element={<FrontBlog />} />
+          <Route path="/ViewFrontBlog" element={<ViewFrontBlog />} />
 
-
-          
           {/* <Route path="/show-categroy" element={<CategoryDisplay />} /> */}
 
           <Route
@@ -65,13 +68,13 @@ function App() {
               </DashboardLayout>
             }
           />
-                    <Route
+          <Route
             path="/viewCategory"
             element={
               <DashboardLayout>
-                <ErrorBoundary>
+                <QueryClientProvider client={queryClient}>
                   <ViewCategory />
-                </ErrorBoundary>
+                </QueryClientProvider>
               </DashboardLayout>
             }
           />
@@ -79,11 +82,13 @@ function App() {
             path="/add-place"
             element={
               <DashboardLayout>
-                <AddPlace />
+                <ErrorBoundary>
+                  <AddPlace />
+                </ErrorBoundary>
               </DashboardLayout>
             }
           />
-                              <Route
+          <Route
             path="/viewPlace"
             element={
               <DashboardLayout>
@@ -94,14 +99,27 @@ function App() {
             }
           />
           <Route
-            path="/add-details"
+            path="/viewblog"
             element={
               <DashboardLayout>
-                <AddDetails />
+                <ErrorBoundary>
+                  <ViewBlog />
+                </ErrorBoundary>
               </DashboardLayout>
             }
           />
-                              <Route
+
+          <Route
+            path="/add-details"
+            element={
+              <DashboardLayout>
+                <ErrorBoundary>
+                  <AddDetails />
+                </ErrorBoundary>
+              </DashboardLayout>
+            }
+          />
+          <Route
             path="/viewDetails"
             element={
               <DashboardLayout>
@@ -115,7 +133,9 @@ function App() {
             path="/blogs"
             element={
               <DashboardLayout>
-                <Blog />
+                <ErrorBoundary>
+                  <Blog />
+                </ErrorBoundary>
               </DashboardLayout>
             }
           />

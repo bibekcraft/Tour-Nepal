@@ -1,134 +1,172 @@
 import { useState } from "react";
-import { FaPen, FaUser, FaImage, FaCalendarAlt, FaAlignLeft } from "react-icons/fa";
-
+import { FaPen, FaUser, FaImage, FaAlignLeft, FaCalendarAlt } from "react-icons/fa";
+import { useAddBlog } from "../hooks/Blog";
+import { toast } from "react-toastify";
+``
 const Blog = () => {
+  const { addBlog, isLoading } = useAddBlog();
   const [formData, setFormData] = useState({
     title: "",
-    description: "",
-    image: null,
+    content: "",
     author: "",
-    date: "",
+    images: [],
+    createdAt: new Date().toISOString().split("T")[0],
   });
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreviews, setImagePreviews] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData({ ...formData, image: file });
-      setImagePreview(URL.createObjectURL(file));
+    const files = Array.from(e.target.files);
+    const validFiles = files.filter((file) => file.size <= 5 * 1024 * 1024); // 5MB limit
+
+    if (validFiles.length < files.length) {
+      toast.error("Some files exceeded the 5MB limit.");
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      images: [...prev.images, ...validFiles],
+    }));
+
+    const newPreviews = validFiles.map((file) => URL.createObjectURL(file));
+    setImagePreviews((prev) => [...prev, ...newPreviews]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.title.trim() || !formData.content.trim() || !formData.author.trim()) {
+      toast.error("All fields are required.");
+      return;
+    }
+
+    const submitData = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (key === "images") {
+        value.forEach((img) => submitData.append("images", img));
+      } else {
+        submitData.append(key, value);
+      }
+    });
+
+    try {
+      await addBlog(submitData);
+      toast.success("Blog published successfully!");
+      setFormData({
+        title: "",
+        content: "",
+        author: "",
+        images: [],
+        createdAt: new Date().toISOString().split("T")[0],
+      });
+      setImagePreviews([]);
+    } catch (error) {
+      toast.error("Failed to publish blog: " + error.message);
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-
-    setFormData({
-      title: "",
-      description: "",
-      image: null,
-      author: "",
-      date: "",
-    });
-    setImagePreview(null);
-  };
-
   return (
-    <div>
-      <div className="max-w-4xl px-6 py-12 mx-auto bg-gray-50">
-        <div className="relative p-10 overflow-hidden bg-white shadow-lg rounded-3xl">
-          <div className="absolute top-0 left-0 w-full h-48 bg-gray-200 -z-10"></div>
-
-          <h2 className="mb-8 text-3xl font-semibold text-center text-gray-800">Write Your Blog</h2>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex flex-col lg:flex-row lg:space-x-6">
-              <div className="w-full lg:w-1/2">
-                <label className="flex items-center text-sm font-medium text-gray-600">
-                  <FaPen className="mr-2 text-gray-500" /> Title
-                </label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleChange}
-                  required
-                  className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-
-              <div className="w-full lg:w-1/2">
-                <label className="flex items-center text-sm font-medium text-gray-600">
-                  <FaUser className="mr-2 text-gray-500" /> Written By
-                </label>
-                <input
-                  type="text"
-                  name="author"
-                  value={formData.author}
-                  onChange={handleChange}
-                  required
-                  className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-            </div>
-
-            <div>
+    <div className="max-w-4xl px-6 py-12 mx-auto bg-gray-50">
+      <div className="relative p-10 overflow-hidden bg-white shadow-lg rounded-3xl">
+        <h2 className="mb-8 text-3xl font-semibold text-center text-gray-800">Write Your Blog</h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="flex flex-col lg:flex-row lg:space-x-6">
+            <div className="w-full lg:w-1/2">
               <label className="flex items-center text-sm font-medium text-gray-600">
-                <FaAlignLeft className="mr-2 text-gray-500" /> Description
-              </label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                required
-                rows="4"
-                className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              ></textarea>
-            </div>
-
-            <div>
-              <label className="flex items-center text-sm font-medium text-gray-600">
-                <FaImage className="mr-2 text-gray-500" /> Upload Image
+                <FaPen className="mr-2 text-gray-500" /> Title
               </label>
               <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                required
-                className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              />
-              {imagePreview && (
-                <img src={imagePreview} alt="Preview" className="mt-4 rounded-xl shadow-lg max-h-64" />
-              )}
-            </div>
-
-            <div>
-              <label className="flex items-center text-sm font-medium text-gray-600">
-                <FaCalendarAlt className="mr-2 text-gray-500" /> Date Written
-              </label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
+                type="text"
+                name="title"
+                value={formData.title}
                 onChange={handleChange}
                 required
-                className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl"
               />
             </div>
 
+            <div className="w-full lg:w-1/2">
+              <label className="flex items-center text-sm font-medium text-gray-600">
+                <FaUser className="mr-2 text-gray-500" /> Written By
+              </label>
+              <input
+                type="text"
+                name="author"
+                value={formData.author}
+                onChange={handleChange}
+                required
+                className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="flex items-center text-sm font-medium text-gray-600">
+              <FaAlignLeft className="mr-2 text-gray-500" /> Content
+            </label>
+            <textarea
+              name="content"
+              value={formData.content}
+              onChange={handleChange}
+              required
+              rows="4"
+              className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl"
+            ></textarea>
+          </div>
+
+          <div>
+            <label className="flex items-center text-sm font-medium text-gray-600">
+              <FaCalendarAlt className="mr-2 text-gray-500" /> Created At
+            </label>
+            <input
+              type="date"
+              name="createdAt"
+              value={formData.createdAt}
+              onChange={handleChange}
+              required
+              className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl"
+            />
+          </div>
+
+          <div>
+            <label className="flex items-center text-sm font-medium text-gray-600">
+              <FaImage className="mr-2 text-gray-500" /> Upload Images
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              multiple
+              className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl"
+            />
+            {imagePreviews.length > 0 && (
+              <div className="mt-4 grid grid-cols-3 gap-4">
+                {imagePreviews.map((preview, index) => (
+                  <img
+                    key={index}
+                    src={preview}
+                    alt={`Preview ${index + 1}`}
+                    className="max-h-32 rounded-xl shadow-lg"
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="flex justify-center">
             <button
               type="submit"
-              className="w-full py-4 text-lg font-semibold text-white bg-indigo-600 shadow-md rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="px-6 py-3 text-white bg-blue-500 rounded-lg disabled:bg-gray-400"
+              disabled={isLoading}
             >
-              Publish Blog
+              {isLoading ? "Publishing..." : "Publish Blog"}
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   );
