@@ -1,29 +1,19 @@
 import axiosInstance from './Index';
 
-// Fetch all blogs
+// Fetch Blogs
 export const fetchBlogs = async () => {
-  const response = await axiosInstance.get('/blog/all');
-  return response.data;
+  const { data } = await axiosInstance.get('/blog/all');
+  return data;
 };
 
-// Add a blog
-export const addBlog = async (formData) => {
-  const response = await axiosInstance.post('/blog/add', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-  return response.data;
-};
+// Add Blog
+export const addBlog = async (formData) =>
+  (await axiosInstance.post('/blog/add', formData, { headers: { 'Content-Type': 'multipart/form-data' } })).data;
 
-// Update a blog
-export const updateBlog = async (blogId, updatedData) => {
-  const response = await axiosInstance.put(`/blog/${blogId}`, updatedData);
-  return response.data;
-};
+// Update Blog
+export const updateBlog = async ({ blogId, updatedData }) =>
+  (await axiosInstance.put(`/blog/${blogId}`, updatedData)).data;
 
-// Delete a blog
-export const deleteBlog = async (id) => {
-  const response = await axiosInstance.delete(`/blog/${id}`);
-  return response.data;
-};
+// Delete Blog
+export const deleteBlog = async ({ id }) =>
+  (await axiosInstance.delete(`/blog/${id}`)).data;

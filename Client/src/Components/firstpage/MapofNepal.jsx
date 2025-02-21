@@ -1,16 +1,8 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Filter, Compass, Mountain, Building, Leaf, Church } from 'lucide-react';
+// import {  Compass, Mountain, Building, Leaf, Church } from 'lucide-react';
 
-const categories = [
-  { id: 'provinces', name: 'Provinces', icon: Compass, active: true },
-  { id: 'heritage', name: 'World Heritage (UNESCO)', icon: Building, active: false },
-  { id: 'protected', name: 'Protected Area', icon: Leaf, active: false },
-  { id: 'cities', name: 'Cities and Towns', icon: Building, active: false },
-  { id: 'mountains', name: 'Eight Thousanders', icon: Mountain, active: false },
-  { id: 'pilgrimage', name: 'Pilgrimage Sites', icon: Church, active: false },
-  { id: 'hills', name: 'Mid Hills', icon: Mountain, active: false },
-];
+
 
 const regions = [
   {
@@ -58,7 +50,7 @@ const regions = [
 ];
 
 function MapofNepal() {
-  const [selectedCategory, setSelectedCategory] = useState('provinces');
+  // const [selectedCategory, setSelectedCategory] = useState('provinces');
   const [hoveredRegion, setHoveredRegion] = useState(null);
 
   return (
@@ -94,27 +86,7 @@ function MapofNepal() {
             </motion.p>
 
             {/* Categories */}
-            <div className="flex flex-wrap justify-center gap-2 mt-8">
-              {categories.map((category, index) => {
-                const Icon = category.icon;
-                return (
-                  <motion.button
-                    key={category.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 font-['Inter']
-                      ${category.id === selectedCategory 
-                        ? 'bg-gradient-to-r from-amber-600 to-yellow-600 text-white shadow-md shadow-amber-500/20 scale-105' 
-                        : 'bg-white/80 text-gray-600 hover:bg-white hover:shadow-md hover:scale-105'}`}
-                  >
-                    <Icon size={14} />
-                    {category.name}
-                  </motion.button>
-                );
-              })}
-            </div>
+       
           </motion.div>
 
           {/* Regions Grid */}
@@ -161,112 +133,3 @@ function MapofNepal() {
 }
 
 export default MapofNepal;
-
-// import React, { useState } from 'react';
-// import { motion } from 'framer-motion';
-// import { Compass, Building, Leaf, Mountain, Church } from 'lucide-react';
-// import { useCategories } from '../hooks/useCategory';  // Assuming this hook fetches categories from an API
-
-// function MapofNepal() {
-//   const [selectedCategory, setSelectedCategory] = useState('provinces');
-  
-//   // Fetch categories from the API
-//   const { data: categories, isLoading, isError } = useCategories();
-
-//   if (isLoading) return (
-//     <div className="flex justify-center items-center min-h-screen bg-gray-150">
-//       <motion.div
-//         initial={{ opacity: 0 }}
-//         animate={{ opacity: 1 }}
-//         transition={{ duration: 0.5 }}
-//         className="text-2xl text-gray-600"
-//       >
-//         Loading categories...
-//       </motion.div>
-//     </div>
-//   );
-  
-//   if (isError) return (
-//     <div className="flex justify-center items-center min-h-screen bg-gray-150">
-//       <motion.div
-//         initial={{ opacity: 0 }}
-//         animate={{ opacity: 1 }}
-//         transition={{ duration: 0.5 }}
-//         className="text-2xl text-red-600"
-//       >
-//         Error loading categories. Please try again later.
-//       </motion.div>
-//     </div>
-//   );
-
-//   return (
-//     <div className="min-h-screen bg-gray-150">
-//       <div className="min-h-screen backdrop-blur-sm bg-gray-25">
-//         <div className="container mx-auto px-4 py-8">
-//           <motion.div
-//             initial={{ opacity: 0, y: 20 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             className="text-center mb-12"
-//           >
-//             <motion.div 
-//               className="relative inline-block"
-//               initial={{ scale: 0.9, opacity: 0 }}
-//               animate={{ scale: 1, opacity: 1 }}
-//               transition={{ duration: 0.5, ease: "easeOut" }}
-//             >
-//               <h1 className="text-5xl font-bold font-['Cinzel'] mb-4 relative z-10">
-//                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-600 drop-shadow-lg">
-//                   Categories
-//                 </span>
-//                 <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-0.5 bg-gradient-to-r from-amber-600/0 via-amber-600 to-amber-600/0"></div>
-//               </h1>
-//             </motion.div>
-            
-//             <motion.p 
-//               className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto font-['Crimson_Text'] italic"
-//               initial={{ opacity: 0, y: 20 }}
-//               animate={{ opacity: 1, y: 0 }}
-//               transition={{ delay: 0.2 }}
-//             >
-//               Explore the various categories of places across Nepal
-//             </motion.p>
-
-//             {/* Categories Cards */}
-//             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-8">
-//               {categories.map((category, index) => {
-//                 const Icon = category.icon || Compass;  // Fallback to default icon if not provided
-//                 return (
-//                   <motion.div
-//                     key={category.id}
-//                     initial={{ opacity: 0, y: 20 }}
-//                     animate={{ opacity: 1, y: 0 }}
-//                     transition={{ delay: index * 0.1 }}
-//                     className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-//                   >
-//                     <div className="relative h-48 bg-gray-100 flex items-center justify-center rounded-t-lg">
-//                       <Icon size={40} className="text-amber-600" />
-//                     </div>
-//                     <div className="p-6">
-//                       <h3 className="text-xl font-semibold text-gray-800 mb-3 font-['Cinzel']">{category.name}</h3>
-//                       <p className="text-sm text-gray-600 mb-4 font-['Crimson_Text']">
-//                         Discover the hidden gems of this category.
-//                       </p>
-//                       <motion.button
-//                         onClick={() => setSelectedCategory(category.id)}
-//                         className="w-full py-2 px-4 bg-amber-600 text-white rounded-full font-['Inter'] text-sm font-medium transition-all duration-300 hover:bg-amber-700"
-//                       >
-//                         Explore
-//                       </motion.button>
-//                     </div>
-//                   </motion.div>
-//                 );
-//               })}
-//             </div>
-//           </motion.div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default MapofNepal;
