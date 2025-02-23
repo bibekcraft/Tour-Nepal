@@ -100,7 +100,7 @@ const Register = () => {
             </div>
 
 
-          <div className='flex'>
+          {/* <div className='flex'>
             <button className='flex items-center justify-center w-32 h-12 ml-6 bg-white border-2 rounded-full border-customble mb-7'>
             <img src={google} height={20} width={20}></img>
             <p className='ml-3'>
@@ -113,7 +113,7 @@ const Register = () => {
             Facebook
             </p>
             </button>
-            </div>
+            </div> */}
             <Link to="/login">
             <a href="#" className="self-end mb-10 text-sm text-customblue">
               Login Here               

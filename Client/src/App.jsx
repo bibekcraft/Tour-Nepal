@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import MapOfNepal from "./Components/firstpage/MapofNepal";
 import FrontBlog from "./Components/Blog/FrontBlog";
 import ViewFrontBlog from "./Components/Blog/ViewFrontBlog";
+import Nav from './Components/navbar/Nav'
 // import CategoryDisplay from "./Components/Category/CategoryDisplay";
 const queryClient = new QueryClient();
 
@@ -45,100 +46,103 @@ function App() {
           <Route path="/admin/blog/edit/:id" element={<ViewBlog />} />
           <Route path="/footer" element={<Footer />} />
           <Route path="/navbar" element={<Navbar />} />
+          <Route path="/nav" element={<Nav />} />
+
           <Route path="/blogging" element={<FrontBlog />} />
           <Route path="/ViewFrontBlog" element={<ViewFrontBlog />} />
 
           {/* <Route path="/show-categroy" element={<CategoryDisplay />} /> */}
 
-          <Route
-            path="/dashboard"
-            element={
-              <DashboardLayout>
-                <h1>Dashboard Home</h1>
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/add-category"
-            element={
-              <DashboardLayout>
-                <ErrorBoundary>
-                  <AddCategory />
-                </ErrorBoundary>
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/viewCategory"
-            element={
-              <DashboardLayout>
-                <QueryClientProvider client={queryClient}>
-                  <ViewCategory />
-                </QueryClientProvider>
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/add-place"
-            element={
-              <DashboardLayout>
-                <ErrorBoundary>
-                  <AddPlace />
-                </ErrorBoundary>
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/viewPlace"
-            element={
-              <DashboardLayout>
-                <ErrorBoundary>
-                  <Viewplace />
-                </ErrorBoundary>
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/viewblog"
-            element={
-              <DashboardLayout>
-                <ErrorBoundary>
-                  <ViewBlog />
-                </ErrorBoundary>
-              </DashboardLayout>
-            }
-          />
-
-          <Route
-            path="/add-details"
-            element={
-              <DashboardLayout>
-                <ErrorBoundary>
-                  <AddDetails />
-                </ErrorBoundary>
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/viewDetails"
-            element={
-              <DashboardLayout>
-                <ErrorBoundary>
-                  <Viewdetails />
-                </ErrorBoundary>
-              </DashboardLayout>
-            }
-          />
-          <Route
-            path="/blogs"
-            element={
-              <DashboardLayout>
-                <ErrorBoundary>
-                  <Blog />
-                </ErrorBoundary>
-              </DashboardLayout>
-            }
-          />
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path="/dashboard"
+              element={
+                <DashboardLayout>
+                  <h1>Dashboard Home</h1>
+                </DashboardLayout>
+              }
+            />
+            <Route
+              path="/add-category"
+              element={
+                <DashboardLayout>
+                  <ErrorBoundary>
+                    <AddCategory />
+                  </ErrorBoundary>
+                </DashboardLayout>
+              }
+            />
+            <Route
+              path="/viewCategory"
+              element={
+                <DashboardLayout>
+                  <QueryClientProvider client={queryClient}>
+                    <ViewCategory />
+                  </QueryClientProvider>
+                </DashboardLayout>
+              }
+            />
+            <Route
+              path="/add-place"
+              element={
+                <DashboardLayout>
+                  <ErrorBoundary>
+                    <AddPlace />
+                  </ErrorBoundary>
+                </DashboardLayout>
+              }
+            />
+            <Route
+              path="/viewPlace"
+              element={
+                <DashboardLayout>
+                  <ErrorBoundary>
+                    <Viewplace />
+                  </ErrorBoundary>
+                </DashboardLayout>
+              }
+            />
+            <Route
+              path="/viewblog"
+              element={
+                <DashboardLayout>
+                  <ErrorBoundary>
+                    <ViewBlog />
+                  </ErrorBoundary>
+                </DashboardLayout>
+              }
+            />
+            <Route
+              path="/add-details"
+              element={
+                <DashboardLayout>
+                  <ErrorBoundary>
+                    <AddDetails />
+                  </ErrorBoundary>
+                </DashboardLayout>
+              }
+            />
+            <Route
+              path="/viewDetails"
+              element={
+                <DashboardLayout>
+                  <ErrorBoundary>
+                    <Viewdetails />
+                  </ErrorBoundary>
+                </DashboardLayout>
+              }
+            />
+            <Route
+              path="/blogs"
+              element={
+                <DashboardLayout>
+                  <ErrorBoundary>
+                    <Blog />
+                  </ErrorBoundary>
+                </DashboardLayout>
+              }
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>

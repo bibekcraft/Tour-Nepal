@@ -1,27 +1,75 @@
 import { useState } from "react";
 import { FaUpload, FaPlusCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { MdCategory, MdDescription } from "react-icons/md";
-import { useCategories } from "../hooks/useCategory"; // Importing the useCategories hook
+import { useCategories } from "../hooks/useCategory";
+import { useAddPlace } from "../hooks/usePlace";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const AddPlace = () => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState(""); // Store selected category ID
-  const [, setImage] = useState(null);
+  const [category, setCategory] = useState(""); // Stores selected category ID
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
-  const { data: categories, isLoading, error } = useCategories(); // Fetch categories
+  const { data: categories, isLoading: isCategoriesLoading, error: categoriesError } = useCategories();
+  const { mutate: addPlace, isLoading: isAdding } = useAddPlace();
+
+  // Handle Image Upload
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  // Handle Form Submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!name || !location || !description || !category || !image) {
+      toast.error("⚠️ Please fill all fields!", { duration: 3000 });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("location", location);
+    formData.append("description", description);
+    formData.append("category", category); // Category ID
+    formData.append("image", image);
+
+    addPlace(formData, {
+      onSuccess: () => {
+        toast.success("✅ Place added successfully!", { duration: 3000 });
+        // Reset form
+        setName("");
+        setLocation("");
+        setDescription("");
+        setCategory("");
+        setImage(null);
+        setImagePreview(null);
+      },
+      onError: (error) => {
+        toast.error(`❌ Failed to add place: ${error.message}`, { duration: 3000 });
+      },
+    });
+  };
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-lg">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-xl w-full max-w-lg">
         <h2 className="text-3xl font-bold text-center mb-6 text-gray-800 flex items-center justify-center gap-2">
           <FaMapMarkerAlt className="text-blue-500" /> Add Place
         </h2>
 
+        {/* Place Name */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Place Name</label>
-          <div className="flex items-center border rounded-lg p-3">
+          <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300">
             <FaMapMarkerAlt className="text-gray-500 mr-2" />
             <input
               type="text"
@@ -34,9 +82,10 @@ const AddPlace = () => {
           </div>
         </div>
 
+        {/* Location */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Location</label>
-          <div className="flex items-center border rounded-lg p-3">
+          <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300">
             <FaMapMarkerAlt className="text-gray-500 mr-2" />
             <input
               type="text"
@@ -49,23 +98,25 @@ const AddPlace = () => {
           </div>
         </div>
 
+        {/* Description */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Description</label>
-          <div className="flex items-center border rounded-lg p-3">
-            <MdDescription className="text-gray-500 mr-2" />
+          <div className="flex items-start border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300">
+            <MdDescription className="text-gray-500 mr-2 mt-1" />
             <textarea
-              className="w-full outline-none"
+              className="w-full outline-none min-h-[100px]"
               placeholder="Enter description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
-            ></textarea>
+            />
           </div>
         </div>
 
+        {/* Category Dropdown */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Category</label>
-          <div className="flex items-center border rounded-lg p-3">
+          <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300">
             <MdCategory className="text-gray-500 mr-2" />
             <select
               className="w-full outline-none"
@@ -73,43 +124,68 @@ const AddPlace = () => {
               onChange={(e) => setCategory(e.target.value)}
               required
             >
-              <option value="">Select a category</option>
-              {isLoading ? (
-                <option>Loading...</option>
-              ) : error ? (
-                <option>Error loading categories</option>
-              ) : (
+              <option value="" disabled>Select a category</option>
+              {isCategoriesLoading ? (
+                <option disabled>Loading categories...</option>
+              ) : categoriesError ? (
+                <option disabled>Error loading categories</option>
+              ) : categories?.length > 0 ? (
                 categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}
                   </option>
                 ))
+              ) : (
+                <option disabled>No categories available</option>
               )}
             </select>
           </div>
         </div>
 
+        {/* Image Upload */}
         <div className="mb-6">
           <label className="block text-gray-700 font-medium mb-2">Upload Image</label>
           <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-100">
-            <FaUpload className="text-gray-600 mb-2 text-3xl" />
-            <span className="text-gray-600">Click to upload</span>
+            {imagePreview ? (
+              <img src={imagePreview} alt="Preview" className="h-full w-full object-cover rounded-lg" />
+            ) : (
+              <>
+                <FaUpload className="text-gray-600 mb-2 text-3xl" />
+                <span className="text-gray-600">Click to upload</span>
+              </>
+            )}
             <input
               type="file"
               className="hidden"
-              onChange={(e) => setImage(e.target.files[0])}
+              accept="image/*"
+              onChange={handleImageChange}
               required
             />
           </label>
         </div>
 
+        {/* Submit Button */}
         <button
-          type="button"
-          className="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-lg hover:opacity-90 transition flex items-center justify-center gap-2 font-semibold"
+          type="submit"
+          disabled={isAdding}
+          className={`w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-lg hover:opacity-90 transition flex items-center justify-center gap-2 font-semibold ${
+            isAdding ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          <FaPlusCircle className="text-white" /> Submit
+          <FaPlusCircle className="text-white" />
+          {isAdding ? "Submitting..." : "Submit"}
         </button>
-      </div>
+
+        {/* View Places Link */}
+        <Link to="/viewPlace">
+          <button
+            type="button"
+            className="w-full mt-6 bg-gradient-to-r from-blue-500 to-blue-700 text-white p-3 rounded-lg hover:opacity-90 transition flex items-center justify-center gap-2 font-semibold"
+          >
+            View Places
+          </button>
+        </Link>
+      </form>
     </div>
   );
 };

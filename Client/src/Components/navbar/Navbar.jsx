@@ -1,158 +1,100 @@
-import { useState } from "react";
+import React from 'react';
+import { Menu, X } from 'lucide-react';
 
-const Navbar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+function Navbar() {
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   return (
     <nav className="bg-white shadow-md">
-      <div className="container px-4 mx-auto sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <a
-            href="/"
-            className="text-2xl font-bold text-blue-600 hover:text-blue-700"
-          >
-            TravelBuddy
-          </a>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16 items-center">
+          {/* Logo and Brand Name */}
+          <div className="flex items-center space-x-2">
+            <img
+              src="/logo.png" // Replace with actual logo path
+              alt="Ghumne Sathi Logo"
+              className="h-10 w-10 rounded-full"
+            />
+            <h1 className="text-2xl font-bold text-green-700">Ghumne Sathi</h1>
+          </div>
 
-          {/* Navigation Links */}
-          <div className="hidden space-x-8 md:flex">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex md:items-center md:space-x-8">
             <a
               href="/"
-              className="font-medium text-gray-600 transition hover:text-blue-600"
+              className="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-xl font-medium"
             >
               Home
             </a>
             <a
-              href="/explore"
-              className="font-medium text-gray-600 transition hover:text-blue-600"
+              href="/dashboard"
+              className="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-xl font-medium"
             >
-              Explore
+              Dashboard
             </a>
             <a
-              href="/itinerary"
-              className="font-medium text-gray-600 transition hover:text-blue-600"
+              href="/about"
+              className="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-xl font-medium"
             >
-              Itinerary
+              About
             </a>
             <a
-              href="/blogs"
-              className="font-medium text-gray-600 transition hover:text-blue-600"
+              href="/#fontblog"
+              className="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-xl font-medium"
             >
-              Blogs
-            </a>
-            <a
-              href="/profile"
-              className="font-medium text-gray-600 transition hover:text-blue-600"
-            >
-              Profile
+              Blog
             </a>
           </div>
 
-          {/* Auth Buttons */}
-          <div className="hidden space-x-4 md:flex">
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
             <button
-              onClick={() => (window.location.href = "/login")}
-              className="px-4 py-2 text-gray-600 transition border border-gray-300 rounded-md hover:text-white hover:bg-gray-600"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500"
             >
-              Login
-            </button>
-            <button
-              onClick={() => (window.location.href = "/signup")}
-              className="px-4 py-2 text-white transition bg-blue-600 rounded-md hover:bg-blue-700"
-            >
-              Signup
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-600 hover:text-blue-600 focus:outline-none"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16m-7 6h7"
-                  />
-                )}
-              </svg>
+              {isMenuOpen ? (
+                <X className="block h-6 w-6" />
+              ) : (
+                <Menu className="block h-6 w-6" />
+              )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="bg-white shadow-lg md:hidden">
-          <div className="px-4 py-3 space-y-1">
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <a
               href="/"
-              className="block font-medium text-gray-600 transition hover:text-blue-600"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-green-700 hover:bg-gray-50"
             >
               Home
             </a>
             <a
-              href="/explore"
-              className="block font-medium text-gray-600 transition hover:text-blue-600"
+              href="/dashboard"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-green-700 hover:bg-gray-50"
             >
-              Explore
+              Dashboard
             </a>
             <a
-              href="/itinerary"
-              className="block font-medium text-gray-600 transition hover:text-blue-600"
+              href="/about"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-green-700 hover:bg-gray-50"
             >
-              Itinerary
+              About
             </a>
             <a
-              href="/blogs"
-              className="block font-medium text-gray-600 transition hover:text-blue-600"
+              href="/#fontblog"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-green-700 hover:bg-gray-50"
             >
-              Blogs
+              Blog
             </a>
-            <a
-              href="/ViewBlog"
-              className="block font-medium text-gray-600 transition hover:text-blue-600"
-            >
-              View Blogs
-            </a>
-            <div className="mt-3 space-y-2">
-
-              <button
-                onClick={() => (window.location.href = "/login")}
-                className="w-full px-4 py-2 text-gray-600 transition border border-gray-300 rounded-md hover:text-white hover:bg-gray-600"
-              >
-                Login
-              </button>
-              <button
-                onClick={() => (window.location.href = "/register")}
-                className="w-full px-4 py-2 text-white transition bg-blue-600 rounded-md hover:bg-blue-700"
-              >
-                Signup
-              </button>
-            </div>
           </div>
         </div>
       )}
     </nav>
   );
-};
+}
 
 export default Navbar;

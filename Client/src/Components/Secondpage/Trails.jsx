@@ -1,120 +1,160 @@
-import { Link } from "react-router-dom";
-import Footer from "../navbar/Footer";
-import { usePlaces } from "../api/Place"; // import the usePlaces hook
+import { useParams, Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { MapPin, Clock, Mountain, Filter } from 'lucide-react';
+import Navbar from '../navbar/Navbar';
+import Footer from '../navbar/Footer';
 
-function PhuketTours() {
-  const { data: places, isLoading, isError } = usePlaces(); // Fetch places data
+// Use Vite's import.meta.env for environment variables
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
-  // Handle loading state
+const fetchPlacesByCategory = async (categoryId) => {
+  const response = await fetch(`${BASE_URL}/api/places/?category=${categoryId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      // Add authentication headers if needed
+    },
+  });
+  if (!response.ok) {
+    throw new Error('Failed to fetch places');
+  }
+  return response.json();
+};
+
+function Trails() {
+  const { categoryId } = useParams();
+
+  const { data: places, isLoading, isError, error } = useQuery({
+    queryKey: ['places', categoryId],
+    queryFn: () => fetchPlacesByCategory(categoryId),
+  });
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-gray-600 text-lg">Loading trails...</p>
+      </div>
+    );
   }
 
-  // Handle error state
   if (isError) {
-    return <div>Error fetching places</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <p className="text-red-500 text-lg">Error: {error.message}</p>
+      </div>
+    );
   }
+
+  // Get category name from the first place (assuming all places share the same category)
+  const categoryName = places.length > 0 ? places[0].category.name : 'Unknown Category';
 
   return (
-    <>
-      <div className="w-full h-full bg-white ">
-        <div className="flex w-4/5 h-20 p-6 mx-auto mt-5 bg-white rounded-lg">
-          <div className="flex items-center justify-between w-full">
-            <h1>Home / Category / Nepal</h1>
-            <h1>Tour Nepal</h1>
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
+
+      {/* Hero Section */}
+      <div
+        className="relative h-[400px] bg-cover bg-center"
+        style={{
+          backgroundImage: 'url("https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&q=80")',
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50">
+          <div className="container mx-auto px-4 h-full flex items-center">
+            <div className="text-white max-w-2xl">
+              <h1 className="text-5xl font-bold mb-4">Discover {categoryName}</h1>
+              <p className="text-xl mb-8">Explore the majestic trails and immerse yourself in Nepal's beauty</p>
+              <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition duration-300">
+                Start Your Journey
+              </button>
+            </div>
           </div>
         </div>
-        <div className="flex w-4/5 h-screen mx-auto mt-5 bg-white rounded-lg">
-          {/* SIDEBAR CONTENT */}
-          <div className="w-1/5 mr-3 bg-white border-2 border-gray-100 rounded-lg h-4/6">
-            <div>
-              <p className="flex items-center justify-center w-full h-32 mx-auto text-white rounded-t-lg bg-orange">
-                When to travel
-              </p>
-              <div className="mx-auto mb-5 text-xl text-orange">
-                Tour Activities
+      </div>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar */}
+          <div className="lg:w-1/4">
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="flex items-center gap-2 mb-6">
+                <Filter className="w-5 h-5 text-green-600" />
+                <h2 className="text-xl font-semibold">Filters</h2>
               </div>
-              <div className="flex flex-col ml-3 text-gray-600">
-                <label>
-                  <input type="checkbox" /> Temple
-                </label>
-                <label>
-                  <input type="checkbox" /> Adventure
-                </label>
-                <label>
-                  <input type="checkbox" /> National Park
-                </label>
-                <label>
-                  <input type="checkbox" /> Geographical Regions
-                </label>
-              </div>
-              <div className="mx-auto mt-5 mb-5 text-xl align-middle text-orange">
-                Estimated date
-              </div>
-              <div className="ml-3 text-gray-600">
-                <p>1 day</p>
-                <p>2-4 day</p>
-                <p>4-6 day</p>
-                <p>6-10 day</p>
+
+              <div className="mb-6">
+                <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-green-600" />
+                  Duration
+                </h3>
+                <div className="space-y-2">
+                  {['1', '2-4', '4-6', '6-10'].map((duration) => (
+                    <label key={duration} className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-300 text-green-600 focus:ring-green-500"
+                      />
+                      <span className="text-gray-600">{duration} days</span>
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* MAIN CONTENT */}
-          <div className="w-4/5 h-screen p-4 overflow-y-scroll bg-white rounded-lg">
-            {places?.map((place) => (
-              <div className="max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-md mb-9" key={place.id}>
-                <div className="flex">
-                  <div className="relative flex-shrink-0 w-1/3">
-                    <img
-                      className="object-cover w-56 h-full rounded-lg"
-                      src={place.imageUrl} // Assuming place has an imageUrl
-                      alt={place.name} // Assuming place has a name
-                    />
-                    <span className="absolute p-3 text-xs font-semibold text-white bg-orange-500 bg-green-700 rounded top-2 left-2">
-                      {place.difficulty} {/* Assuming difficulty exists */}
-                    </span>
-                  </div>
-                  <div className="flex w-2/3">
-                    <div className="flex flex-col justify-between p-6 w-3/3">
-                      <div>
-                        <div className="text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                          {place.location} {/* Assuming location exists */}
+          {/* Tours Grid */}
+          <div className="lg:w-3/4">
+            <div className="grid gap-6">
+              {places.length === 0 ? (
+                <p className="text-center text-gray-600">No trails found for this category.</p>
+              ) : (
+                places.map((place) => (
+                  <div
+                    key={place.id}
+                    className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition duration-300"
+                  >
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-1/3 relative">
+                        <img
+                          src={place.image ? `${BASE_URL}${place.image}` : 'https://via.placeholder.com/300'}
+                          alt={place.name}
+                          className="h-full w-full object-cover"
+                          onError={(e) => (e.target.src = 'https://via.placeholder.com/300')}
+                        />
+                      </div>
+                      <div className="flex-1 p-6">
+                        <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                          <MapPin className="w-4 h-4" />
+                          {place.location}
                         </div>
-                        <h1 className="mt-1 text-lg font-medium leading-tight text-black">
-                          {place.title} {/* Assuming title exists */}
-                        </h1>
-                        <p className="mt-4 text-sm text-gray-500">
-                          {place.description} {/* Assuming description exists */}
-                        </p>
+                        <h3 className="text-xl font-semibold mb-2">{place.name}</h3>
+                        <p className="text-gray-600 mb-4">{place.description}</p>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-1">
+                              <Mountain className="w-4 h-4 text-green-600" />
+                              <span className="text-sm text-gray-600">{place.category.name}</span>
+                            </div>
+                          </div>
+                          <Link to={`/details/${place.id}`}>
+                            <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition duration-300">
+                              View Details
+                            </button>
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                    <div className="w-1 h-full bg-gray-100"></div>
-                    <div className="flex flex-col justify-between w-1/3 p-6">
-                      <div className="text-right">
-                        <div className="text-sm text-gray-600">
-                          {place.duration} {/* Assuming duration exists */}
-                        </div>
-                      </div>
-
-                      <div className="flex-grow"></div>
-
-                      <Link to={`/details/${place.id}`}> {/* Dynamically gitlink to details page */}
-                        <button className="w-auto h-10 mt-10 font-semibold border-2 rounded-lg text-orange border-orange">
-                          Show Details
-                        </button>
-                      </Link>
-                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                ))
+              )}
+            </div>
           </div>
         </div>
-        <Footer />
       </div>
-    </>
+
+      <Footer />
+    </div>
   );
 }
 
-export default PhuketTours;
+export default Trails;

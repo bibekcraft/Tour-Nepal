@@ -5,13 +5,18 @@ import {
   updateCategory,
   deleteCategory,
 } from '../api/Category';
-
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
 // Fetch all categories
 export const useCategories = () => {
   return useQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories,
-    staleTime: 1000 * 60 * 5, // Cache for 5 minutes
+    queryFn: async () => {
+      const response = await fetch(`${BASE_URL}/categories/all/`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch categories');
+      }
+      return response.json();
+    },
   });
 };
 
@@ -31,12 +36,13 @@ export const useAddCategory = () => {
   });
 };
 
-// Update category
 export const useUpdateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (id, data) => updateCategory(id, data),
-    onSuccess: (_, { id, data }) => {
+    onMutate: async ({ id, data }) => {
+      await queryClient.cancelQueries(['categories']);
+      const previousCategories = queryClient.getQueryData(['categories']);
       queryClient.setQueryData(['categories'], (oldCategories) =>
         oldCategories
           ? oldCategories.map((category) =>
@@ -44,9 +50,14 @@ export const useUpdateCategory = () => {
             )
           : []
       );
+      return { previousCategories };
     },
-    onError: (error) => {
+    onError: (error, { id }, context) => {
       console.error('Error updating category:', error);
+      queryClient.setQueryData(['categories'], context.previousCategories);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(['categories']);
     },
   });
 };
