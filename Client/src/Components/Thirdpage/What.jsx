@@ -1,9 +1,8 @@
-
 function What() {
   return (
     <div>
-            <div className="w-full bg-white">
-            <div className="mt-10">
+      <div className="w-full bg-white">
+        <div className="mt-10">
           <h2 className="mb-6 text-2xl font-bold text-gray-900">What is included</h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <ul className="space-y-4">
@@ -68,6 +67,12 @@ function What() {
               },
               {
                 day: "Day 4",
+                title: "Holy Bath at Pashupatinath",
+                description:
+                  "Participate in the spiritual experience of taking a holy bath in the Bagmati River, a revered ritual at Pashupatinath.",
+              },
+              {
+                day: "Day 5",
                 title: "Khao Sok National Park",
                 description:
                   "Discover stunning landscapes and immerse yourself in nature.",
@@ -77,16 +82,15 @@ function What() {
                 <div className="absolute w-6 h-6 rounded-full bg-orange -left-3"></div>
                 <div>
                   <h3 className="text-lg font-semibold text-gray-700">{`${itinerary.day}: ${itinerary.title}`}</h3>
-                  <p className="mt-5 text-gray-5 00">{itinerary.description}</p>
+                  <p className="mt-5 text-gray-700">{itinerary.description}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        </div>
-
+      </div>
     </div>
-  )
+  );
 }
 
-export default What
+export default What;

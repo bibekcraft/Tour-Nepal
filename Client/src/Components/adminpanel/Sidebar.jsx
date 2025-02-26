@@ -9,10 +9,8 @@ const Sidebar = () => {
     <aside className="flex flex-col w-64 h-screen bg-white shadow-lg">
       {/* Header Section */}
       <div className="p-6 border-b border-gray-200">
-        <h1 className="text-2xl font-bold text-blue-900">Admin Panel</h1>
-        <p className="mt-2 text-sm text-gray-500">
-          Manage your inventory seamlessly
-        </p>
+        <h1 className="text-2xl font-bold text-green-900">GhumneSathi</h1>
+
       </div>
 
       {/* Navigation Links */}

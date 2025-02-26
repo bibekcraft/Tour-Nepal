@@ -5,82 +5,71 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 const Blog = () => {
-  // Use the useAddBlog hook to handle the blog submission
   const { mutate: addBlog, isLoading } = useAddBlog();
-  
-  // State for form data
+
   const [formData, setFormData] = useState({
     title: "",
     content: "",
     author: "",
-    images: [],
+    image: null,  // Single file
     createdAt: new Date().toISOString().split("T")[0],
   });
 
-  // State for image previews
-  const [imagePreviews, setImagePreviews] = useState([]);
+  const [imagePreview, setImagePreview] = useState(null);  // Single preview
 
-  // Handle changes in form inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle image file selection
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const validFiles = files.filter((file) => file.size <= 5 * 1024 * 1024); // 5MB limit
-
-    if (validFiles.length < files.length) {
-      toast.error("Some files exceeded the 5MB limit.");
+    const file = e.target.files[0];  // Take only the first file
+    if (file && file.size > 5 * 1024 * 1024) {  // 5MB limit
+      toast.error("File exceeds 5MB limit.");
+      return;
     }
 
     setFormData((prev) => ({
       ...prev,
-      images: [...prev.images, ...validFiles],
+      image: file,
     }));
-
-    const newPreviews = validFiles.map((file) => URL.createObjectURL(file));
-    setImagePreviews((prev) => [...prev, ...newPreviews]);
+    setImagePreview(file ? URL.createObjectURL(file) : null);
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate required fields
-    if (!formData.title.trim() || !formData.content.trim() || !formData.author.trim()) {
-      toast.error("All fields are required.");
+    if (!formData.title.trim() || !formData.content.trim() || !formData.author.trim() || !formData.image) {
+      toast.error("All fields, including an image, are required.");
       return;
     }
 
-    // Prepare FormData for the API request
     const submitData = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      if (key === "images") {
-        value.forEach((img) => submitData.append("images", img));
-      } else {
-        submitData.append(key, value);
-      }
-    });
+    submitData.append("title", formData.title);
+    submitData.append("content", formData.content);
+    submitData.append("author", formData.author);
+    submitData.append("createdAt", formData.createdAt);
+    submitData.append("image", formData.image);  // Single image
 
-    try {
-      // Call the addBlog mutation
-      await addBlog(submitData);
-      toast.success("Blog published successfully!");
-      
-      // Reset form data and image previews
-      setFormData({
-        title: "",
-        content: "",
-        author: "",
-        images: [],
-        createdAt: new Date().toISOString().split("T")[0],
-      });
-      setImagePreviews([]);
-    } catch (error) {
-      toast.error("Failed to publish blog: " + error.message);
-    }
+    console.log("Submitting:", { title: formData.title, author: formData.author, image: formData.image.name });
+
+    addBlog(submitData, {
+      onSuccess: () => {
+        toast.success("Blog published successfully!");
+        setFormData({
+          title: "",
+          content: "",
+          author: "",
+          image: null,
+          createdAt: new Date().toISOString().split("T")[0],
+        });
+        setImagePreview(null);
+      },
+      onError: (error) => {
+        toast.error(`Failed to publish blog: ${error.message}`);
+        console.error("Error details:", error.response?.data || error);
+      },
+    });
   };
 
   return (
@@ -88,7 +77,6 @@ const Blog = () => {
       <div className="relative p-10 overflow-hidden bg-white shadow-lg rounded-3xl">
         <h2 className="mb-8 text-3xl font-semibold text-center text-gray-800">Write Your Blog</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Title Input */}
           <div className="flex flex-col lg:flex-row lg:space-x-6">
             <div className="w-full lg:w-1/2">
               <label className="flex items-center text-sm font-medium text-gray-600">
@@ -103,8 +91,6 @@ const Blog = () => {
                 className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl"
               />
             </div>
-
-            {/* Author Input */}
             <div className="w-full lg:w-1/2">
               <label className="flex items-center text-sm font-medium text-gray-600">
                 <FaUser className="mr-2 text-gray-500" /> Written By
@@ -119,8 +105,6 @@ const Blog = () => {
               />
             </div>
           </div>
-
-          {/* Content Textarea */}
           <div>
             <label className="flex items-center text-sm font-medium text-gray-600">
               <FaAlignLeft className="mr-2 text-gray-500" /> Content
@@ -134,8 +118,6 @@ const Blog = () => {
               className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl"
             ></textarea>
           </div>
-
-          {/* Created At Input */}
           <div>
             <label className="flex items-center text-sm font-medium text-gray-600">
               <FaCalendarAlt className="mr-2 text-gray-500" /> Created At
@@ -149,35 +131,27 @@ const Blog = () => {
               className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl"
             />
           </div>
-
-          {/* Image Upload Input */}
           <div>
             <label className="flex items-center text-sm font-medium text-gray-600">
-              <FaImage className="mr-2 text-gray-500" /> Upload Images
+              <FaImage className="mr-2 text-gray-500" /> Upload Image
             </label>
             <input
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              multiple
               className="block w-full px-5 py-4 mt-2 text-xl border border-gray-300 shadow-sm rounded-xl"
             />
-            {imagePreviews.length > 0 && (
-              <div className="mt-4 grid grid-cols-3 gap-4">
-                {imagePreviews.map((preview, index) => (
-                  <img
-                    key={index}
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    className="max-h-32 rounded-xl shadow-lg"
-                  />
-                ))}
+            {imagePreview && (
+              <div className="mt-4">
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="max-h-32 rounded-xl shadow-lg"
+                />
               </div>
             )}
           </div>
-
-          {/* Submit Button */}
-          <div className="flex justify-center">
+          <div className="flex justify-center space-x-4">
             <button
               type="submit"
               className="px-6 py-3 text-white bg-blue-500 rounded-lg disabled:bg-gray-400"
@@ -185,12 +159,13 @@ const Blog = () => {
             >
               {isLoading ? "Publishing..." : "Publish Blog"}
             </button>
-            <Link to='/viewblog'>
-            <button
-              className="px-6 mt-4 py-3 text-white bg-blue-500 rounded-lg disabled:bg-gray-400"
-            >
-              View Blog
-            </button>
+            <Link to="/viewblog">
+              <button
+                type="button"
+                className="px-6 py-3 text-white bg-blue-500 rounded-lg"
+              >
+                View Blog
+              </button>
             </Link>
           </div>
         </form>

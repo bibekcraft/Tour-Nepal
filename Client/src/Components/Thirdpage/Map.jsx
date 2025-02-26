@@ -1,23 +1,13 @@
-
 const Map = () => {
   return (
-    <div className="relative w-full h-[500px] flex items-center justify-center bg-gray-100">
-      {/* Background Section */}
-      <div className="absolute inset-0 opacity-50 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
-
+    <div className="relative">
       {/* Image */}
-      <div className="relative z-10 w-[80%] md:w-[50%] shadow-lg rounded-lg overflow-hidden">
+      <div className="relative z-10 w-[80%] md:w-[50%] shadow-lg rounded-lg overflow-hidden ml-66">
         <img
-          src="https://via.placeholder.com/600x400" // Replace with your image URL
+          src="https://d3q9kdqrtloda.cloudfront.net/production/transformed-images/maps_googleapis_com/maps/api/27.7056583,85.347840614&markers=size:large%7Ccolor:0xe31837%7C27.7056583,85.3478406_c064b90135.png" // Replace with your image URL
           alt="Tourism Place"
           className="w-full h-auto rounded-lg"
         />
-      </div>
-
-      {/* Text Overlay (Optional) */}
-      <div className="absolute text-center text-white top-10">
-        <h2 className="text-3xl font-bold">Beautiful Destination</h2>
-        <p className="text-lg">Explore the wonders of nature</p>
       </div>
     </div>
   );

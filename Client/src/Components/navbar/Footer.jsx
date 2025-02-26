@@ -3,14 +3,15 @@ import facebookIcon from '../../assets/facebook.png';
 import instagramIcon from '../../assets/instagram.png';
 import twitterIcon from '../../assets/twitter.png';
 import linkedinIcon from '../../assets/linkedin.png';
-
+import { useLocation } from 'react-router-dom';
 function Footer() {
+
   return (
     <>
         <img
           src={np}
           alt="Nepal"
-          className="object-cover w-full h-full opacity-50"
+          className="object-cover w-full h-full opacity-50 mt-14"
         />      <div className="relative w-full h-80 bg-gradient-to-b from-green-700 to-green-500">
 
         <footer className="py-16 bg-gray-50">
@@ -65,7 +66,7 @@ function Footer() {
                 of Nepal.
               </p>
               <a
-                href="/contact"
+                href="/"
                 className="inline-block px-6 py-3 bg-green-600 text-white text-xl rounded-lg hover:bg-green-700 transition duration-300"
               >
                 Get in Touch

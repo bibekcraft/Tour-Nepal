@@ -12,8 +12,8 @@ export const addBlog = async (formData) =>
 
 // Update Blog
 export const updateBlog = async ({ blogId, updatedData }) =>
-  (await axiosInstance.put(`/blog/${blogId}`, updatedData)).data;
+  (await axiosInstance.put(`/blog/update/${blogId}/`, updatedData)).data;
 
 // Delete Blog
 export const deleteBlog = async ({ id }) =>
-  (await axiosInstance.delete(`/blog/${id}`)).data;
+  (await axiosInstance.delete(`/blog/delete/${id}/`)).data;

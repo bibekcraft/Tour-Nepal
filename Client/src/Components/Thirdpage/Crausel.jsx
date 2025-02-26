@@ -1,4 +1,6 @@
 function Crausel() {
+  const imagePath = "https://www.holidaystonepal.in/media/files/Blogs/Pashupatinath-Temple-Photos/Pashupatinath-Temple.png"
+
   return (
     <div>
       <div className="w-full bg-white">
@@ -11,7 +13,7 @@ function Crausel() {
                 className="relative flex flex-col flex-grow px-4 pt-40 pb-4 overflow-hidden rounded-lg group"
               >
                 <img
-                  src="https://cdn.britannica.com/05/58605-050-86F58113/Annapurna-massif-village-Nepal.jpg"
+                  src={imagePath}
                   alt="Pokhara"
                   className="absolute inset-0 object-cover w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105"
                 />
@@ -29,7 +31,7 @@ function Crausel() {
                 className="relative flex flex-col px-4 pt-40 pb-4 mb-4 overflow-hidden rounded-lg group"
               >
                 <img
-                  src="https://i.ytimg.com/vi/kbfs_RHYx7c/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLArIuMqqkxm3Je0NrzQ79FiCfPyqg"
+                  src={imagePath}
                   alt="Rotang La Pass"
                   className="absolute inset-0 object-cover w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105"
                 />
@@ -44,7 +46,7 @@ function Crausel() {
                   className="relative flex flex-col px-4 pt-40 pb-4 overflow-hidden rounded-lg group"
                 >
                   <img
-                    src="https://fulltimeexplorer.com/wp-content/uploads/2019/06/Most-Beautiful-places-of-Nepal-1-1.jpg"
+                    src={imagePath}
                     alt="Manang"
                     className="absolute inset-0 object-cover w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105"
                   />
@@ -58,7 +60,7 @@ function Crausel() {
                   className="relative flex flex-col px-4 pt-40 pb-4 overflow-hidden rounded-lg group"
                 >
                   <img
-                    src="https://mustangnepal.com/wp-content/uploads/2022/01/things-todo.jpg"
+                    src={imagePath}
                     alt="Mustang"
                     className="absolute inset-0 object-cover w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105"
                   />
@@ -77,7 +79,7 @@ function Crausel() {
                 className="relative flex flex-col flex-grow px-4 pt-40 pb-4 overflow-hidden rounded-lg group"
               >
                 <img
-                  src="https://nationalparks-15bc7.kxcdn.com/images/parks/sagarmatha/Sagarmatha%20National%20Park.jpg"
+                  src={imagePath}
                   alt="Sagarmatha"
                   className="absolute inset-0 object-cover w-full h-full transition-transform duration-500 ease-in-out group-hover:scale-105"
                 />

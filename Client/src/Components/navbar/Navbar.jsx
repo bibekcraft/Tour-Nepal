@@ -1,4 +1,6 @@
+// src/Components/navbar/Navbar.jsx
 import React from 'react';
+import { Link } from 'react-router-dom'; // Use Link instead of a tags
 import { Menu, X } from 'lucide-react';
 
 function Navbar() {
@@ -11,39 +13,43 @@ function Navbar() {
           {/* Logo and Brand Name */}
           <div className="flex items-center space-x-2">
             <img
-              src="/logo.png" // Replace with actual logo path
-              alt="Ghumne Sathi Logo"
-              className="h-10 w-10 rounded-full"
+
             />
             <h1 className="text-2xl font-bold text-green-700">Ghumne Sathi</h1>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex md:items-center md:space-x-8">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-xl font-medium"
             >
               Home
-            </a>
-            <a
-              href="/dashboard"
-              className="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-xl font-medium"
-            >
-              Dashboard
-            </a>
-            <a
-              href="/about"
+            </Link>
+            <Link
+              to="/about"
               className="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-xl font-medium"
             >
               About
-            </a>
-            <a
-              href="/#fontblog"
+            </Link>
+            <Link
+              to="/blogging"
               className="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-xl font-medium"
             >
               Blog
-            </a>
+            </Link>
+            <Link
+              to="/login"
+              className="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-xl font-medium"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="text-gray-600 hover:text-green-700 px-3 py-2 rounded-md text-xl font-medium"
+            >
+              Register
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -66,30 +72,36 @@ function Navbar() {
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-green-700 hover:bg-gray-50"
             >
               Home
-            </a>
-            <a
-              href="/dashboard"
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-green-700 hover:bg-gray-50"
-            >
-              Dashboard
-            </a>
-            <a
-              href="/about"
+            </Link>
+            <Link
+              to="/about"
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-green-700 hover:bg-gray-50"
             >
               About
-            </a>
-            <a
-              href="/#fontblog"
+            </Link>
+            <Link
+              to="/blogging"
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-green-700 hover:bg-gray-50"
             >
               Blog
-            </a>
+            </Link>
+            <Link
+              to="/login"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-green-700 hover:bg-gray-50"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-green-700 hover:bg-gray-50"
+            >
+              Register
+            </Link>
           </div>
         </div>
       )}

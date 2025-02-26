@@ -4,44 +4,42 @@ import { toast } from "react-toastify";
 import { useBlogs, useDeleteBlog, useUpdateBlog } from "../hooks/Blog";
 
 const ViewBlog = () => {
-  // Fetch blogs and hooks for delete/update
   const { data: blogs, isLoading, error } = useBlogs();
   const { mutate: deleteBlog } = useDeleteBlog();
   const { mutate: updateBlog } = useUpdateBlog();
 
-  // State for editing a blog
   const [editFormData, setEditFormData] = useState({
     title: "",
     content: "",
     author: "",
     createdAt: "",
-    images: [],
-    existingImages: [],
+    image: null,
   });
+  const [editingBlogId, setEditingBlogId] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
-  const [editingBlogId, setEditingBlogId] = useState(null); // Track which blog is being edited
-  const [imagePreviews, setImagePreviews] = useState([]); // For image previews during editing
-
-  // Handle errors when fetching blogs
   useEffect(() => {
     if (error) toast.error("Failed to fetch blogs: " + error.message);
   }, [error]);
 
-  // Handle click on "Edit" button
   const handleEditClick = (blog) => {
-    setEditingBlogId(blog._id);
+    if (!blog.id) {
+      console.error("Blog has no ID:", blog);
+      toast.error("Cannot edit blog: Invalid ID");
+      return;
+    }
+    console.log("Editing blog:", blog);
+    setEditingBlogId(blog.id);
     setEditFormData({
-      title: blog.title,
-      content: blog.content,
-      author: blog.author,
-      createdAt: blog.createdAt.split("T")[0],
-      images: [],
-      existingImages: blog.images || [],
+      title: blog.title || "",
+      content: blog.content || "",
+      author: blog.author || "",
+      createdAt: blog.createdAt ? blog.createdAt.split("T")[0] : "",
+      image: null,
     });
-    setImagePreviews(blog.images || []);
+    setImagePreview(blog.image || null);
   };
 
-  // Handle canceling the edit mode
   const handleCancelEdit = () => {
     setEditingBlogId(null);
     setEditFormData({
@@ -49,40 +47,36 @@ const ViewBlog = () => {
       content: "",
       author: "",
       createdAt: "",
-      images: [],
-      existingImages: [],
+      image: null,
     });
-    setImagePreviews([]);
+    setImagePreview(null);
   };
 
-  // Handle changes in the edit form inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle image upload during editing
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    const validFiles = files.filter((file) => file.size <= 5 * 1024 * 1024); // 5MB limit
-
-    if (validFiles.length < files.length) {
-      toast.error("Some files exceeded the 5MB limit.");
+    const file = e.target.files[0];
+    if (file && file.size > 5 * 1024 * 1024) {
+      toast.error("File exceeds 5MB limit.");
+      return;
     }
-
     setEditFormData((prev) => ({
       ...prev,
-      images: [...prev.images, ...validFiles],
+      image: file,
     }));
-
-    const newPreviews = validFiles.map((file) => URL.createObjectURL(file));
-    setImagePreviews((prev) => [...prev, ...newPreviews]);
+    setImagePreview(file ? URL.createObjectURL(file) : null);
   };
 
-  // Handle form submission for updating a blog
-  const handleUpdateSubmit = async (e) => {
+  const handleUpdateSubmit = (e) => {
     e.preventDefault();
 
+    if (!editingBlogId) {
+      toast.error("No blog selected for update");
+      return;
+    }
     if (!editFormData.title.trim() || !editFormData.content.trim()) {
       toast.error("Title and content are required");
       return;
@@ -93,12 +87,12 @@ const ViewBlog = () => {
     formData.append("content", editFormData.content);
     formData.append("author", editFormData.author);
     formData.append("createdAt", editFormData.createdAt);
+    if (editFormData.image) {
+      formData.append("image", editFormData.image);
+    }
 
-    // Append existing and new images
-    editFormData.existingImages.forEach((img) => formData.append("existingImages", img));
-    editFormData.images.forEach((img) => formData.append("images", img));
+    console.log("Updating blog ID:", editingBlogId);
 
-    // Call the updateBlog mutation
     updateBlog(
       { id: editingBlogId, data: formData },
       {
@@ -108,18 +102,30 @@ const ViewBlog = () => {
         },
         onError: (error) => {
           toast.error(`Error updating blog: ${error.message}`);
+          console.error("Update error:", error.response?.data || error);
         },
       }
     );
   };
 
-  // Handle deleting a blog
   const handleDelete = (id) => {
-    deleteBlog({ id });
-    toast.success("Blog deleted successfully!");
+    if (!id) {
+      toast.error("Cannot delete blog: Invalid ID");
+      return;
+    }
+    deleteBlog(
+      { id },
+      {
+        onSuccess: () => {
+          toast.success("Blog deleted successfully!");
+        },
+        onError: (error) => {
+          toast.error(`Error deleting blog: ${error.message}`);
+        },
+      }
+    );
   };
 
-  // Loading state
   if (isLoading) return <div>Loading blogs...</div>;
 
   return (
@@ -127,10 +133,17 @@ const ViewBlog = () => {
       <h1 className="text-3xl font-semibold mb-6">Manage Blogs</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {blogs?.map((blog) => (
-          <div key={blog._id} className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div key={blog.id} className="bg-white rounded-2xl shadow-lg overflow-hidden">
             <div className="p-6">
               <h3 className="text-xl font-semibold mb-2">{blog.title}</h3>
               <p className="text-gray-600 line-clamp-3 mb-4">{blog.content}</p>
+              {blog.image && (
+                <img
+                  src={blog.image}
+                  alt={blog.title}
+                  className="max-h-32 rounded-xl mb-4"
+                />
+              )}
               <div className="flex justify-between items-center">
                 <button
                   onClick={() => handleEditClick(blog)}
@@ -139,7 +152,7 @@ const ViewBlog = () => {
                   <FaPen /> Edit
                 </button>
                 <button
-                  onClick={() => handleDelete(blog._id)}
+                  onClick={() => handleDelete(blog.id)}
                   className="text-red-600 hover:text-red-800 flex items-center gap-2"
                 >
                   <FaTrash /> Delete
@@ -150,7 +163,6 @@ const ViewBlog = () => {
         ))}
       </div>
 
-      {/* Edit Blog Modal */}
       {editingBlogId && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <form
@@ -185,6 +197,15 @@ const ViewBlog = () => {
             />
 
             <input
+              type="text"
+              name="author"
+              value={editFormData.author}
+              onChange={handleChange}
+              placeholder="Author"
+              className="w-full p-3 mb-4 border rounded-lg"
+            />
+
+            <input
               type="date"
               name="createdAt"
               value={editFormData.createdAt}
@@ -196,20 +217,16 @@ const ViewBlog = () => {
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              multiple
               className="w-full p-3 mb-4 border rounded-lg"
             />
 
-            {imagePreviews.length > 0 && (
-              <div className="mt-4 grid grid-cols-3 gap-4">
-                {imagePreviews.map((preview, index) => (
-                  <img
-                    key={index}
-                    src={preview}
-                    alt={`Preview ${index + 1}`}
-                    className="max-h-32 rounded-xl shadow-lg"
-                  />
-                ))}
+            {imagePreview && (
+              <div className="mt-4">
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="max-h-32 rounded-xl shadow-lg"
+                />
               </div>
             )}
 

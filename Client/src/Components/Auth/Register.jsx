@@ -1,28 +1,44 @@
 import home from '../../assets/loginbg.png';
-import { Link } from 'react-router-dom';
-import google from '../../assets/google.png';
-import facebook from '../../assets/facebook.png';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useRegister } from '../hooks/Auth';
+import useAuthStore from '../store/AuthStore'; // Zustand store for authentication
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [first_name, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+  const { mutate: register, isLoading, error } = useRegister();
+  const setUser = useAuthStore((state) => state.setUser);
 
-  const handel = () => {
-    localStorage.setItem('email', email);
-    localStorage.setItem('password', password);
-  };
+  const handleRegister = (e) => {
+    e.preventDefault();
 
-  const remove = () => {
-    localStorage.removeItem('email');
-    localStorage.removeItem('password');
+    if (!first_name || !email || !password || !confirmPassword) {
+      alert('All fields are required!');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return;
+    }
+
+    register(
+      { first_name, email, password },
+      {
+        onSuccess: (data) => {
+          // Store user data in Zustand after registration
+          setUser({ email, first_name });
+          navigate('/login');
+        },
+      }
+    );
   };
 
   return (
-
-    
     <div
       className="relative flex items-center justify-center min-h-screen bg-sky-300"
       style={{
@@ -39,117 +55,54 @@ const Register = () => {
               "url('https://img.freepik.com/premium-photo/nature-high-quality-4k-hdr_889056-32969.jpg')",
           }}
         >
-          {/*  blue Overlay in screen */}
-
           <div className="absolute inset-0 bg-blue-950 bg-opacity-70"></div>
-
           <h1 className="relative text-3xl font-bold text-center text-white">
             TRAVEL IS THE ONLY THING YOU BUY THAT MAKES YOU RICHER
           </h1>
-          <div className="relative flex mt-8 space-x-4">
-            <a href="#" className="text-2xl text-white">
-              <i className="fab fa-facebook"></i>
-            </a>
-            <a href="#" className="text-2xl text-white">
-              <i className="fab fa-twitter"></i>
-            </a>
-            <a href="#" className="text-2xl text-white">
-              <i className="fab fa-instagram"></i>
-            </a>
-          </div>
         </div>
 
         <div className="flex flex-col justify-center p-8 bg-white w-96">
           <h2 className="mb-6 text-2xl font-bold text-gray-400">TRAVEL BLOGGER</h2>
-          <form className="flex flex-col">
-          <div className="mb-8">
-              <input
-                type="text"
-                placeholder="Enter your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2 bg-white border-2 border-gray-300 rounded focus:outline-customblue focus:ring-customblue"
-              />
-            </div>
-            <div className="mb-8">
-              <input
-                type="tel"
-                placeholder="Enter your phone number here"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-4 py-2 bg-white border-2 border-gray-300 rounded focus:outline-customblue focus:ring-customblue"
-              />
-            </div>
-            <div className="mb-8">
-              <input
-                type="text"
-                placeholder="Enter your email here"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 bg-white border-2 border-gray-300 rounded focus:outline-customblue focus:ring-customblue"
-              />
-            </div>
-            <div className="mb-8">
-              <input
-                type="text"
-                placeholder="Enter your password here"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 bg-white border-2 border-gray-300 rounded focus:outline-customblue focus:ring-customblue"
-              />
-            </div>
-
-
-          {/* <div className='flex'>
-            <button className='flex items-center justify-center w-32 h-12 ml-6 bg-white border-2 rounded-full border-customble mb-7'>
-            <img src={google} height={20} width={20}></img>
-            <p className='ml-3'>
-            google
-            </p>
-            </button>
-            <button className='flex items-center justify-center w-32 h-12 ml-6 bg-white border-2 rounded-full border-customble mb-7'>
-            <img src={facebook} height={20} width={20}></img>
-            <p className='ml-3'>
-            Facebook
-            </p>
-            </button>
-            </div> */}
-            <Link to="/login">
-            <a href="#" className="self-end mb-10 text-sm text-customblue">
-              Login Here               
-            </a>
-            </Link> 
-
-              
-            <button className="px-4 py-2 font-bold text-white bg-gray-500 border-blue-300 rounded hover:bg-customblue"
-            onClick={handel}
+          <form onSubmit={handleRegister} className="flex flex-col">
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={first_name}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="w-full px-4 py-2 mb-4 bg-white border-2 border-gray-300 rounded focus:outline-customblue focus:ring-customblue"
+            />
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2 mb-4 bg-white border-2 border-gray-300 rounded focus:outline-customblue focus:ring-customblue"
+            />
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 mb-4 bg-white border-2 border-gray-300 rounded focus:outline-customblue focus:ring-customblue"
+            />
+            <input
+              type="password"
+              placeholder="Confirm your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full px-4 py-2 mb-4 bg-white border-2 border-gray-300 rounded focus:outline-customblue focus:ring-customblue"
+            />
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="px-4 py-2 font-bold text-white bg-gray-500 rounded hover:bg-customblue disabled:opacity-50"
             >
-              
-              ENTER
+              {isLoading ? 'Registering...' : 'Register'}
             </button>
-            {localStorage.getItem('name') && (
-            <div>
-               Name: <p>{localStorage.getItem('name')}</p>
-            </div>
-         )}
-                     {localStorage.getItem('phone ') && (
-            <div>
-               Phone number: <p>{localStorage.getItem('phone')}</p>
-            </div>
-         )}
-            {localStorage.getItem('email') && (
-            <div>
-               email: <p>{localStorage.getItem('email')}</p>
-            </div>
-         )}
-         {localStorage.getItem('password') && (
-            <div>
-               Password: <p>{localStorage.getItem('password')}</p>
-            </div>
-         )}
-         <div>
-            <button onClick={remove}>Remove</button>
-         </div>
+            {error && <p className="mt-2 text-sm text-red-500">{error.message}</p>}
+            <Link to="/login" className="self-end mt-4 text-sm text-customblue">
+              Login Here
+            </Link>
           </form>
         </div>
       </div>

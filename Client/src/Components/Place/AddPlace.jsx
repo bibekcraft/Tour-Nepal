@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaUpload, FaPlusCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { MdCategory, MdDescription } from "react-icons/md";
+import { BsClock } from "react-icons/bs"; // New icon for timetotravel
 import { useCategories } from "../hooks/useCategory";
 import { useAddPlace } from "../hooks/usePlace";
 import { Link } from "react-router-dom";
@@ -13,6 +14,7 @@ const AddPlace = () => {
   const [category, setCategory] = useState(""); // Stores selected category ID
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [timetotravel, setTimeToTravel] = useState(""); // New state for timetotravel
 
   const { data: categories, isLoading: isCategoriesLoading, error: categoriesError } = useCategories();
   const { mutate: addPlace, isLoading: isAdding } = useAddPlace();
@@ -30,7 +32,7 @@ const AddPlace = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!name || !location || !description || !category || !image) {
+    if (!name || !location || !description || !category || !image || !timetotravel) {
       toast.error("⚠️ Please fill all fields!", { duration: 3000 });
       return;
     }
@@ -41,6 +43,10 @@ const AddPlace = () => {
     formData.append("description", description);
     formData.append("category", category); // Category ID
     formData.append("image", image);
+    formData.append("timetotravel", timetotravel); // Add timetotravel to FormData
+
+    // Debug: Log FormData contents
+    console.log("Submitting FormData:", { name, location, description, category, image, timetotravel });
 
     addPlace(formData, {
       onSuccess: () => {
@@ -52,9 +58,11 @@ const AddPlace = () => {
         setCategory("");
         setImage(null);
         setImagePreview(null);
+        setTimeToTravel(""); // Reset timetotravel
       },
       onError: (error) => {
         toast.error(`❌ Failed to add place: ${error.message}`, { duration: 3000 });
+        console.error("Error details:", error.response?.data || error);
       },
     });
   };
@@ -139,6 +147,22 @@ const AddPlace = () => {
                 <option disabled>No categories available</option>
               )}
             </select>
+          </div>
+        </div>
+
+        {/* Time to Travel */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-medium mb-2">Time to Travel</label>
+          <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300">
+            <BsClock className="text-gray-500 mr-2" />
+            <input
+              type="text"
+              className="w-full outline-none"
+              placeholder="e.g., 2 days"
+              value={timetotravel}
+              onChange={(e) => setTimeToTravel(e.target.value)}
+              required
+            />
           </div>
         </div>
 

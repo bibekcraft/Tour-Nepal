@@ -68,7 +68,7 @@ function MapofNepal() {
                 onHoverEnd={() => setHoveredRegion(null)}
                 className="group cursor-pointer relative"
               >
-                <Link to={`/categories/${category.name}/trails`}>
+                <Link to={`/categories/${category.id}/trails`}>
                   <motion.div
                     className="relative overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300"
                     whileHover={{ y: 4 }}

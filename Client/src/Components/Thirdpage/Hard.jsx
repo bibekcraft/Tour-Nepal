@@ -13,7 +13,7 @@ function Hard() {
           <div className="flex items-center">
             <img src={schedule} alt="Duration" className="w-12 h-12" />
             <span className="ml-3 text-lg font-medium text-gray-700">
-              2 days & 1 night
+              1day
             </span>
           </div>
           <div className="flex items-center">
