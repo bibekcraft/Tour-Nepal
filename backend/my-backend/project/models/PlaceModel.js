@@ -1,12 +1,31 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
 
-const placeSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  location: { type: String, required: true },
-  description: { type: String },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
-  image: { type: String }
+const Place = sequelize.define('Place', {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  location: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  category: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'Categories', 
+      key: 'id',
+    },
+    allowNull: false,
+  },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
-const Place = mongoose.model('Place', placeSchema);
-module.exports = Place;   
+module.exports = Place;

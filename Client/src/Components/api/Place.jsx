@@ -2,7 +2,7 @@ import axiosInstance from './Index';
 
 // Fetch places
 export const fetchPlaces = async () => {
-  const response = await axiosInstance.get('/places/');
+  const response = await axiosInstance.get('/places/all/');
   return response.data;
 };
 

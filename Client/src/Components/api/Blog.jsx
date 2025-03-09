@@ -2,13 +2,13 @@ import axiosInstance from './Index';
 
 // Fetch Blogs
 export const fetchBlogs = async () => {
-  const { data } = await axiosInstance.get('/blog/all');
+  const { data } = await axiosInstance.get('/blog/all/');
   return data;
 };
 
 // Add Blog
 export const addBlog = async (formData) =>
-  (await axiosInstance.post('/blog/add', formData, { headers: { 'Content-Type': 'multipart/form-data' } })).data;
+  (await axiosInstance.post('/blog/add/', formData, { headers: { 'Content-Type': 'multipart/form-data' } })).data;
 
 // Update Blog
 export const updateBlog = async ({ blogId, updatedData }) =>

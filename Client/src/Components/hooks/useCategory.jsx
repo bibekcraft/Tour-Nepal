@@ -1,34 +1,28 @@
+// src/hooks/useCategory.js
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  fetchCategories,
-  addCategory,
-  updateCategory,
-  deleteCategory,
-} from '../api/Category';
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api';
-// Fetch all categories
+import { fetchCategories, addCategory, updateCategory, deleteCategory } from '../api/Category';
+
 export const useCategories = () => {
   return useQuery({
     queryKey: ['categories'],
-    queryFn: async () => {
-      const response = await fetch(`${BASE_URL}/categories/all/`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch categories');
-      }
-      return response.json();
+    queryFn: fetchCategories,
+    onError: (error) => {
+      console.error('Error fetching categories:', error);
     },
   });
 };
 
-// Add category
 export const useAddCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: addCategory,
     onSuccess: (newCategory) => {
+      // Optimistically update the local cache
       queryClient.setQueryData(['categories'], (oldCategories) =>
         oldCategories ? [...oldCategories, newCategory] : [newCategory]
       );
+      // Invalidate to refetch from server, ensuring sync
+      queryClient.invalidateQueries(['categories']);
     },
     onError: (error) => {
       console.error('Error adding category:', error);
@@ -39,41 +33,41 @@ export const useAddCategory = () => {
 export const useUpdateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id, data) => updateCategory(id, data),
-    onMutate: async ({ id, data }) => {
-      await queryClient.cancelQueries(['categories']);
-      const previousCategories = queryClient.getQueryData(['categories']);
+    mutationFn: ({ id, data }) => updateCategory({ id, data }),
+    onSuccess: (updatedCategory) => {
       queryClient.setQueryData(['categories'], (oldCategories) =>
         oldCategories
           ? oldCategories.map((category) =>
-              category.id === id ? { ...category, ...data } : category
+              category.id === updatedCategory.id ? updatedCategory : category
             )
-          : []
+          : [updatedCategory]
       );
-      return { previousCategories };
-    },
-    onError: (error, { id }, context) => {
-      console.error('Error updating category:', error);
-      queryClient.setQueryData(['categories'], context.previousCategories);
-    },
-    onSettled: () => {
       queryClient.invalidateQueries(['categories']);
+    },
+    onError: (error) => {
+      console.error('Error updating category:', error);
     },
   });
 };
 
-// Delete category
 export const useDeleteCategory = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteCategory,
-    onSuccess: (_, id) => {
+    onMutate: async (id) => {
+      await queryClient.cancelQueries(['categories']);
+      const previousCategories = queryClient.getQueryData(['categories']);
       queryClient.setQueryData(['categories'], (oldCategories) =>
         oldCategories ? oldCategories.filter((category) => category.id !== id) : []
       );
+      return { previousCategories };
     },
-    onError: (error) => {
+    onError: (error, id, context) => {
       console.error('Error deleting category:', error);
+      queryClient.setQueryData(['categories'], context.previousCategories);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(['categories']);
     },
   });
 };

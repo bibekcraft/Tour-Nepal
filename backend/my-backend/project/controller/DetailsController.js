@@ -1,100 +1,195 @@
-const DetailsModel = require('../models/DetailsModel');
+const fs = require('fs');
+const path = require('path');
+const Details = require('../models/DetailsModel');
 
-// Create a new details entry
-exports.addDetails = async (req, res) => {
+// Add Details
+const addDetails = (pool) => async (req, res) => {
   try {
-    const newDetails = new DetailsModel({
-      firstimage1: req.files?.firstimage1?.[0]?.path || null,
-      firstimage2: req.files?.firstimage2?.[0]?.path || null,
-      firstimage3: req.files?.firstimage3?.[0]?.path || null,
-      firstimage4: req.files?.firstimage4?.[0]?.path || null,
-      firstimage5: req.files?.firstimage5?.[0]?.path || null,
-      name: req.body.name,
-      location: req.body.location,
-      difficulty: req.body.difficulty,
-      duration: req.body.duration,
-      tour_overview: req.body.tour_overview,
-      tour_highlights: req.body.tour_highlights,
-      whats_included: req.body.whats_included,
-      itinerary: req.body.itinerary,
-      map_image: req.files?.map_image?.[0]?.path || null,
-      recommendations: req.body.recommendations,
-      must_try_food: req.body.must_try_food,
-      recommended_guides: req.body.recommended_guides,
-      faqs: req.body.faqs,
-      category: req.body.category,
-      place: req.body.place,
+    const { 
+      name, 
+      location, 
+      difficulty, 
+      duration, 
+      tour_overview, 
+      tour_highlights, 
+      whats_included, 
+      itinerary, 
+      recommendations, 
+      must_try_food, 
+      recommended_guides, 
+      faqs, 
+      category, 
+      place 
+    } = req.body;
+
+    // Handle images (assuming you've set up file uploads with Multer)
+    const image1 = req.files?.image1 ? req.files.image1[0].path : null;
+    const image2 = req.files?.image2 ? req.files.image2[0].path : null;
+    const image3 = req.files?.image3 ? req.files.image3[0].path : null;
+    const image4 = req.files?.image4 ? req.files.image4[0].path : null;
+    const image5 = req.files?.image5 ? req.files.image5[0].path : null;
+    const map_image = req.files?.map_image ? req.files.map_image[0].path : null;
+
+    if (!name || !location || !difficulty || !duration || !tour_overview || !tour_highlights || !whats_included || !itinerary || !recommendations || !must_try_food || !category || !place) {
+      return res.status(400).json({ message: 'All fields are required!' });
+    }
+
+    const newDetails = await Details.create({
+      name, 
+      location, 
+      difficulty, 
+      duration, 
+      tour_overview, 
+      tour_highlights, 
+      whats_included, 
+      itinerary, 
+      recommendations, 
+      must_try_food, 
+      recommended_guides,
+      faqs, 
+      category, 
+      place, 
+      image1, 
+      image2, 
+      image3, 
+      image4, 
+      image5,
+      map_image
     });
 
-    await newDetails.save();
-    res.status(201).json(newDetails);
+    res.status(201).json({ message: 'Details added successfully!', details: newDetails });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error', error });
+    console.error('Error adding details:', error);
+    res.status(500).json({ message: 'Failed to add details.' });
   }
 };
 
-// Get all details
-exports.getAllDetails = async (req, res) => {
+// Get all Details
+const getAllDetails = (pool) => async (req, res) => {
   try {
-    const details = await DetailsModel.find().populate('category').populate('place');
-    res.status(200).json(details);
+    const result = await Details.findAll(); // This fetches all details
+    res.status(200).json(result);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error', error });
+    console.error('Error fetching details:', error);
+    res.status(500).json({ message: 'Failed to fetch details.' });
   }
 };
 
-// Get a single details entry by ID
-exports.getDetailsById = async (req, res) => {
+// Get Detail by ID
+const getDetailById = (pool) => async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const details = await DetailsModel.findById(req.params.id).populate('category').populate('place');
-    if (!details) {
-      return res.status(404).json({ message: 'Details not found' });
+    const result = await Details.findByPk(id);
+    if (!result) {
+      return res.status(404).json({ message: 'Details not found.' });
     }
-    res.status(200).json(details);
+    res.status(200).json(result);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error', error });
+    console.error('Error fetching details:', error);
+    res.status(500).json({ message: 'Failed to fetch details.' });
   }
 };
 
-// Update a details entry
-exports.updateDetails = async (req, res) => {
+// Update Details
+const updateDetails = (pool) => async (req, res) => {
+  const { id } = req.params;
+  const { 
+    name, 
+    location, 
+    difficulty, 
+    duration, 
+    tour_overview, 
+    tour_highlights, 
+    whats_included, 
+    itinerary, 
+    recommendations, 
+    must_try_food, 
+    recommended_guides, 
+    faqs, 
+    category, 
+    place 
+  } = req.body;
+
+  // Handle image uploads
+  const image1 = req.files?.image1 ? req.files.image1[0].path : null;
+  const image2 = req.files?.image2 ? req.files.image2[0].path : null;
+  const image3 = req.files?.image3 ? req.files.image3[0].path : null;
+  const image4 = req.files?.image4 ? req.files.image4[0].path : null;
+  const image5 = req.files?.image5 ? req.files.image5[0].path : null;
+  const map_image = req.files?.map_image ? req.files.map_image[0].path : null;
+
   try {
-    const updateData = {
-      ...req.body,
-      firstimage1: req.files?.firstimage1?.[0]?.path || req.body.firstimage1,
-      firstimage2: req.files?.firstimage2?.[0]?.path || req.body.firstimage2,
-      firstimage3: req.files?.firstimage3?.[0]?.path || req.body.firstimage3,
-      firstimage4: req.files?.firstimage4?.[0]?.path || req.body.firstimage4,
-      firstimage5: req.files?.firstimage5?.[0]?.path || req.body.firstimage5,
-      map_image: req.files?.map_image?.[0]?.path || req.body.map_image,
-    };
-
-    const updatedDetails = await DetailsModel.findByIdAndUpdate(req.params.id, updateData, { new: true });
-
-    if (!updatedDetails) {
-      return res.status(404).json({ message: 'Details not found' });
+    const existingDetail = await Details.findByPk(id);
+    if (!existingDetail) {
+      return res.status(404).json({ message: 'Details not found.' });
     }
 
-    res.status(200).json(updatedDetails);
+    const updatedDetail = await existingDetail.update({
+      name,
+      location,
+      difficulty,
+      duration,
+      tour_overview,
+      tour_highlights,
+      whats_included,
+      itinerary,
+      recommendations,
+      must_try_food,
+      recommended_guides,
+      faqs,
+      category,
+      place,
+      image1: image1 || existingDetail.image1,
+      image2: image2 || existingDetail.image2,
+      image3: image3 || existingDetail.image3,
+      image4: image4 || existingDetail.image4,
+      image5: image5 || existingDetail.image5,
+      map_image: map_image || existingDetail.map_image
+    });
+
+    res.status(200).json({ message: 'Details updated successfully!', details: updatedDetail });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error', error });
+    console.error('Error updating details:', error);
+    res.status(500).json({ message: 'Failed to update details.' });
   }
 };
 
-// Delete a details entry by ID
-exports.deleteDetails = async (req, res) => {
+// Delete Details
+const deleteDetails = (pool) => async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const deletedDetails = await DetailsModel.findByIdAndDelete(req.params.id);
-    if (!deletedDetails) {
-      return res.status(404).json({ message: 'Details not found' });
+    const existingDetail = await Details.findByPk(id);
+    if (!existingDetail) {
+      return res.status(404).json({ message: 'Details not found.' });
     }
-    res.status(200).json({ message: 'Details deleted successfully' });
+
+    // Delete images from filesystem
+    const imagePaths = [
+      existingDetail.image1,
+      existingDetail.image2,
+      existingDetail.image3,
+      existingDetail.image4,
+      existingDetail.image5,
+      existingDetail.map_image,
+    ];
+
+    imagePaths.forEach(imagePath => {
+      if (imagePath) {
+        const fullPath = path.join(__dirname, '../', imagePath);
+        fs.unlink(fullPath, (err) => {
+          if (err) console.error('Error deleting image:', err);
+        });
+      }
+    });
+
+    await existingDetail.destroy();
+    res.status(200).json({ message: 'Details deleted successfully!' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error', error });
+    console.error('Error deleting details:', error);
+    res.status(500).json({ message: 'Failed to delete details.' });
   }
 };
+
+module.exports = { addDetails, getAllDetails, getDetailById, updateDetails, deleteDetails };

@@ -1,3 +1,4 @@
+// src/components/ViewCategory.js
 import { useCategories, useDeleteCategory, useUpdateCategory } from "../hooks/useCategory";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -6,40 +7,69 @@ const ViewCategory = () => {
   const { data: categories, isLoading, isError } = useCategories();
   const deleteCategoryMutation = useDeleteCategory();
   const updateCategoryMutation = useUpdateCategory();
-  const [editCategoryId, setEditCategoryId] = useState(null); // Track category being edited
-  const [editName, setEditName] = useState(""); // Track edited name
+  const [editCategoryId, setEditCategoryId] = useState(null);
+  const [editName, setEditName] = useState("");
+  const [deleteCategoryId, setDeleteCategoryId] = useState(null);
 
-  // Handle delete
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this category?")) {
-      deleteCategoryMutation.mutate(id, {
-        onSuccess: () => toast.success("✅ Category deleted successfully!"),
-        onError: () => toast.error("❌ Failed to delete category."),
+    setDeleteCategoryId(id);
+  };
+
+  const confirmDelete = () => {
+    if (deleteCategoryId) {
+      toast.loading("Deleting category...", { id: "delete-toast" });
+      deleteCategoryMutation.mutate(deleteCategoryId, {
+        onSuccess: () => {
+          toast.success(" Category deleted successfully!", {
+            id: "delete-toast",
+            duration: 3000,
+          });
+          setDeleteCategoryId(null);
+        },
+        onError: (error) => {
+          console.error("Delete error:", error);
+          toast.error(error.response?.data?.error || "❌ Failed to delete category.", {
+            id: "delete-toast",
+            duration: 3000,
+          });
+          setDeleteCategoryId(null);
+        },
       });
     }
   };
 
-  // Start editing a category
   const handleEditStart = (category) => {
     setEditCategoryId(category.id);
     setEditName(category.name);
   };
 
-  // Handle update
   const handleUpdate = (id) => {
     if (!editName.trim()) {
-      toast.error("⚠️ Category name cannot be empty!");
+      toast.error("⚠️ Category name cannot be empty!", { duration: 3000 });
       return;
     }
 
+    const formData = new FormData();
+    formData.append("name", editName);
+
+    toast.loading("Updating category...", { id: "update-toast" });
     updateCategoryMutation.mutate(
-      { id, data: { name: editName } },
+      { id, data: formData },
       {
         onSuccess: () => {
-          toast.success("✅ Category updated successfully!");
-          setEditCategoryId(null); // Exit edit mode
+          toast.success(" Category edited successfully!", {
+            id: "update-toast",
+            duration: 3000,
+          });
+          setEditCategoryId(null);
         },
-        onError: () => toast.error("❌ Failed to update category."),
+        onError: (error) => {
+          console.error("Update error:", error);
+          toast.error(error.message || "❌ Failed to update category.", {
+            id: "update-toast",
+            duration: 3000,
+          });
+        },
       }
     );
   };
@@ -65,7 +95,11 @@ const ViewCategory = () => {
               className="bg-white shadow-lg rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
             >
               <img
-                src={category.image ? `http://127.0.0.1:8000/${category.image}` : 'https://via.placeholder.com/300'} 
+                src={
+                  category.image
+                    ? `http://127.0.0.1:8000${category.image}`
+                    : "https://via.placeholder.com/300"
+                }
                 alt={category.name}
                 className="w-full h-40 object-cover"
               />
@@ -104,9 +138,7 @@ const ViewCategory = () => {
                       Discover amazing places in this category.
                     </p>
                     <div className="flex gap-2 mt-4">
-                      <button
-                        className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
-                      >
+                      <button className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
                         Explore
                       </button>
                       <button
@@ -120,7 +152,8 @@ const ViewCategory = () => {
                         className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
                         disabled={deleteCategoryMutation.isLoading}
                       >
-                        {deleteCategoryMutation.isLoading && deleteCategoryMutation.variables === category.id
+                        {deleteCategoryMutation.isLoading &&
+                        deleteCategoryMutation.variables === category.id
                           ? "Deleting..."
                           : "Delete"}
                       </button>
@@ -132,6 +165,33 @@ const ViewCategory = () => {
           ))}
         </div>
       </div>
+
+      {deleteCategoryId && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md transform transition-all duration-300 scale-100">
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Confirm Deletion
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to delete this category? This action cannot be undone.
+            </p>
+            <div className="flex gap-4">
+              <button
+                onClick={confirmDelete}
+                className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500"
+              >
+                Yes, Delete
+              </button>
+              <button
+                onClick={() => setDeleteCategoryId(null)}
+                className="flex-1 bg-gray-400 text-white py-2 rounded-lg hover:bg-gray-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
+              >
+                No, Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

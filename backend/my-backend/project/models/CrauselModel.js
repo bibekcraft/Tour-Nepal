@@ -1,12 +1,11 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('postgres://username:password@localhost:5432/tourismDB');  
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
 
-const Crausel=sequelize.define('Crausel',{
+const Crausel = sequelize.define('Crausel', {
+  image: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  }
+});
 
-    image:{
-        type:DataTypes.STRING,
-        allowNull:false
-    }
-
-})
-module.exports=Crausel;
+module.exports = Crausel;

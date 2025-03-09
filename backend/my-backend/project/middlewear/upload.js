@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
   },
 });
 
-// File upload middleware
+// File upload middleware for a single file named 'image'
 const upload = multer({
   storage: storage,
   limits: { fileSize: 10000000 }, // 10MB max file size
@@ -21,11 +21,9 @@ const upload = multer({
     if (mimetype && extname) {
       return cb(null, true);
     } else {
-      cb("Error: Images Only!");
+      return cb(new Error("Only image files (jpeg, jpg, png, gif) are allowed."));
     }
   },
-}).fields([ // Ensure this matches the frontend field name
-  { name: "images", maxCount: 5 },
-]);
+}).single("image"); // ✅ Changed to single('image')
 
 module.exports = upload;

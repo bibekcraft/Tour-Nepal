@@ -17,8 +17,7 @@ import Viewdetails from "./Components/Details/Viewdetails";
 import Viewplace from "./Components/Place/Viewplace";
 import AddDetails from "./Components/Details/AddDetails";
 import ErrorBoundary from "./Components/ErrorBoundary";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "react-hot-toast";
 import MapOfNepal from "./Components/firstpage/MapofNepal";
 import FrontBlog from "./Components/Blog/FrontBlog";
 import ViewFrontBlog from "./Components/Blog/ViewFrontBlog";
@@ -37,7 +36,7 @@ function App() {
       <BrowserRouter>
         {isAuthenticated ? <Nav /> : <Navbar />}
         <Chatbot /> {/* ✅ Add Chatbot here */}
-        <ToastContainer />
+        <Toaster />
         <div className={isAuthenticated ? "pt-16" : ""}> 
           <Routes>
             <Route path="/" element={<Home />} />

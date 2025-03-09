@@ -2,9 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaEdit, FaTrash, FaPlus } from "react-icons/fa";
 import { usePlaces, useAddPlace, useUpdatePlace, useDeletePlace } from "../hooks/usePlace";
-import toast, { Toaster } from "react-hot-toast"; // Import toast and Toaster
+import toast from "react-hot-toast"; // Import toast only
 
-// Sample photo URL
 const SAMPLE_PHOTO = "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80";
 
 function Viewplace() {
@@ -42,32 +41,46 @@ function Viewplace() {
     if (formData.image) data.append("image", formData.image);
 
     if (editingPlace) {
+      toast.loading("Updating place...", { id: "update-place-toast" });
       updatePlace(
         { id: editingPlace.id, data },
         {
           onSuccess: () => {
-            toast.success("Place updated successfully!");
+            toast.success("✅ Place updated successfully!", { id: "update-place-toast", duration: 3000 });
             closeModal();
           },
-          onError: (error) => toast.error("Failed to update place: " + error.message),
+          onError: (error) => {
+            const errorMsg = error.response?.data?.detail || error.message || "Unknown error";
+            toast.error(`❌ Failed to update place: ${errorMsg}`, { id: "update-place-toast", duration: 3000 });
+          },
         }
       );
     } else {
+      toast.loading("Adding place...", { id: "add-place-toast" });
       addPlace(data, {
         onSuccess: () => {
-          toast.success("Place added successfully!");
+          toast.success("✅ Place added successfully!", { id: "add-place-toast", duration: 3000 });
           closeModal();
         },
-        onError: (error) => toast.error("Failed to add place: " + error.message),
+        onError: (error) => {
+          const errorMsg = error.response?.data?.detail || error.message || "Unknown error";
+          toast.error(`❌ Failed to add place: ${errorMsg}`, { id: "add-place-toast", duration: 3000 });
+        },
       });
     }
   };
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this place?")) {
+      toast.loading("Deleting place...", { id: "delete-place-toast" });
       deletePlace(id, {
-        onSuccess: () => toast.success("Place deleted successfully!"),
-        onError: (error) => toast.error("Failed to delete place: " + error.message),
+        onSuccess: () => {
+          toast.success("✅ Place deleted successfully!", { id: "delete-place-toast", duration: 3000 });
+        },
+        onError: (error) => {
+          const errorMsg = error.response?.data?.detail || error.message || "Unknown error";
+          toast.error(`❌ Failed to delete place: ${errorMsg}`, { id: "delete-place-toast", duration: 3000 });
+        },
       });
     }
   };
@@ -92,18 +105,8 @@ function Viewplace() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      {/* Toaster component for displaying notifications */}
-      <Toaster position="top-right" reverseOrder={false} />
 
-      {/* Add Place Button */}
-      <button
-        onClick={() => openModal()}
-        className="mb-6 flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
-      >
-        <FaPlus /> Add New Place
-      </button>
 
-      {/* Places Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {places?.map((place) => (
           <div
@@ -111,7 +114,7 @@ function Viewplace() {
             className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1"
           >
             <img
-              src={place.image ? `http://127.0.0.1:8000/${place.image}` : 'https://via.placeholder.com/300'} 
+              src={place.image ? `http://127.0.0.1:8000/${place.image}` : SAMPLE_PHOTO}
               alt={place.name}
               className="w-full h-48 object-cover"
             />
@@ -144,7 +147,6 @@ function Viewplace() {
         ))}
       </div>
 
-      {/* Modal for Add/Edit */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">

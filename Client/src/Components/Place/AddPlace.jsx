@@ -1,25 +1,24 @@
 import { useState } from "react";
 import { FaUpload, FaPlusCircle, FaMapMarkerAlt } from "react-icons/fa";
 import { MdCategory, MdDescription } from "react-icons/md";
-import { BsClock } from "react-icons/bs"; // New icon for timetotravel
+import { BsClock } from "react-icons/bs";
 import { useCategories } from "../hooks/useCategory";
 import { useAddPlace } from "../hooks/usePlace";
 import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
+import toast from "react-hot-toast"; // Import toast only
 
 const AddPlace = () => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState(""); // Stores selected category ID
+  const [category, setCategory] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [timetotravel, setTimeToTravel] = useState(""); // New state for timetotravel
+  const [timetotravel, setTimeToTravel] = useState("");
 
   const { data: categories, isLoading: isCategoriesLoading, error: categoriesError } = useCategories();
   const { mutate: addPlace, isLoading: isAdding } = useAddPlace();
 
-  // Handle Image Upload
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -28,7 +27,6 @@ const AddPlace = () => {
     }
   };
 
-  // Handle Form Submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -41,27 +39,27 @@ const AddPlace = () => {
     formData.append("name", name);
     formData.append("location", location);
     formData.append("description", description);
-    formData.append("category", category); // Category ID
+    formData.append("category", category);
     formData.append("image", image);
-    formData.append("timetotravel", timetotravel); // Add timetotravel to FormData
+    formData.append("timetotravel", timetotravel);
 
-    // Debug: Log FormData contents
     console.log("Submitting FormData:", { name, location, description, category, image, timetotravel });
 
+    toast.loading("Adding place...", { id: "add-place-toast" });
     addPlace(formData, {
       onSuccess: () => {
-        toast.success("✅ Place added successfully!", { duration: 3000 });
-        // Reset form
+        toast.success(" Place added successfully!", { id: "add-place-toast", duration: 3000 });
         setName("");
         setLocation("");
         setDescription("");
         setCategory("");
         setImage(null);
         setImagePreview(null);
-        setTimeToTravel(""); // Reset timetotravel
+        setTimeToTravel("");
       },
       onError: (error) => {
-        toast.error(`❌ Failed to add place: ${error.message}`, { duration: 3000 });
+        const errorMsg = error.response?.data?.detail || error.message || "Unknown error";
+        toast.error(`❌ Failed to add place: ${errorMsg}`, { id: "add-place-toast", duration: 3000 });
         console.error("Error details:", error.response?.data || error);
       },
     });
@@ -74,7 +72,6 @@ const AddPlace = () => {
           <FaMapMarkerAlt className="text-blue-500" /> Add Place
         </h2>
 
-        {/* Place Name */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Place Name</label>
           <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300">
@@ -90,7 +87,6 @@ const AddPlace = () => {
           </div>
         </div>
 
-        {/* Location */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Location</label>
           <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300">
@@ -106,7 +102,6 @@ const AddPlace = () => {
           </div>
         </div>
 
-        {/* Description */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Description</label>
           <div className="flex items-start border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300">
@@ -121,7 +116,6 @@ const AddPlace = () => {
           </div>
         </div>
 
-        {/* Category Dropdown */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Category</label>
           <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300">
@@ -150,7 +144,6 @@ const AddPlace = () => {
           </div>
         </div>
 
-        {/* Time to Travel */}
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Time to Travel</label>
           <div className="flex items-center border rounded-lg p-3 focus-within:ring focus-within:ring-blue-300">
@@ -166,7 +159,6 @@ const AddPlace = () => {
           </div>
         </div>
 
-        {/* Image Upload */}
         <div className="mb-6">
           <label className="block text-gray-700 font-medium mb-2">Upload Image</label>
           <label className="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-100">
@@ -188,7 +180,6 @@ const AddPlace = () => {
           </label>
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
           disabled={isAdding}
@@ -200,7 +191,6 @@ const AddPlace = () => {
           {isAdding ? "Submitting..." : "Submit"}
         </button>
 
-        {/* View Places Link */}
         <Link to="/viewPlace">
           <button
             type="button"

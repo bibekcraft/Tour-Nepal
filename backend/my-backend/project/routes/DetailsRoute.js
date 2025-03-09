@@ -1,42 +1,14 @@
 const express = require('express');
-const multer = require('multer');
-const path = require('path');
-const detailsController = require('../controller/DetailsController');
+const { addBlog, getAllBlogs, getBlogById, updateBlog, deleteBlog } = require('../controller/BlogController');
 
-const router = express.Router();
+module.exports = (pool) => {
+  const router = express.Router();
 
-// Multer Storage Config
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); 
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
+  router.post("/", addBlog(pool));  // Create a new blog
+  router.get("/all", getAllBlogs(pool));  // Get all blogs
+  router.get("/:id", getBlogById(pool));  // Get a blog by ID
+  router.put("/:id", updateBlog(pool));  // Update a blog
+  router.delete("/:id", deleteBlog(pool));  // Delete a blog
 
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif/;
-  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
-
-  if (extname && mimetype) {
-    return cb(null, true);
-  } else {
-    cb(new Error('Only image files are allowed!'), false);
-  }
+  return router;
 };
-
-const upload = multer({ 
-  storage, 
-  limits: { fileSize: 2 * 1024 * 1024 }, 
-  fileFilter
-});
-
-router.post('/add', upload.single('image'), detailsController.addDetails);
-router.get('/', detailsController.getAllDetails);
-router.get('/:id', detailsController.getDetailsById);
-router.put('/:id', upload.single('image'), detailsController.updateDetails);
-router.delete('/:id', detailsController.deleteDetails);
-
-module.exports = router;
